@@ -17,6 +17,9 @@ $separator-color: #0000001a;
     .project_title {
       font-size: 18px;
       font-weight: 500;
+      h3 {
+        color: var(--acnt2-color);
+      }
     }
     .project_date {
       display: flex;

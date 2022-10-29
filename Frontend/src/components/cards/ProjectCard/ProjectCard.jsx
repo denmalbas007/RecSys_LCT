@@ -1,7 +1,6 @@
 import cl from "./ProjectCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
 
 const ProjectCard = ({ project }) => {
   return (

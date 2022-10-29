@@ -58,13 +58,6 @@ const DashboardPage = () => {
           <ProjectCard project={projectsExample} />
           <ProjectCard project={projectsExample} />
           <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
-          <ProjectCard project={projectsExample} />
 
           {/* {projectsExample.map((project) => (
             <ProjectCard project={project} />
