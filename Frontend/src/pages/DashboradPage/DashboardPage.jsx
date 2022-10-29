@@ -2,7 +2,6 @@ import ProjectCard from "../../components/cards/ProjectCard/ProjectCard";
 import cl from "./DashboardPage.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 
 const projectsExample = {
   id: 1,
@@ -11,7 +10,7 @@ const projectsExample = {
   updated_at: "2022-10-29",
   filters: [
     {
-      name: "Filter Filter Filter",
+      name: "Filter Filter Filter Filter Filter Filter",
     },
     {
       name: "Filter 1",
@@ -28,7 +27,7 @@ const projectsExample = {
   ],
   items: [
     {
-      name: "Item 1",
+      name: "Item Item Item Item Item Item",
     },
     {
       name: "Item 2",
@@ -50,11 +49,17 @@ const DashboardPage = () => {
     <div className={cl.dashboard_container}>
       <nav>navbar</nav>
       <main className={cl.content}>
-        <button className={cl.project_create}>
-          <FontAwesomeIcon icon={faPlus} />
-          <h2>Создать проект</h2>
-        </button>
         <div className={cl.projects_container}>
+          <div className={cl.new_project}>
+            <FontAwesomeIcon icon={faPlus} />
+            <h2>Создать проект</h2>
+          </div>
+          <ProjectCard project={projectsExample} />
+          <ProjectCard project={projectsExample} />
+          <ProjectCard project={projectsExample} />
+          <ProjectCard project={projectsExample} />
+          <ProjectCard project={projectsExample} />
+          <ProjectCard project={projectsExample} />
           <ProjectCard project={projectsExample} />
           <ProjectCard project={projectsExample} />
           <ProjectCard project={projectsExample} />

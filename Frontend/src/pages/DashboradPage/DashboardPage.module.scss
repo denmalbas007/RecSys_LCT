@@ -4,8 +4,13 @@
   display: flex;
   flex-direction: column;
   .content {
-    width: 100%;
-    padding: 0 20px;
+    align-self: center;
+    width: calc(100% - 40px);
+    padding: 20px;
+    max-width: 1400px;
+    border-radius: 10px;
+    background-color: #fff;
+    flex: 1;
     .project_create {
       border: none;
       outline: none;
@@ -26,8 +31,34 @@
     .projects_container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      // in first row make 3 elements, after make 2 elements
       gap: 10px;
+      .new_project {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        border: 2px dashed var(--acnt2-color);
+        border-radius: 10px;
+        gap: 0.5rem;
+        transition: background-color 0.15s ease-out;
+        cursor: pointer;
+        h2,
+        svg {
+          color: #454545;
+        }
+        svg {
+          font-size: 2rem;
+        }
+        &:hover {
+          background-color: var(--acnt2-color);
+          h2,
+          svg {
+            color: #fff;
+          }
+        }
+      }
     }
   }
 }

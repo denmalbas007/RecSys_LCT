@@ -20,9 +20,14 @@ const ProjectCard = ({ project }) => {
           <h4 className={cl.header}>Фильтры:</h4>
           <div className={cl.content}>
             {project.filters.slice(0, 3).map((filter, index) => (
-              <p className={cl.item} key={index}>
-                {filter.name}
-              </p>
+              <>
+                <p className={cl.item} key={index}>
+                  {filter.name.length > 15
+                    ? filter.name.slice(0, 15) + "..."
+                    : filter.name}
+                </p>
+                <span className={cl.horizontal_separator} />
+              </>
             ))}
           </div>
           {project.filters.length > 3 && (
@@ -34,9 +39,14 @@ const ProjectCard = ({ project }) => {
           <h4 className={cl.header}>Элементы:</h4>
           <div className={cl.content}>
             {project.items.slice(0, 3).map((item, index) => (
-              <p className={cl.item} key={index}>
-                {item.name}
-              </p>
+              <>
+                <p className={cl.item} key={index}>
+                  {item.name.length > 14
+                    ? item.name.slice(0, 15) + "..."
+                    : item.name}
+                </p>
+                <span className={cl.horizontal_separator} />
+              </>
             ))}
           </div>
           {project.items.length > 3 && (
