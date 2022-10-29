@@ -12,7 +12,7 @@ $brand-color-4: rgb(3, 140, 210);
   --acnt-color: #{$brand-color-2};
   --acnt-hover-color: #{$brand-color-1};
   --link-color: #{$brand-color-4};
-  --error-color: $brand-color-2;
+  --error-color: #{$brand-color-1};
 }
 
 a {

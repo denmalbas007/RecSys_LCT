@@ -1,5 +1,6 @@
 export const doSignIn = (email, password) => {
   return {
+    error: "Неверная почта или пароль",
     success: true,
     data: {
       token: "1234567890",
