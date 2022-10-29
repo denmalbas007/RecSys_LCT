@@ -11,8 +11,20 @@ $brand-color-4: rgb(3, 140, 210);
   --input-border-color: #f1f1f1;
   --acnt-color: #{$brand-color-2};
   --acnt-hover-color: #{$brand-color-1};
-  --link-color: #{$brand-color-4};
+  --acnt2-color: #{$brand-color-4};
+  --acnt2-hover-color: #{$brand-color-1};
   --error-color: #{$brand-color-1};
+  --link-color: #{$brand-color-4};
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: $brand-color-3;
 }
 
 a {

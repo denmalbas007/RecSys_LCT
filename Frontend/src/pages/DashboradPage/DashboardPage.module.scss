@@ -1,0 +1,33 @@
+.dashboard_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .content {
+    width: 100%;
+    padding: 0 20px;
+    .project_create {
+      border: none;
+      outline: none;
+      background-color: var(--acnt-color);
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      gap: 0.5rem;
+      cursor: pointer;
+      h2,
+      svg {
+        color: #fff;
+      }
+      svg {
+        font-size: 1.5rem;
+      }
+    }
+    .projects_container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      // in first row make 3 elements, after make 2 elements
+      gap: 10px;
+    }
+  }
+}
