@@ -9,10 +9,12 @@
     align-self: center;
     width: calc(100% - 40px);
     padding: 20px;
+    margin-top: calc($top-nav-height + 25px);
     max-width: 1400px;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     background-color: #fff;
     flex: 1;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     .projects_container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -52,9 +54,11 @@
 @media screen and (max-width: $mobile-width) {
   .dashboard_container {
     .content {
+      margin-top: calc($top-nav-height);
       padding: 10px;
       width: 100%;
       background-color: var(--bg-acnt-color);
+      box-shadow: none;
       .projects_container {
         .new_project {
           width: calc(100% - 20px);

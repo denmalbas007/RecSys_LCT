@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { doCheckAuth, doSignIn } from "./Auth";
+import { doCheckAuth, doLogout, doSignIn } from "./Auth";
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const logout = () => {
+    setUser(null);
+    doLogout();
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );

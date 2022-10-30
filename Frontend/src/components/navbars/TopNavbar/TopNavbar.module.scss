@@ -1,0 +1,101 @@
+@import "../../../styles/variables.scss";
+
+.navbar {
+  align-self: center;
+  position: fixed;
+  max-width: 1400px;
+  display: flex;
+  z-index: 10;
+  width: calc(100% - 40px);
+  margin-top: 15px;
+  padding: 10px 20px;
+  height: $top-nav-height;
+  background-color: var(--bg-main);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  align-items: center;
+  .logo {
+    display: flex;
+    height: 100%;
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+  .profile {
+    position: relative;
+    margin-left: auto;
+    padding-left: 5px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    user-select: none;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    svg,
+    span {
+      transition: color 0.2s ease-out;
+      color: var(--text-acnt-color);
+    }
+    &:hover,
+    &.expanded {
+      svg,
+      span {
+        color: var(--text-main-color);
+      }
+    }
+    .chevron {
+      transition: transform 0.2s ease-out;
+    }
+    &.expanded {
+      .chevron {
+        transform: rotate(180deg);
+      }
+    }
+    .expander_popup {
+      cursor: default;
+      display: none;
+      position: absolute;
+      right: 0;
+      padding: 5px;
+      min-width: 100%;
+      top: calc(100% + 10px);
+      background-color: var(--bg-main);
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      list-style: none;
+      .popup_button {
+        background-color: transparent;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-out;
+        font-size: 0.9rem;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+    &.expanded {
+      .expander_popup {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $mobile-width) {
+  .navbar {
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+    padding: 10px;
+  }
+}

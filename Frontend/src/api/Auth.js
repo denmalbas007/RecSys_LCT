@@ -1,12 +1,14 @@
 export const doSignIn = (email, password) => {
+  localStorage.setItem("token", "12345678");
+
   return {
-    error: "Неверная почта или пароль",
     success: true,
     data: {
       token: "1234567890",
       user: {
         id: 1,
-        name: "Joe Mama",
+        firstName: "Joe",
+        lastName: "Mama",
         email: "test@test.com",
       },
     },
@@ -20,9 +22,14 @@ export const doCheckAuth = (token) => {
       token: "1234567890",
       user: {
         id: 1,
-        name: "Joe Mama",
+        firstName: "Joe",
+        lastName: "Mama",
         email: "test@test.com",
       },
     },
   };
+};
+
+export const doLogout = () => {
+  localStorage.setItem("token", null);
 };
