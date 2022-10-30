@@ -1,10 +1,17 @@
 import cl from "./ProjectCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
+  // on click navigate to /project/:id where id is project.id
+  const navigate = useNavigate();
+
   return (
-    <div className={cl.project_card}>
+    <div
+      className={cl.project_card}
+      onClick={() => navigate(`/project/${project.id}`)}
+    >
       <div className={cl.project_header}>
         <div className={cl.project_title}>
           <h3>{project.name}</h3>
@@ -20,11 +27,7 @@ const ProjectCard = ({ project }) => {
           <div className={cl.content}>
             {project.filters.slice(0, 3).map((filter, index) => (
               <div className={cl.item} key={index}>
-                <p>
-                  {filter.name.length > 15
-                    ? filter.name.slice(0, 15) + "..."
-                    : filter.name}
-                </p>
+                <p>{filter.name}</p>
                 <span className={cl.horizontal_separator} />
               </div>
             ))}
@@ -39,11 +42,7 @@ const ProjectCard = ({ project }) => {
           <div className={cl.content}>
             {project.items.slice(0, 3).map((item, index) => (
               <div className={cl.item} key={index}>
-                <p>
-                  {item.name.length > 14
-                    ? item.name.slice(0, 15) + "..."
-                    : item.name}
-                </p>
+                <p>{item.name}</p>
                 <span className={cl.horizontal_separator} />
               </div>
             ))}

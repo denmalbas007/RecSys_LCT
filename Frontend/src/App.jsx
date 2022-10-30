@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import SignInPage from "./pages/SignInPage/SignInPage";
 import DashboardPage from "./pages/DashboradPage/DashboardPage";
+import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 function App() {
   document.body.classList.add("theme");
@@ -23,6 +24,14 @@ function App() {
             element={
               <PrivateRoute>
                 <DashboardPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/project/:id"
+            element={
+              <PrivateRoute>
+                <ProjectPage />
               </PrivateRoute>
             }
           />

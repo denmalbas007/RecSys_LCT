@@ -1,18 +1,13 @@
 @import "../../../styles/variables.scss";
 
 .navbar {
-  align-self: center;
-  position: fixed;
-  max-width: 1400px;
+  width: 100%;
   display: flex;
   z-index: 10;
-  width: calc(100% - 40px);
-  margin-top: 15px;
   padding: 10px 20px;
   height: $top-nav-height;
-  background-color: var(--bg-main);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  // background-color: var(--bg-main);
+  border-radius: 10;
   align-items: center;
   .logo {
     display: flex;
@@ -20,6 +15,62 @@
     img {
       height: 100%;
       width: auto;
+    }
+  }
+  .title {
+    margin: 0 20px;
+    overflow: hidden;
+    user-select: none;
+    h1 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      margin-top: 4px;
+      height: 3px;
+      background-color: var(--acnt-hover-color);
+      border-radius: 8px;
+    }
+  }
+  .links {
+    display: flex;
+    list-style: none;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: center;
+    li {
+      margin: 0 5px;
+      a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        font-weight: bold;
+        &:hover {
+          color: var(--acnt-hover-color);
+        }
+      }
+      &.active {
+        // make a line under the active link with absolute positioning
+        a {
+          position: relative;
+        }
+        a::after {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 100%;
+          bottom: -5px;
+          height: 3px;
+          background-color: var(--acnt-hover-color);
+          border-radius: 8px;
+        }
+      }
     }
   }
   .profile {
@@ -34,6 +85,7 @@
     outline: none;
     background-color: transparent;
     cursor: pointer;
+    white-space: nowrap;
     svg,
     span {
       transition: color 0.2s ease-out;
@@ -93,7 +145,6 @@
 
 @media screen and (max-width: $mobile-width) {
   .navbar {
-    width: 100%;
     margin-top: 0;
     border-radius: 0;
     padding: 10px;

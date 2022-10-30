@@ -5,12 +5,21 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  .topnav_container {
+    margin-top: 10px;
+    position: fixed;
+    width: calc(100% - 40px);
+    max-width: $max-width;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-main);
+    border-radius: 10px;
+  }
   .content {
-    align-self: center;
     width: calc(100% - 40px);
     padding: 20px;
     margin-top: calc($top-nav-height + 25px);
-    max-width: 1400px;
+    max-width: $max-width;
     border-radius: 10px 10px 0 0;
     background-color: #fff;
     flex: 1;
@@ -53,6 +62,11 @@
 
 @media screen and (max-width: $mobile-width) {
   .dashboard_container {
+    .topnav_container {
+      width: 100%;
+      margin-top: 0;
+      border-radius: 0;
+    }
     .content {
       margin-top: calc($top-nav-height);
       padding: 10px;

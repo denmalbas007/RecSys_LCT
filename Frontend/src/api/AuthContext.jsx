@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SkeletonPage from "../components/loading/SkeletonPage/SkeletonPage";
 import { doCheckAuth, doLogout, doSignIn } from "./Auth";
 
 export const AuthContext = React.createContext();
@@ -14,18 +15,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const response = doCheckAuth(token);
-    if (response.success) {
-      setUser(response.data.user);
-    } else {
-      setUser(null);
-    }
-    setLoading(false);
+    doCheckAuth(token).then((response) => {
+      if (response.success) {
+        setUser(response.data.user);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
   }, []);
 
   return (
     <AuthContext.Provider value={{ user, logout }}>
-      {!loading && children}
+      {loading ? <SkeletonPage /> : children}
     </AuthContext.Provider>
   );
 };

@@ -48,7 +48,9 @@ const projectsExample = {
 const DashboardPage = () => {
   return (
     <div className={cl.dashboard_container}>
-      <TopNavbar />
+      <div className={cl.topnav_container}>
+        <TopNavbar pageTitle="Проекты" />
+      </div>
       <main className={cl.content}>
         <div className={cl.projects_container}>
           <div className={cl.new_project}>

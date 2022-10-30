@@ -22,12 +22,17 @@ const TopNavbar = () => {
 
   return (
     <nav className={cl.navbar}>
-      <div className={cl.logo}>
+      <Link className={cl.logo} to="/dashboard">
         <img src={logo} alt="logo" />
-      </div>
+      </Link>
       <ul className={cl.links}>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
+        <li
+          className={window.location.pathname == "/dashboard" ? cl.active : ""}
+        >
+          <Link to="/dashboard">Проекты</Link>
+        </li>
+        <li className={window.location.pathname == "/reports" ? cl.active : ""}>
+          <Link to="/reports">Отчёты</Link>
         </li>
       </ul>
       {/* profile */}
@@ -42,10 +47,10 @@ const TopNavbar = () => {
 
         <ul className={[cl.expander_popup].join(" ")}>
           <li>
-            <button className={cl.popup_button}>
+            <div className={cl.popup_button}>
               <FontAwesomeIcon icon={faSignOut} />
               <span onClick={logout}>Выйти</span>
-            </button>
+            </div>
           </li>
         </ul>
       </button>
