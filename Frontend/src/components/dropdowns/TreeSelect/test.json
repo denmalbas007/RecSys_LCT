@@ -1,0 +1,25 @@
+[
+  {
+    "label": "Test",
+    "selected": true,
+    "children": [
+      {
+        "label": "Test2"
+      },
+      {
+        "label": "Test3",
+        "children": [
+          {
+            "label": "Test4"
+          },
+          {
+            "label": "Test5"
+          },
+          {
+            "label": "Test6"
+          }
+        ]
+      }
+    ]
+  }
+]

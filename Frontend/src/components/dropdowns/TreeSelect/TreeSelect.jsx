@@ -1,38 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import DropdownTreeSelect from "react-dropdown-tree-select";
+import data from "./test.json";
+import "react-dropdown-tree-select/dist/styles.css";
+import "./TreeSelect.scss";
 
-data = [
-  {
-    title: "Node1",
-    children: [
-      {
-        title: "Child Node1",
-      },
-      {
-        title: "Child Node2",
-      },
-    ],
-  },
-  {
-    title: "Node2",
-    children: [
-      {
-        title: "Child Node3",
-      },
-      {
-        title: "Child Node4",
-      },
-    ],
-  },
-];
+const TreeSelect = () => {
+  const onChange = (currentNode, selectedNodes) => {
+    console.log("path::", currentNode);
+  };
 
-const TreeSelect = ({ data }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-  // implement tree select component
+  const assignObjectPaths = (obj, stack) => {
+    Object.keys(obj).forEach((k) => {
+      const node = obj[k];
+      if (typeof node === "object") {
+        node.path = stack ? `${stack}.${k}` : k;
+        assignObjectPaths(node, node.path);
+      }
+    });
+  };
+
+  useEffect(() => {
+    document.querySelector(".search").placeholder = "Поиск";
+  });
+
   return (
-    <div>
-      <div>Selected Items: {selectedItems.join(", ")}</div>
-      <div>Tree Select Component</div>
-    </div>
+    <DropdownTreeSelect
+      data={data}
+      onChange={onChange}
+      className={"tree-select-container"}
+    />
   );
 };
 
