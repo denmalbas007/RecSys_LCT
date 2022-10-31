@@ -22,10 +22,9 @@ def make_one_dataset(path_to_data: str) -> pd.DataFrame:
         whole_data = pd.concat([whole_data, current_csv])
     return whole_data
 
-if __name__ == '__main__':
-    path_to_data = os.getcwd() + '\RowData' 
-    whole_data = make_one_dataset(path_to_data)
-    whole_data['tnved_6'] = 0
-    for sample in tqdm(range(whole_data.shape[0])):
-        whole_data.iloc[sample]['tnved_6'] = str(whole_data.iloc[sample]['tnved'])[:6]
-    whole_data.to_csv('whole_data.csv', index = False)
+path_to_data = os.getcwd() + '\RowData'
+whole_data = make_one_dataset(path_to_data)
+whole_data['tnved_6'] = 0
+for sample in tqdm(range(whole_data.shape[0])):
+    whole_data.iloc[[sample]]['tnved_6'] = str(whole_data.iloc[[sample]]['tnved'])[:6]
+whole_data.to_csv('whole_data.csv', index = False)
