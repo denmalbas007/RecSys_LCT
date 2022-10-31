@@ -1,3 +1,3 @@
 namespace RecSys.Api.Areas.Layouts.Actions.Update;
 
-public record UpdateLayoutResponse();
+public record UpdateLayoutResponse(long Id);

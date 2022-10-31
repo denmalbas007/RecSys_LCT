@@ -46,11 +46,11 @@ public class ReportsController : ControllerBase
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(404, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> GetReport([FromBody] GetReportRequest request)
+    public async Task<IActionResult> GetReport([FromQuery] GetReportRequest request)
         => await MediateOkAsync(request);
 
     /// <summary>
-    /// Получить отчет.
+    /// Получить набор методанных отчетов по айдишникам.
     /// </summary>
     /// <param name="request">Запрос.</param>
     /// <returns>Отчет.</returns>

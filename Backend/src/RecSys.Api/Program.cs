@@ -18,7 +18,6 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwagger("rec-sys-api", useJwtAuth: true);
 services.AddSerilogLogger();
-
 services.AddMediatR(typeof(Program));
 
 #endregion

@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecSys.Api.Areas.Layouts.Actions.Create;
 using RecSys.Api.Areas.Layouts.Actions.Get;
-using RecSys.Api.Areas.Layouts.Actions.GetList;
 using RecSys.Api.Areas.Layouts.Actions.Update;
 using RecSys.Platform.Dtos;
 
@@ -48,19 +47,6 @@ public class LayoutsController : ControllerBase
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> GetLayouts([FromQuery] GetLayoutsRequest request)
         => await MediateOkAsync(request);
-
-    /// <summary>
-    /// Получения списка idшников 'шаблонов' для текущего пользователя.
-    /// </summary>
-    /// <returns>Список idшников 'шаблонов'.</returns>
-    [HttpGet]
-    [ProducesResponseType(200, Type = typeof(GetLayoutsListResponse))]
-    [ProducesResponseType(400, Type = typeof(HttpError))]
-    [ProducesResponseType(401, Type = typeof(HttpError))]
-    [ProducesResponseType(403, Type = typeof(HttpError))]
-    [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> GetLayoutsList()
-        => await MediateOkAsync(new GetLayoutsListRequest());
 
     /// <summary>
     /// Обновление существующего 'шаблона'.
