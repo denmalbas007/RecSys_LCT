@@ -22,11 +22,11 @@ RUN apt-get update \
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY . ./
-RUN dotnet restore "src/CryptoPunks.MoreTech.Api/CryptoPunks.MoreTech.Api.csproj"
-RUN dotnet build "src/CryptoPunks.MoreTech.Api/CryptoPunks.MoreTech.Api.csproj" -c Release -o /app/build
+RUN dotnet restore "src/RecSys.Api/RecSys.Api.csproj"
+RUN dotnet build "src/RecSys.Api/RecSys.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/CryptoPunks.MoreTech.Api/CryptoPunks.MoreTech.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/RecSys.Api/RecSys.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 ENV DOTNET_RUNNING_IN_CONTAINER=true

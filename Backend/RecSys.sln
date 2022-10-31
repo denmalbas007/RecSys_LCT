@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{05E21F
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Dockerfile = Dockerfile
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\.env = ..\.env
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D29C452-42E1-4BFB-AB68-84D9316B4D76}"
