@@ -38,7 +38,7 @@ $separator-color: #0000001a;
     margin-top: 5px;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto auto 1fr;
     .col {
       overflow: hidden;
       p {

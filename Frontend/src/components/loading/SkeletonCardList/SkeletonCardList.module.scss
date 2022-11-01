@@ -1,0 +1,31 @@
+.skeleton_card_list {
+  width: 100%;
+  flex: 1;
+  background-color: var(--bg-main);
+  border-radius: 10px;
+  padding: 10px;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    .skeleton_card {
+      display: flex;
+      height: 150px;
+      border-radius: 10px;
+      background-color: var(--bg-acnt);
+    }
+  }
+}
+
+.skeleton_card {
+  background: linear-gradient(90deg, #ececec 8%, #fefefe 18%, #ececec 33%);
+  border-radius: 10px;
+  background-size: 200% 100%;
+  animation: 1.3s skeleton linear infinite;
+}
+
+@keyframes skeleton {
+  to {
+    background-position-x: -200%;
+  }
+}

@@ -34,22 +34,6 @@ export const doCheckAuth = async () => {
       success: false,
     };
   }
-  // const token = localStorage.getItem("refreshToken");
-
-  return {
-    success: true,
-    user: {
-      id: 0,
-      username: "usernametest",
-      firstName: "Joe",
-      middleName: "Real",
-      lastName: "Mama",
-      email: "test@test.com",
-      profilePicUrl: "string",
-      reportIds: [0],
-      layoutIds: [0],
-    },
-  };
 };
 
 export const doLogout = () => {
@@ -57,19 +41,52 @@ export const doLogout = () => {
   localStorage.removeItem("refreshToken");
 };
 
-export const getDashboardData = async () => {
+export const doGetProjects = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const fetchedData = {
-    id: 0,
-    name: "Проект 1",
-    filter: {
-      regions: ["Москва", "Санкт-Петербург"],
-      itemTypes: ["Мясо", "Рыба", "Овощи", "Фрукты"],
-      countries: ["США", "Китай", "Япония"],
-    },
-    lastUpdatedAt: "2022-11-01T14:32:53.448Z",
-    createdAt: "2022-11-01T14:32:53.448Z",
+    layouts: [
+      {
+        id: 0,
+        name: "Проект 1",
+        filters: [
+          {
+            name: "Регионы",
+            values: ["Москва", "Санкт-Петербург"],
+          },
+          {
+            name: "Продукты",
+            values: ["Мясо", "Рыба", "Овощи", "Фрукты"],
+          },
+          {
+            name: "Страны",
+            values: ["США", "Китай", "Япония"],
+          },
+        ],
+        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
+        createdAt: "2022-11-01T14:32:53.448Z",
+      },
+      {
+        id: 1,
+        name: "Проект 2",
+        filters: [
+          {
+            name: "Регионы",
+            values: ["Екатеринбург", "Санкт-Петербург"],
+          },
+          {
+            name: "Продукты",
+            values: ["Овощи", "Рыба", "Мясо", "Молочные продукты"],
+          },
+          {
+            name: "Страны",
+            values: ["Мексика", "Швеция", "Германия"],
+          },
+        ],
+        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
+        createdAt: "2022-11-01T14:32:53.448Z",
+      },
+    ],
   };
 
   const reformatDate = (date) =>
@@ -80,7 +97,12 @@ export const getDashboardData = async () => {
       minute: "numeric",
     });
 
-  fetchedData.createdAt = reformatDate(fetchedData.createdAt);
-  fetchedData.lastUpdatedAt = reformatDate(fetchedData.lastUpdatedAt);
-  console.log(dateInRussian);
+  return {
+    success: true,
+    projects: fetchedData.layouts.map((layout) => ({
+      ...layout,
+      lastUpdatedAt: reformatDate(layout.lastUpdatedAt),
+      createdAt: reformatDate(layout.createdAt),
+    })),
+  };
 };
