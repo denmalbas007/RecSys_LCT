@@ -33,13 +33,19 @@ const ProjectPage = () => {
       <div className={cl.topnav_container}>
         <TopNavbar pageTitle={project.name} />
       </div>
-      <main className={cl.project}>
-        <div className={cl.filters}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Filters filters={project.filters} />
-          </Suspense>
+      <main className={cl.main_content}>
+        <nav className={cl.mobile_nav}>
+          <button className={cl.active}>Фильтры</button>
+          <button>Таблица</button>
+        </nav>
+        <div className={cl.project}>
+          <div className={cl.filters}>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Filters filters={project.filters} />
+            </Suspense>
+          </div>
+          <div className={cl.table}>Таблица</div>
         </div>
-        <div className={cl.table}>Таблица</div>
       </main>
     </div>
   );

@@ -24,7 +24,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         font-size: 16px;
         background-color: transparent;
         border-bottom: 2px solid var(--acnt-hover-color) !important;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         padding: 5px;
       }
       .tag-list {
@@ -37,10 +37,9 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
           .tag {
             // reverse children without flex
             display: grid;
-            grid-template-columns: 90% 10%;
+            grid-template-columns: 90% auto;
             width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            word-wrap: break-word;
             background-color: var(--bg-main);
             border-radius: 5px;
             padding-left: 5px;
@@ -56,15 +55,18 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         }
       }
     }
+    i {
+      font-style: normal !important;
+    }
     a::after {
       display: none;
     }
 
     .dropdown-content {
+      min-width: 100%;
       border-radius: 10px;
       box-shadow: $box-shadow !important;
       margin-top: 40px;
-      margin-left: 5px;
     }
   }
 }

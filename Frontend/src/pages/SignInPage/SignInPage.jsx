@@ -2,30 +2,37 @@ import cl from "./SignInPage.module.scss";
 import logo from "../../assets/logos/logo_full.png";
 import { IconInput } from "../../components/inputs/IconInput/IconInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import AccentButton from "../../components/buttons/AccentButton/AccentButton";
-import { useState } from "react";
-import { doSignIn } from "../../api/Auth";
+import { useContext, useState } from "react";
+import { doCheckAuth, doSignIn } from "../../api/Auth";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../api/AuthContext";
 
 const SignInPage = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { onAuthStateChanged } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const signIn = (e) => {
+  const signIn = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    setLoading(true);
+    if (!username || !password) {
       setError("Пожалуйста, заполните все поля");
-      return;
+    } else {
+      const request = await doSignIn(username, password);
+      if (request.errorMessage) {
+        setError(request.errorMessage);
+      } else {
+        const response = await doCheckAuth();
+        onAuthStateChanged(response.user);
+        navigate("/");
+      }
     }
-
-    const response = doSignIn(email, password);
-    if (response.error) {
-      setError(response.error);
-      return;
-    }
-    setError("");
-    console.log(response);
+    setLoading(false);
   };
 
   return (
@@ -36,12 +43,11 @@ const SignInPage = () => {
       <form className={cl.signin} onSubmit={signIn}>
         <h2>Вход в систему</h2>
         <div className={cl.group}>
-          <p>Почта</p>
+          <p>Логин</p>
           <IconInput
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            icon={<FontAwesomeIcon icon={faEnvelope} />}
-            placeholder="example@example.com"
+            onChange={(e) => setUsername(e.target.value)}
+            icon={<FontAwesomeIcon icon={faUser} />}
+            placeholder="username"
           />
         </div>
         <div className={cl.group}>
@@ -54,7 +60,7 @@ const SignInPage = () => {
           />
         </div>
         <div className={cl.error}>{error}</div>
-        <AccentButton>Войти в систему</AccentButton>
+        <AccentButton disabled={loading}>Войти в систему</AccentButton>
       </form>
     </div>
   );

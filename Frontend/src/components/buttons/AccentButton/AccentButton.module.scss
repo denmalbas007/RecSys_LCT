@@ -12,4 +12,8 @@
   &:hover {
     background-color: var(--acnt-hover-color);
   }
+  &.disabled {
+    background-color: var(--text-acnt-color);
+    cursor: not-allowed;
+  }
 }

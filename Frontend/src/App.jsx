@@ -11,7 +11,6 @@ import DashboardPage from "./pages/DashboradPage/DashboardPage";
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 function App() {
-  document.body.classList.add("theme");
   return (
     <AuthProvider>
       <Router>

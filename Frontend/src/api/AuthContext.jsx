@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SkeletonPage from "../components/loading/SkeletonPage/SkeletonPage";
 import { doCheckAuth, doLogout, doSignIn } from "./Auth";
 
@@ -13,11 +14,17 @@ export const AuthProvider = ({ children }) => {
     doLogout();
   };
 
+  const onAuthStateChanged = (newUser) => {
+    console.log("triggered");
+    setUser(newUser);
+    console.log(user);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    doCheckAuth(token).then((response) => {
+    doCheckAuth().then((response) => {
       if (response.success) {
-        setUser(response.data.user);
+        setUser(response.user);
       } else {
         setUser(null);
       }
@@ -26,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, setUser, logout, onAuthStateChanged }}>
       {loading ? <SkeletonPage /> : children}
     </AuthContext.Provider>
   );

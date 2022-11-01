@@ -12,7 +12,15 @@ const Filters = () => {
 
   return (
     <div className={cl.filters}>
-      <TreeSelect />
+      <h2>Фильтры</h2>
+      <div className={cl.filter}>
+        <p className={cl.filter_title}>Страна</p>
+        <TreeSelect />
+      </div>
+      <div className={cl.filter}>
+        <p className={cl.filter_title}>Категория</p>
+        <TreeSelect />
+      </div>
     </div>
   );
 };
