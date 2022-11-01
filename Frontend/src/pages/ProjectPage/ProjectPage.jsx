@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import cl from "./ProjectPage.module.scss";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { SkeletonFiltersList } from "../../components/loading/SkeletonFiltersList";
 
 const Filters = lazy(() => import("./Filters/Filters"));
 
@@ -23,7 +24,8 @@ const project = {
 
 const ProjectPage = () => {
   const { id } = useParams();
-  // const { project, setProject } = useState();
+  const [isFiltersPage, setIsFiltersPage] = useState(true);
+
   useEffect(() => {
     console.log("fetched", id);
   }, [id]);
@@ -35,12 +37,27 @@ const ProjectPage = () => {
       </div>
       <main className={cl.main_content}>
         <nav className={cl.mobile_nav}>
-          <button className={cl.active}>Фильтры</button>
-          <button>Таблица</button>
+          <button
+            className={isFiltersPage ? cl.active : ""}
+            onClick={() => setIsFiltersPage(true)}
+          >
+            Фильтры
+          </button>
+          <button
+            className={!isFiltersPage ? cl.active : ""}
+            onClick={() => setIsFiltersPage(false)}
+          >
+            Таблица
+          </button>
         </nav>
-        <div className={cl.project}>
+        <div
+          className={[
+            cl.project,
+            isFiltersPage ? cl.filters_page : cl.table_page,
+          ].join(" ")}
+        >
           <div className={cl.filters}>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<SkeletonFiltersList />}>
               <Filters filters={project.filters} />
             </Suspense>
           </div>

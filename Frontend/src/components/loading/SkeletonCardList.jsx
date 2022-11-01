@@ -1,9 +1,12 @@
-import cl from "./SkeletonCardList.module.scss";
+import cl from "./Skeletons.module.scss";
 
-const SkeletonCardList = () => {
+export const SkeletonCardList = () => {
   return (
-    <div className={cl.skeleton_card_list}>
+    <div className={cl.main_container}>
       <div className={cl.grid}>
+        <div className={cl.skeleton_card}></div>
+        <div className={cl.skeleton_card}></div>
+        <div className={cl.skeleton_card}></div>
         <div className={cl.skeleton_card}></div>
         <div className={cl.skeleton_card}></div>
         <div className={cl.skeleton_card}></div>
@@ -13,5 +16,3 @@ const SkeletonCardList = () => {
     </div>
   );
 };
-
-export default SkeletonCardList;

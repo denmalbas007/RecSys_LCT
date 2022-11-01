@@ -56,17 +56,26 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       }
     }
     i {
+      display: inline-block;
+      width: 5px;
       font-style: normal !important;
+      margin-left: 5px;
+      margin-right: 4px !important;
     }
     a::after {
       display: none;
     }
-
     .dropdown-content {
-      min-width: 100%;
+      width: 100%;
+      overflow-y: scroll;
       border-radius: 10px;
       box-shadow: $box-shadow !important;
       margin-top: 40px;
+      .tree {
+        .checkbox-item {
+          margin-left: 1px;
+        }
+      }
     }
   }
 }

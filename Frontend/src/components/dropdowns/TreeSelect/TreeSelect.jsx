@@ -20,8 +20,12 @@ const TreeSelect = () => {
   };
 
   useEffect(() => {
-    document.querySelector(".search").placeholder = "Поиск";
-  });
+    // for each element with classname "search" change the placeholder text to "Поиск"
+    const searchElements = document.getElementsByClassName("search");
+    for (let i = 0; i < searchElements.length; i++) {
+      searchElements[i].placeholder = "Поиск";
+    }
+  }, []);
 
   return (
     <DropdownTreeSelect

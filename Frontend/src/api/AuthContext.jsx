@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import SkeletonPage from "../components/loading/SkeletonPage/SkeletonPage";
+import { SkeletonPage } from "../components/loading/SkeletonPage";
 import { doCheckAuth, doLogout, doSignIn } from "./Auth";
 
 export const AuthContext = React.createContext();

@@ -3,9 +3,8 @@ import cl from "./DashboardPage.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
-import SkeletonCardList from "../../components/loading/SkeletonCardList/SkeletonCardList";
-import { useState } from "react";
-import { useEffect } from "react";
+import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
+import { useState, useEffect } from "react";
 import { doGetProjects } from "../../api/Auth";
 
 const DashboardPage = () => {
@@ -31,7 +30,9 @@ const DashboardPage = () => {
       </div>
       <main className={cl.content}>
         {loading ? (
-          <SkeletonCardList />
+          <div className={cl.skeleton_container}>
+            <SkeletonCardList />
+          </div>
         ) : (
           <div className={cl.projects_container}>
             <div className={cl.new_project}>
