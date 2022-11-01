@@ -4,6 +4,7 @@ import numpy as np
 from datetime import date, timedelta
 from collections import OrderedDict
 import json
+import calculating_score
 
 def get_dates_from_period(period: str) -> list:
     #example of period '05/2021-11/2021'
