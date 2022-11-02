@@ -8,7 +8,7 @@ onSelect={(index) => setSelectedTab(index)}
 /> */
 }
 
-const RadioMenu = ({ buttons, onSelect, className }) => {
+const RadioMenu = ({ buttons, onSelect, className, fontSize }) => {
   const [selected, setSelected] = useState(0);
 
   const handleClick = (index) => {
@@ -17,7 +17,10 @@ const RadioMenu = ({ buttons, onSelect, className }) => {
   };
 
   return (
-    <nav className={[cl.radio_menu, className].join(" ")}>
+    <nav
+      className={[cl.radio_menu, className].join(" ")}
+      style={{ fontSize: fontSize ? fontSize : 14 }}
+    >
       {buttons.map((button, index) => (
         <button
           key={index}

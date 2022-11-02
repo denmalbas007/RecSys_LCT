@@ -3,6 +3,7 @@ import cl from "./ProjectPage.module.scss";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { SkeletonFiltersList } from "../../components/loading/SkeletonFiltersList";
+import Table from "../../components/dataDisplay/Table/Table";
 
 const Filters = lazy(() => import("./Filters/Filters"));
 
@@ -61,7 +62,18 @@ const ProjectPage = () => {
               <Filters filters={project.filters} />
             </Suspense>
           </div>
-          <div className={cl.table}>Таблица</div>
+          <div className={cl.table}>
+            <h2>Таблица</h2>
+            <div className={cl.table_container}>
+              <Table />
+            </div>
+            <div className={cl.pagination}>
+              <button>1</button>
+              <button>2</button>
+              <button>3</button>
+              <button>4</button>
+            </div>
+          </div>
         </div>
       </main>
     </div>

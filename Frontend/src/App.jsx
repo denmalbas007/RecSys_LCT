@@ -15,14 +15,22 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/" element={<Navigate to="/projects" />} />
           <Route path="/login" element={<Navigate to="/signin" />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route
-            path="/dashboard"
+            path="/projects"
             element={
               <PrivateRoute>
-                <DashboardPage />
+                <DashboardPage page="projects" />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <PrivateRoute>
+                <DashboardPage page="reports" />
               </PrivateRoute>
             }
           />

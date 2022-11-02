@@ -22,14 +22,14 @@ const TopNavbar = () => {
 
   return (
     <nav className={cl.navbar}>
-      <Link className={cl.logo} to="/dashboard">
+      <Link className={cl.logo} to="/projects">
         <img src={logo} alt="logo" />
       </Link>
       <ul className={cl.links}>
         <li
-          className={window.location.pathname == "/dashboard" ? cl.active : ""}
+          className={window.location.pathname == "/projects" ? cl.active : ""}
         >
-          <Link to="/dashboard">Проекты</Link>
+          <Link to="/projects">Проекты</Link>
         </li>
         <li className={window.location.pathname == "/reports" ? cl.active : ""}>
           <Link to="/reports">Отчёты</Link>

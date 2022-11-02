@@ -14,9 +14,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onAuthStateChanged = (newUser) => {
-    console.log("triggered");
     setUser(newUser);
-    console.log(user);
     setLoading(false);
   };
 

@@ -52,7 +52,7 @@ export const doGetProjects = async () => {
         filters: [
           {
             name: "Регионы",
-            values: ["Москва", "Санкт-Петербург"],
+            values: ["Москва", "Тверская обл."],
           },
           {
             name: "Продукты",

@@ -6,8 +6,9 @@ import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
 import { useState, useEffect } from "react";
 import { doGetProjects } from "../../api/Auth";
+import { ReportCard } from "../../components/cards/ReportCard/ReportCard";
 
-const DashboardPage = () => {
+const DashboardPage = ({ page }) => {
   const [projects, setProjects] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +34,7 @@ const DashboardPage = () => {
           <div className={cl.skeleton_container}>
             <SkeletonCardList />
           </div>
-        ) : (
+        ) : page === "projects" ? (
           <div className={cl.projects_container}>
             <div className={cl.new_project}>
               <FontAwesomeIcon icon={faPlus} />
@@ -48,6 +49,19 @@ const DashboardPage = () => {
                 lastUpdate={project.lastUpdatedAt}
               />
             ))}
+          </div>
+        ) : (
+          <div className={cl.reports_container}>
+            <div className={cl.reports_pending}>
+              <h2>В обработке</h2>
+              <ReportCard projectTitle={"Project 1"} pending />
+            </div>
+            <div className={cl.reports_ready}>
+              <h2>Готовые отчеты</h2>
+              <ReportCard projectTitle={"Project 1"} />
+              <ReportCard projectTitle={"Project 1"} />
+              <ReportCard projectTitle={"Project 1"} />
+            </div>
           </div>
         )}
       </main>

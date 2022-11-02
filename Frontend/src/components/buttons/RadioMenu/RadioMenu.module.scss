@@ -1,24 +1,21 @@
 @import "../../../styles/variables.scss";
-$box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 
 .radio_menu {
   display: flex;
-  width: min-content;
   background-color: var(--bg-main);
   border-radius: 10px;
-  box-shadow: $box-shadow;
-  padding: 5px;
   gap: 5px;
   button {
+    flex: 1;
     padding: 10px 5px;
     border: none;
     border-radius: 10px;
     outline: none;
     background: none;
-    font-size: 1.2rem;
+    font-size: inherit;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
     color: var(--text-acnt-color);
+    background-color: var(--bg-acnt);
     font-weight: bold;
   }
   .active {

@@ -29,7 +29,7 @@ const SignInPage = () => {
       } else {
         const response = await doCheckAuth();
         onAuthStateChanged(response.user);
-        navigate("/");
+        navigate("/projects");
       }
     }
     setLoading(false);

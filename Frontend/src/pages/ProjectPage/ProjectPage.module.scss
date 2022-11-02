@@ -69,8 +69,15 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       }
       .table {
         flex-direction: column;
+        overflow: hidden;
         background-color: var(--bg-main);
         border-radius: 10px;
+        .table_container {
+          overflow: scroll;
+        }
+        h2 {
+          margin: 10px 5px;
+        }
       }
     }
   }
