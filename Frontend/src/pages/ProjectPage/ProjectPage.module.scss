@@ -68,11 +68,14 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         border-radius: 10px;
       }
       .table {
+        display: flex;
         flex-direction: column;
         overflow: hidden;
         background-color: var(--bg-main);
         border-radius: 10px;
+        height: 100%;
         .table_container {
+          flex: 1;
           overflow: scroll;
         }
         h2 {

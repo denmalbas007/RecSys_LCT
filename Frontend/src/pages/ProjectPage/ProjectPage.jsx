@@ -4,6 +4,7 @@ import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { SkeletonFiltersList } from "../../components/loading/SkeletonFiltersList";
 import Table from "../../components/dataDisplay/Table/Table";
+import Pagination from "../../components/dataDisplay/Pagination/Pagination";
 
 const Filters = lazy(() => import("./Filters/Filters"));
 
@@ -25,6 +26,7 @@ const project = {
 
 const ProjectPage = () => {
   const { id } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
   const [isFiltersPage, setIsFiltersPage] = useState(true);
 
   useEffect(() => {
@@ -68,10 +70,11 @@ const ProjectPage = () => {
               <Table />
             </div>
             <div className={cl.pagination}>
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
+              <Pagination
+                page={currentPage}
+                setPage={setCurrentPage}
+                totalPages={4}
+              />
             </div>
           </div>
         </div>
