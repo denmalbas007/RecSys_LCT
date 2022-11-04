@@ -7,10 +7,12 @@ import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
 import { useState, useEffect } from "react";
 import { doGetProjects } from "../../api/Auth";
 import { ReportCard } from "../../components/cards/ReportCard/ReportCard";
+import CreateProjectDialog from "../../components/dialogs/CreateProjectDialog/CreateProjectDialog";
 
 const DashboardPage = ({ page }) => {
   const [projects, setProjects] = useState();
   const [loading, setLoading] = useState(true);
+  const [popupShown, setPopupShown] = useState(false);
 
   useEffect(() => {
     doGetProjects()
@@ -26,6 +28,17 @@ const DashboardPage = ({ page }) => {
 
   return (
     <div className={cl.dashboard_container}>
+      {popupShown && (
+        <CreateProjectDialog
+          disabled
+          onCreate={() => {
+            setPopupShown(false);
+          }}
+          onCancel={() => {
+            setPopupShown(false);
+          }}
+        />
+      )}
       <div className={cl.topnav_container}>
         <TopNavbar pageTitle="Проекты" />
       </div>
@@ -36,10 +49,13 @@ const DashboardPage = ({ page }) => {
           </div>
         ) : page === "projects" ? (
           <div className={cl.projects_container}>
-            <div className={cl.new_project}>
+            <button
+              className={cl.new_project}
+              onClick={() => setPopupShown(true)}
+            >
               <FontAwesomeIcon icon={faPlus} />
               <h2>Создать проект</h2>
-            </div>
+            </button>
             {projects.map((project) => (
               <ProjectCard
                 key={project.id}

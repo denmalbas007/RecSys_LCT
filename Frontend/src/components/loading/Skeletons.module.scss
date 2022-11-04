@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -8,9 +10,9 @@
   gap: 10px;
   .nav_container {
     margin-top: 10px;
-    max-width: 1760px;
+    max-width: $max-width;
     height: 65px;
-    width: calc(100% - 40px);
+    width: calc(100% - 20px);
     border-radius: 10px;
     background-color: var(--bg-main);
     display: flex;
@@ -46,12 +48,12 @@
 }
 
 .main_container {
-  max-width: 1760px;
+  max-width: $max-width;
   flex: 1;
   padding: 20px;
   background-color: var(--bg-main);
   border-radius: 10px;
-  width: calc(100% - 40px);
+  width: calc(100% - 20px);
   height: 100%;
   .grid {
     display: grid;

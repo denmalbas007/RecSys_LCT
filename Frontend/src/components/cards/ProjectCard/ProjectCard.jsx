@@ -4,8 +4,8 @@ import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const ProjectCard = (project) => {
-  // on click navigate to /project/:id where id is project.id
   const navigate = useNavigate();
+
   return (
     <div
       className={cl.project_card}
@@ -46,9 +46,6 @@ const ProjectCard = (project) => {
               </div>
             ))}
           </div>
-          {project.filters.length > 3 && (
-            <p className={cl.footer}>Еще +{project.items.length - 3}</p>
-          )}
         </div>
       </div>
     </div>
