@@ -9,14 +9,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadein 0.1s ease-out;
   .dialog {
     margin: 0 10px;
     border-radius: 10px;
-    min-width: 400px;
+    min-width: 200px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     background-color: var(--bg-main);
     padding: 20px;
+    animation: scale_in 0.3s ease-out;
     .title {
       font-size: 20px;
       margin-bottom: 20px;
@@ -36,5 +39,23 @@
       margin: 10px auto;
       color: var(--acnt-hover-color);
     }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale_in {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
   }
 }

@@ -1,5 +1,21 @@
 import axios from "axios";
 
+const API_URL = "http://37.230.196.148:1001/v1/";
+
+export const doFetchItemsRoot = async () => {
+  const url = API_URL + "filters/item-types/root";
+  const response = await axios.get(url);
+
+  return response.data;
+};
+
+export const doFetchItemsById = async (id) => {
+  const url = API_URL + "filters/item-types/" + id;
+  const response = await axios.get(url);
+
+  return response.data.itemTypes;
+};
+
 export const doSignIn = async (username, password) => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
@@ -111,6 +127,46 @@ export const doGetProjects = async () => {
       ...layout,
       lastUpdatedAt: reformatDate(layout.lastUpdatedAt),
       createdAt: reformatDate(layout.createdAt),
+    })),
+  };
+};
+
+export const doGetReports = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  const fetchedData = {
+    reports: [
+      {
+        id: 0,
+        name: "Отчет 1",
+        excelUrl: "google.com",
+        pdfUrl: "google.com",
+        createdAt: "2022-11-01T14:32:53.448Z",
+        status: "loading",
+      },
+      {
+        id: 1,
+        name: "Отчет 1",
+        excelUrl: "google.com",
+        pdfUrl: "google.com",
+        createdAt: "2022-11-01T14:32:53.448Z",
+        status: "ready",
+      },
+    ],
+  };
+
+  const reformatDate = (date) =>
+    new Date(date).toLocaleString("ru", {
+      day: "numeric",
+      month: "long",
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+  return {
+    success: true,
+    reports: fetchedData.reports.map((report) => ({
+      ...report,
     })),
   };
 };

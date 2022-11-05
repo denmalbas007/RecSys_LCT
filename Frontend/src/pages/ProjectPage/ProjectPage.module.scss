@@ -59,6 +59,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       background-color: var(--bg-acnt);
       height: 100%;
       .filters {
+        padding: 10px;
         box-shadow: $box-shadow;
         min-height: 100%;
         width: 30vw;
@@ -68,6 +69,9 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         flex-direction: column;
         background-color: var(--bg-main);
         border-radius: 10px;
+        .filters_title {
+          margin-bottom: 10px;
+        }
       }
       .table {
         box-shadow: $box-shadow;
@@ -78,6 +82,9 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         background-color: var(--bg-main);
         border-radius: 10px;
         height: 100%;
+        .table_title {
+          margin: 10px;
+        }
         .table_container {
           flex: 1;
           overflow: scroll;
@@ -129,6 +136,10 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
           .table {
             display: flex;
           }
+        }
+        .filters_title,
+        .table_title {
+          display: none;
         }
       }
     }

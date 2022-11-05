@@ -42,15 +42,25 @@ const TopNavbar = () => {
         onClick={() => setProfileExpanded(!profileExpanded)}
       >
         <FontAwesomeIcon icon={faUser} />
-        <span>{`${user?.firstName} ${user?.lastName}`}</span>
+        <span
+          className={cl.profile_name}
+        >{`${user?.firstName} ${user?.lastName}`}</span>
+        <span className={cl.profile_mobile_name}>Профиль</span>
         <FontAwesomeIcon className={cl.chevron} icon={faChevronDown} />
 
-        <ul className={[cl.expander_popup].join(" ")}>
+        <ul
+          className={[cl.expander_popup].join(" ")}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span
+            className={cl.mobile_title}
+          >{`${user?.firstName} ${user?.lastName}`}</span>
+          <span className={cl.mobile_separator}></span>
           <li>
-            <div className={cl.popup_button}>
+            <button className={cl.popup_button} onClick={logout}>
               <FontAwesomeIcon icon={faSignOut} />
-              <span onClick={logout}>Выйти</span>
-            </div>
+              <span>Выйти</span>
+            </button>
           </li>
         </ul>
       </button>

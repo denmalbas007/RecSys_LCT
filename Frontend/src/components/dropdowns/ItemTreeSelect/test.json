@@ -4,7 +4,8 @@
     "selected": true,
     "children": [
       {
-        "label": "Test2"
+        "label": "Загрузка....",
+        "disabled": true
       },
       {
         "label": "Test3",

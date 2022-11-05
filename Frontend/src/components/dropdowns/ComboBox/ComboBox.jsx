@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DropdownTreeSelect from "react-dropdown-tree-select";
-import data from "./test.json";
+// import data from "./test.json";
 import "react-dropdown-tree-select/dist/styles.css";
-import "./TreeSelect.scss";
+import "./ComboBox.scss";
 
-const TreeSelect = () => {
-  const onChange = (currentNode, selectedNodes) => {
-    console.log("path::", currentNode);
-  };
-
+const ItemTreeSelect = ({ data }) => {
   const assignObjectPaths = (obj, stack) => {
     Object.keys(obj).forEach((k) => {
       const node = obj[k];
@@ -29,11 +25,12 @@ const TreeSelect = () => {
 
   return (
     <DropdownTreeSelect
-      data={data}
+      onNodeToggle={onNodeToggle}
+      data={treeData}
       onChange={onChange}
       className={"tree-select-container"}
     />
   );
 };
 
-export default TreeSelect;
+export default ItemTreeSelect;

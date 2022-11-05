@@ -60,12 +60,13 @@ const ProjectPage = () => {
           ].join(" ")}
         >
           <div className={cl.filters}>
+            <h2 className={cl.filters_title}>Фильтры</h2>
             <Suspense fallback={<SkeletonFiltersList />}>
               <Filters filters={project.filters} />
             </Suspense>
           </div>
           <div className={cl.table}>
-            <h2>Таблица</h2>
+            <h2 className={cl.table_title}>Таблица</h2>
             <div className={cl.table_container}>
               <Table />
             </div>

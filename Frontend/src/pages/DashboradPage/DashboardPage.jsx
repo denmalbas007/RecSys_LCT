@@ -1,7 +1,7 @@
 import ProjectCard from "../../components/cards/ProjectCard/ProjectCard";
 import cl from "./DashboardPage.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faHourglass } from "@fortawesome/free-solid-svg-icons";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
 import { useState, useEffect } from "react";
@@ -30,7 +30,6 @@ const DashboardPage = ({ page }) => {
     <div className={cl.dashboard_container}>
       {popupShown && (
         <CreateProjectDialog
-          disabled
           onCreate={() => {
             setPopupShown(false);
           }}

@@ -10,6 +10,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   .dropdown-trigger,
   .search {
     display: flex !important;
+    flex-direction: column;
     min-width: 100%;
   }
   .dropdown {
@@ -68,12 +69,22 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     .dropdown-content {
       max-width: 100%;
       overflow-y: scroll;
+      overflow-x: hidden;
       border-radius: 10px;
       box-shadow: $box-shadow !important;
       margin-top: 40px;
       .node {
+        display: flex;
         border-radius: 8px;
-        word-break: break-all;
+        label {
+          display: flex;
+        }
+        .node-label {
+          width: 90vw;
+          display: inline-block;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
       .tree {
         .checkbox-item {
