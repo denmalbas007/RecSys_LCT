@@ -2,6 +2,8 @@
 
 using System.Reflection;
 using MediatR;
+using RecSys.Api.Infrastructure;
+using RecSys.Api.Jobs;
 using RecSys.Customs.Client;
 using RecSys.Platform.Data.Extensions;
 using RecSys.Platform.Data.FluentMigrator;
@@ -23,6 +25,9 @@ services.AddSwagger("rec-sys-api", useJwtAuth: true);
 services.AddSerilogLogger();
 services.AddPostgres();
 services.AddScoped<CustomsClient>();
+services.AddSingleton<CustomsDataCollectingProcessor>();
+services.AddSingleton<DataProcessingProcessor>();
+services.AddHostedService<MainHostedService>();
 services.AddMigrator(typeof(Program).Assembly);
 services.AddMediatR(typeof(Program));
 

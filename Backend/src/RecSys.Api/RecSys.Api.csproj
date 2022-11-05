@@ -31,6 +31,9 @@
       <Content Update="DataAccess\Migrations\units_import.json">
         <DependentUpon>InitMigration.cs</DependentUpon>
       </Content>
+      <Content Update="DataAccess\Migrations\items_import.json">
+        <DependentUpon>InitMigration.cs</DependentUpon>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
