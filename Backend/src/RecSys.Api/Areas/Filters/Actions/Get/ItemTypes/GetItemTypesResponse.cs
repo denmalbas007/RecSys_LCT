@@ -4,4 +4,4 @@ using RecSys.Customs.Client;
 
 namespace RecSys.Api.Areas.Filters.Actions.Get.ItemTypes;
 
-public record GetItemTypesResponse(ItemType[] ItemTypes);
+public record GetItemTypesResponse(ItemTypeV2[] ItemTypes);
