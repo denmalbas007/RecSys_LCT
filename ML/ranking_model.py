@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from collections import OrderedDict
 import json
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 
 
 def get_dates_from_period(period: str) -> list:
@@ -52,7 +53,8 @@ def make_score_for_one_month(whole_data: pd.DataFrame, region: str, period: str)
 
     mean_difference = sum(list(difference_ex_im.values()))/len(list(difference_ex_im.values()))
     for i in range(len(unique_tnved)):    #calculating score
-        coof_for_tnved_import[unique_tnved[i]]/=(coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]])/mean_difference
+        if coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]] != 0:
+            coof_for_tnved_import[unique_tnved[i]]/=(coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]])/mean_difference
 
     coof_for_tnved_import = OrderedDict(sorted(coof_for_tnved_import.items(), key=lambda x: -x[1]))
     if difference_ex_im == 0:
@@ -70,21 +72,33 @@ def main():
     coof_data = pd.DataFrame(data={'tnved':all_tnved})
     for month in range(4):
         scores = make_score_for_one_month(whole_data, region, period[month])
-
-
-
         new_month_dict = {
             'tnved':        scores.keys(),
             period[month]:  scores.values()
         }
-        #new_month_df = pd.DataFrame(data=new_month_dict)
         coof_data[period[month]] = pd.Series(scores.values())
-        #coof_data = pd.concat([coof_data, new_month_df])
-        #coof_data = coof_data.groupby('tnved')
-    print(coof_data.head(10))
-    print(len(coof_data))
-    coof_data = coof_data.dropna()
-    print(len(all_tnved), len(coof_data))
-    print(coof_data.head(10))
+    coof_data = coof_data.fillna(0)
+    scaler = StandardScaler()
+    coof_data[period] = scaler.fit_transform(coof_data[period])
+    ranking_dict = dict()
+    x = [[9.0], [10.0], [11.0], [12.0]]
+    for i in range(coof_data.shape[0]):
+        y = list(coof_data.iloc[i])[1:]
+        tnved_number = list(coof_data.iloc[i])[0]
+        lin_reg = LinearRegression()
+        lin_reg.fit(x, y)
+        pred = lin_reg.predict([[13.0]])
+        ranking_dict[tnved_number] = pred[0]
+
+    ranking_dict = OrderedDict(sorted(ranking_dict.items(), key=lambda x: -x[1]))
+    top_10 = 0
+    for tnved in ranking_dict.keys():
+        if top_10 != 3:
+            print(tnved, " ", ranking_dict[tnved])
+            top_10+=1
+        else:
+            break
+    
+
 if __name__ == '__main__':
     main()
