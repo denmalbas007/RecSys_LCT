@@ -52,7 +52,7 @@ public class FiltersController : ControllerBase
     public async Task<IActionResult> GetItemTypesRoot()
     {
         var result = await _client.GetRootItemTypesAsync(HttpContext.RequestAborted);
-        return Ok(new GetItemTypesResponse(result));
+        return Ok(ItemTypeV2.GetFromItemTypeArray(result));
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class FiltersController : ControllerBase
     public async Task<IActionResult> GetItemTypes(string parent)
     {
         var result = await _client.GetItemTypesAsync(parent, HttpContext.RequestAborted);
-        return Ok(new GetItemTypesResponse(result));
+        return Ok(new GetItemTypesResponse(ItemTypeV2.GetFromItemTypeArray(result)));
     }
 
     /// <summary>
