@@ -55,6 +55,8 @@ def make_score_for_one_month(whole_data: pd.DataFrame, region: str, period: str)
         coof_for_tnved_import[unique_tnved[i]]/=(coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]])/mean_difference
 
     coof_for_tnved_import = OrderedDict(sorted(coof_for_tnved_import.items(), key=lambda x: -x[1]))
+    if difference_ex_im == 0:
+        return unique_tnved[i]['Stoim']
     return coof_for_tnved_import 
 
 
@@ -66,21 +68,23 @@ def main():
     period = ['09/2021', '10/2021', '11/2021', '12/2021']
     all_tnved = get_all_tnved_from_period(whole_data, region, f'{period[0]}-{period[-1]}')
     coof_data = pd.DataFrame(data={'tnved':all_tnved})
-    for month in range(len(period)):
+    for month in range(4):
         scores = make_score_for_one_month(whole_data, region, period[month])
-        coof_data[period[month]] = 0
-        for tnved in scores.keys():
-            coof_data[] = scores[all_tnved[]]
+
+
 
         new_month_dict = {
             'tnved':        scores.keys(),
             period[month]:  scores.values()
         }
-        new_month_df = pd.DataFrame(data=new_month_dict)
-        coof_data = pd.concat([coof_data, new_month_df])
-        coof_data = coof_data.groupby('tnved')
-
+        #new_month_df = pd.DataFrame(data=new_month_dict)
+        coof_data[period[month]] = pd.Series(scores.values())
+        #coof_data = pd.concat([coof_data, new_month_df])
+        #coof_data = coof_data.groupby('tnved')
     print(coof_data.head(10))
-
+    print(len(coof_data))
+    coof_data = coof_data.dropna()
+    print(len(all_tnved), len(coof_data))
+    print(coof_data.head(10))
 if __name__ == '__main__':
     main()
