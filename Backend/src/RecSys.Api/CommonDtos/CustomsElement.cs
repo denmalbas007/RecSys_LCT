@@ -6,8 +6,6 @@ namespace RecSys.Api.CommonDtos;
 
 public class CustomsElement
 {
-    public DateTime Period { get; init; }
-
     public Region Region { get; init; } = null!;
 
     public ItemType ItemType { get; init; } = null!;
