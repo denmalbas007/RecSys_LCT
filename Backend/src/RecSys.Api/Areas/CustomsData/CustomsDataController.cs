@@ -10,13 +10,9 @@ namespace RecSys.Api.Areas.CustomsData;
 public class CustomsDataController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
 
     public CustomsDataController(IMediator mediator)
-    {
-        _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
-    }
+        => _mediator = mediator;
 
     /// <summary>
     /// Получение информации по экспорту/импорту из ФТС.
@@ -30,7 +26,7 @@ public class CustomsDataController : ControllerBase
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> GetCustomsData([FromQuery] GetCustomsDataRequest request)
     {
-        var response = await _mediator.Send(request, _cancellationToken);
+        var response = await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(response);
     }
 }

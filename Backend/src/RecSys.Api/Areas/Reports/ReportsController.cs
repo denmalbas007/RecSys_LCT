@@ -12,13 +12,9 @@ namespace RecSys.Api.Areas.Reports;
 public class ReportsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
 
     public ReportsController(IMediator mediator)
-    {
-        _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
-    }
+        => _mediator = mediator;
 
     /// <summary>
     /// Инициализировать геренацию отчета.
@@ -65,7 +61,7 @@ public class ReportsController : ControllerBase
 
     private async Task<IActionResult> MediateOkAsync(object request)
     {
-        var response = await _mediator.Send(request, _cancellationToken);
+        var response = await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(response);
     }
 }

@@ -10,13 +10,9 @@ namespace RecSys.Api.Areas.Users;
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
 
     public UsersController(IMediator mediator)
-    {
-        _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
-    }
+        => _mediator = mediator;
 
     /// <summary>
     /// Получить информацию по пользователю.
@@ -32,7 +28,7 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetUser()
     {
         var request = new GetUserRequest(1);
-        var response = await _mediator.Send(request, _cancellationToken);
+        var response = await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(response);
     }
 }
