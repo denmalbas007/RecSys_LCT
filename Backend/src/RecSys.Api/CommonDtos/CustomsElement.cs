@@ -1,7 +1,13 @@
+#pragma warning disable IDE0005
+using RecSys.Customs.Client;
+#pragma warning restore IDE0005
+
 namespace RecSys.Api.CommonDtos;
 
 public class CustomsElement
 {
+    public DateTime Period { get; init; }
+
     public Region Region { get; init; } = null!;
 
     public ItemType ItemType { get; init; } = null!;

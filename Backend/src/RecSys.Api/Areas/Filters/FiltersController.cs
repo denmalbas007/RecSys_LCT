@@ -1,8 +1,12 @@
+using Dapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RecSys.Api.Areas.Filters.Actions.Get.Countries;
 using RecSys.Api.Areas.Filters.Actions.Get.ItemTypes;
 using RecSys.Api.Areas.Filters.Actions.Get.Regions;
+using RecSys.Api.CommonDtos;
+using RecSys.Customs.Client;
+using RecSys.Platform.Data.Providers;
 
 namespace RecSys.Api.Areas.Filters;
 
@@ -11,12 +15,20 @@ namespace RecSys.Api.Areas.Filters;
 public class FiltersController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
+    private readonly CustomsClient _client;
+    private readonly IDbConnectionsProvider _dbConnectionsProvider;
+    private readonly IDbTransactionsProvider _dbTransactionsProvider;
 
-    public FiltersController(IMediator mediator)
+    public FiltersController(
+        IMediator mediator,
+        CustomsClient client,
+        IDbConnectionsProvider dbConnectionsProvider,
+        IDbTransactionsProvider dbTransactionsProvider)
     {
         _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
+        _client = client;
+        _dbConnectionsProvider = dbConnectionsProvider;
+        _dbTransactionsProvider = dbTransactionsProvider;
     }
 
     /// <summary>
@@ -27,7 +39,7 @@ public class FiltersController : ControllerBase
     [ProducesResponseType(200, Type = typeof(GetCountriesResponse))]
     public async Task<IActionResult> GetCountries()
     {
-        var result = await _mediator.Send(new GetCountriesRequest(), _cancellationToken);
+        var result = await _mediator.Send(new GetCountriesRequest(), HttpContext.RequestAborted);
         return Ok(result);
     }
 
@@ -35,12 +47,24 @@ public class FiltersController : ControllerBase
     /// Получить список предметов.
     /// </summary>
     /// <returns>Список предметов.</returns>
-    [HttpGet("item-types")]
+    [HttpGet("item-types/root")]
     [ProducesResponseType(200, Type = typeof(GetItemTypesResponse))]
-    public async Task<IActionResult> GetItemTypes()
+    public async Task<IActionResult> GetItemTypesRoot()
     {
-        var result = await _mediator.Send(new GetItemTypesRequest(), _cancellationToken);
-        return Ok(result);
+        var result = await _client.GetRootItemTypesAsync(HttpContext.RequestAborted);
+        return Ok(new GetItemTypesResponse(result));
+    }
+
+    /// <summary>
+    /// Получить список предметов.
+    /// </summary>
+    /// <returns>Список предметов.</returns>
+    [HttpGet("item-types/{parent}")]
+    [ProducesResponseType(200, Type = typeof(GetItemTypesResponse))]
+    public async Task<IActionResult> GetItemTypes(string parent)
+    {
+        var result = await _client.GetItemTypesAsync(parent, HttpContext.RequestAborted);
+        return Ok(new GetItemTypesResponse(result));
     }
 
     /// <summary>
@@ -51,7 +75,9 @@ public class FiltersController : ControllerBase
     [ProducesResponseType(200, Type = typeof(GetRegionsResponse))]
     public async Task<IActionResult> GetRegions()
     {
-        var result = await _mediator.Send(new GetRegionsRequest(), _cancellationToken);
-        return Ok(result);
+        var query = "select * from regions";
+        var connection = _dbConnectionsProvider.GetConnection();
+        var result = await connection.QueryAsync<Region>(query, transaction: _dbTransactionsProvider.Current);
+        return Ok(new GetRegionsResponse(result.ToArray()));
     }
 }

@@ -12,13 +12,9 @@ namespace RecSys.Api.Areas.Auth;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
 
     public AuthController(IMediator mediator)
-    {
-        _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
-    }
+        => _mediator = mediator;
 
     /// <summary>
     /// Авторизация пользователя.
@@ -50,7 +46,7 @@ public class AuthController : ControllerBase
 
     private async Task<IActionResult> MediateOkAsync(object request)
     {
-        var response = await _mediator.Send(request, _cancellationToken);
+        var response = await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(response);
     }
 }

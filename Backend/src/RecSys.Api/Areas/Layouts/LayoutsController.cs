@@ -12,13 +12,9 @@ namespace RecSys.Api.Areas.Layouts;
 public class LayoutsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly CancellationToken _cancellationToken;
 
     public LayoutsController(IMediator mediator)
-    {
-        _mediator = mediator;
-        _cancellationToken = HttpContext.RequestAborted;
-    }
+        => _mediator = mediator;
 
     /// <summary>
     /// Создание нового 'шаблона'.
@@ -64,13 +60,13 @@ public class LayoutsController : ControllerBase
 
     private async Task<IActionResult> MediateOkAsync(object request)
     {
-        var response = await _mediator.Send(request, _cancellationToken);
+        var response = await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(response);
     }
 
     private async Task<IActionResult> MediateEmptyAsync(object request)
     {
-        await _mediator.Send(request, _cancellationToken);
+        await _mediator.Send(request, HttpContext.RequestAborted);
         return Ok(null);
     }
 }

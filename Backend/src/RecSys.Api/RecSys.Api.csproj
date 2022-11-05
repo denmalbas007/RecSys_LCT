@@ -7,20 +7,39 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RecSys.Customs.Client\RecSys.Customs.Client.csproj" />
       <ProjectReference Include="..\RecSys.Platform.Data\RecSys.Platform.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <None Update="DataAccess/Migrations/*.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+
       <Content Update="appsettings.Development.json">
         <DependentUpon>appsettings.json</DependentUpon>
       </Content>
       <Content Update="appsettings.Local.json">
         <DependentUpon>appsettings.json</DependentUpon>
       </Content>
+      <Content Update="DataAccess\Migrations\counties_import.json">
+        <DependentUpon>InitMigration.cs</DependentUpon>
+      </Content>
+      <Content Update="DataAccess\Migrations\regions_import.json">
+        <DependentUpon>InitMigration.cs</DependentUpon>
+      </Content>
+      <Content Update="DataAccess\Migrations\units_import.json">
+        <DependentUpon>InitMigration.cs</DependentUpon>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="CsvHelper" Version="30.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DataAccess\Customs\Dtos" />
     </ItemGroup>
 
 </Project>
