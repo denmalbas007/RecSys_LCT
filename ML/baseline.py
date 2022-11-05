@@ -1,5 +1,4 @@
 import pandas as pd
-from tqdm import tqdm
 import numpy as np
 from datetime import date, timedelta
 from collections import OrderedDict
@@ -21,30 +20,26 @@ def get_dates_from_period(period: str) -> list:
     for date_norm in dates:
         if date_norm not in unique: unique.append(date_norm)
     return unique
-
-
-def main():
-    with open('params.json') as f:
-        params = json.load(f)
-
-    region = params['region']
-    period = params['period']
-    whole_data = pd.read_csv("whole_data.csv", decimal = ',', low_memory=False)
+    
+def ranking_data(whole_data: pd.DataFrame, region: str, period: str) -> OrderedDict: 
     whole_data = whole_data.loc[(whole_data['napr'] == 'ИМ') & (whole_data['period'].isin(get_dates_from_period(period))) & (whole_data['Region'] == region)]
     unique_tnved = np.array(whole_data['tnved_6'].unique())
-
     stoims = dict()
 
     for i in range(len(unique_tnved)):
         stoims[unique_tnved[i]] = sum(whole_data.loc[whole_data['tnved_6'] == unique_tnved[i]]['Stoim'])
 
     best_stoims = OrderedDict(sorted(stoims.items(), key=lambda x: -x[1]))
-    best_scores = 0
-    for tnved in best_stoims.keys():
-        if best_scores != 10:
-            print(f'{tnved}: за период {period} было потрачено {best_stoims[tnved]} $')
-            best_scores+=1
-        else:
-            break
+    return best_stoims 
+
+
+def main():
+    with open('params.json', encoding='utf-8') as f:
+        params = json.load(f)
+    region = params['region']
+    period = params['period']
+    whole_data = pd.read_csv("whole_data.csv", decimal = ',', low_memory=False)
+    print(ranking_data(whole_data, region, period))    
+
 if __name__ == '__main__':
     main()
