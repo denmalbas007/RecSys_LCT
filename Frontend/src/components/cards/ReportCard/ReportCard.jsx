@@ -6,14 +6,14 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const ReportCard = ({ projectTitle, pending, time }) => {
+export const ReportCard = ({ name, pending, id, createDate }) => {
   return (
-    <div className={cl.report_card}>
+    <div className={[cl.report_card, pending ? cl.pending : ""].join(" ")}>
       <div className={cl.header}>
-        <h3>{`Отчет по проекту "${projectTitle}"`}</h3>
+        <h3>{name}</h3>
         <div className={cl.date}>
           <FontAwesomeIcon icon={faClock} />
-          <p>Запрошено в: 14:57</p>
+          <p>Запрошено: {createDate}</p>
         </div>
       </div>
       <div className={cl.body}>

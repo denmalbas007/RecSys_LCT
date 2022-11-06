@@ -8,7 +8,6 @@
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  cursor: pointer;
   .header {
     display: flex;
     flex-direction: column;
@@ -19,7 +18,7 @@
     }
     svg,
     p {
-      color: var(--text-acnt-color);
+      color: var(--text-main-color);
     }
     p {
       margin-left: 0.3rem;
@@ -68,6 +67,31 @@
       p {
         color: #fff;
         font-weight: bold;
+      }
+    }
+  }
+  &.pending {
+    border: 2px dashed #e74c3c;
+    background-color: #fff;
+    .header {
+      h3 {
+        color: var(--text-acnt-color);
+      }
+      svg,
+      p {
+        color: var(--text-acnt-color);
+      }
+    }
+    .body {
+      .excel,
+      .pdf {
+        background-color: var(--bg-acnt);
+        color: var(--text-acnt-color);
+        cursor: not-allowed;
+        p {
+          color: var(--text-acnt-color);
+          font-weight: bold;
+        }
       }
     }
   }

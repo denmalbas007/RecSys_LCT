@@ -3,6 +3,7 @@ import { SkeletonPage } from "../components/loading/SkeletonPage";
 import {
   doCheckAuth,
   doGetProjectsByIds,
+  doGetReportsByIds,
   doGetUserInfo,
   doLogout,
 } from "./Auth";
@@ -12,6 +13,7 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const logout = () => {
@@ -27,6 +29,11 @@ export const AuthProvider = ({ children }) => {
   const updateProjects = async () => {
     const projects = await doGetProjectsByIds(user.layoutIds);
     setProjects(projects);
+  };
+
+  const updateReports = async () => {
+    const reports = await doGetReportsByIds(user.reportIds);
+    setReports(reports);
   };
 
   useEffect(() => {
@@ -51,7 +58,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, projects, updateProjects, onAuthStateChanged, logout }}
+      value={{
+        user,
+        projects,
+        reports,
+        updateProjects,
+        updateReports,
+        onAuthStateChanged,
+        logout,
+      }}
     >
       {loading ? <SkeletonPage /> : children}
     </AuthContext.Provider>

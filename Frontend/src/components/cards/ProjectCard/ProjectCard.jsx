@@ -9,7 +9,7 @@ const ProjectCard = (project) => {
   const reformatDate = (date) =>
     new Date(date).toLocaleString("ru", {
       day: "numeric",
-      month: "long",
+      month: "short",
       hour: "numeric",
       minute: "numeric",
     });

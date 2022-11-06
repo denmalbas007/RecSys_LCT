@@ -194,10 +194,6 @@ export const doGetTable = async (filters) => {
   return response.data.customsElements;
 };
 
-/**
- * In progress
- */
-
 export const doCreateReport = async (name, filters) => {
   const url = API_URL + "reports";
 
@@ -218,45 +214,35 @@ export const doCreateReport = async (name, filters) => {
 };
 
 /**
- * To do
+ * In progress
  */
 
-export const doGetReports = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  const fetchedData = {
-    reports: [
-      {
-        id: 0,
-        name: "Отчет 1",
-        excelUrl: "google.com",
-        pdfUrl: "google.com",
-        createdAt: "2022-11-01T14:32:53.448Z",
-        status: "loading",
-      },
-      {
-        id: 1,
-        name: "Отчет 1",
-        excelUrl: "google.com",
-        pdfUrl: "google.com",
-        createdAt: "2022-11-01T14:32:53.448Z",
-        status: "ready",
-      },
-    ],
-  };
-
+export const doGetReportsByIds = async (reportIds) => {
+  const url = API_URL + "reports/by-ids";
+  if (!reportIds) {
+    return [];
+  }
+  const reports = await axios.post(
+    url,
+    { ids: [...reportIds] },
+    {
+      headers: getHeaders(),
+    }
+  );
   const reformatDate = (date) =>
     new Date(date).toLocaleString("ru", {
       day: "numeric",
-      month: "long",
+      month: "short",
       hour: "numeric",
       minute: "numeric",
     });
 
-  return {
-    success: true,
-    reports: fetchedData.reports.map((report) => ({
-      ...report,
-    })),
-  };
+  return reports.data.reportsMetas.map((report) => ({
+    ...report,
+    createdAt: reformatDate(report.createdAt),
+  }));
 };
+
+/**
+ * To do
+ */

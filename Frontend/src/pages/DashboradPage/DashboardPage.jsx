@@ -12,11 +12,13 @@ import { AuthContext } from "../../api/AuthContext";
 
 const DashboardPage = ({ page }) => {
   const [projectsCopy, setProjectsCopy] = useState([]);
+  const [reportsCopy, setReportsCopy] = useState([]);
   const [loading, setLoading] = useState(true);
   const [popupShown, setPopupShown] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
-  const { projects, updateProjects } = useContext(AuthContext);
+  const { projects, reports, updateProjects, updateReports } =
+    useContext(AuthContext);
 
   const createProject = async (title) => {
     setCreateLoading(true);
@@ -39,11 +41,17 @@ const DashboardPage = ({ page }) => {
       .catch((error) => {
         console.log(error);
       });
+    updateReports();
   }, []);
 
   useEffect(() => {
     setProjectsCopy(projects);
   }, [projects]);
+
+  useEffect(() => {
+    console.log(reports);
+    setReportsCopy(reports);
+  }, [reports]);
 
   return (
     <div className={cl.dashboard_container}>
@@ -88,16 +96,42 @@ const DashboardPage = ({ page }) => {
         ) : (
           <div className={cl.reports_container}>
             <div className={cl.reports_pending}>
-              <h2>В обработке</h2>
+              <h2>
+                В обработке
+                <span className={cl.helper_text}>
+                  (автообновление отключено)
+                </span>
+              </h2>
               <div className={cl.items}>
-                <ReportCard projectTitle={"Project 1"} pending />
+                {reportsCopy &&
+                  reportsCopy
+                    .filter((report) => !report.isReady)
+                    .map((report) => (
+                      <ReportCard
+                        key={report.id}
+                        id={report.id}
+                        name={report.name}
+                        createDate={report.createdAt}
+                        pending
+                      />
+                    ))}
               </div>
             </div>
             <div className={cl.reports_ready}>
               <h2>Готовые отчеты</h2>
-              <ReportCard projectTitle={"Project 1"} />
-              <ReportCard projectTitle={"Project 1"} />
-              <ReportCard projectTitle={"Project 1"} />
+              <div className={cl.items}>
+                {reportsCopy &&
+                  reportsCopy
+                    .filter((report) => report.isReady)
+                    .map((report) => (
+                      <ReportCard
+                        key={report.id}
+                        id={report.id}
+                        name={report.name}
+                        createDate={report.createdAt}
+                      />
+                    ))}
+              </div>
             </div>
           </div>
         )}
