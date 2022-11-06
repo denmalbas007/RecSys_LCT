@@ -2,6 +2,15 @@ import axios from "axios";
 
 const API_URL = "http://37.230.196.148:1001/v1/";
 
+/**
+ * Done
+ */
+const getHeaders = () => {
+  return {
+    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  };
+};
+
 export const doFetchItemsRoot = async () => {
   const url = API_URL + "filters/item-types/root";
   const response = await axios.get(url);
@@ -17,156 +26,238 @@ export const doFetchItemsById = async (id) => {
 };
 
 export const doSignIn = async (username, password) => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  const url = API_URL + "auth/authenticate";
+  try {
+    const response = await axios.post(url, {
+      Login: username,
+      Password: password,
+    });
 
-  localStorage.setItem("jwtToken", "98765");
-  localStorage.setItem("refreshToken", "472189");
-
-  return {
-    success: true,
-    errorMessage: "",
-  };
-};
-
-export const doCheckAuth = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  if (localStorage.getItem("jwtToken")) {
-    return {
-      success: true,
-      user: {
-        id: 0,
-        username: "usernametest",
-        firstName: "Joe",
-        middleName: "Real",
-        lastName: "Mama",
-        email: "test@test.com",
-        profilePicUrl: "string",
-        reportIds: [0],
-        layoutIds: [0],
-      },
-    };
-  } else {
+    if (response.status === 200) {
+      localStorage.setItem("jwt", response.data.jwtToken);
+      return {
+        success: true,
+        errorMessage: "",
+      };
+    }
     return {
       success: false,
+      errorMessage: "Неверный логин или пароль",
+    };
+  } catch {
+    return {
+      success: false,
+      errorMessage: "Возможно сервер недоступен",
     };
   }
 };
 
+export const doCheckAuth = async () => {
+  const url = API_URL + "users/profile";
+  const token = localStorage.getItem("jwt");
+  if (token == "undefined" || !token) {
+    return false;
+  }
+
+  try {
+    const response = await axios.get(url, {
+      headers: getHeaders(),
+    });
+
+    if (response.status === 200) {
+      return true;
+    } else {
+      locaclStorage.removeItem("jwt");
+      return false;
+    }
+  } catch (e) {
+    localStorage.removeItem("jwt");
+    return false;
+  }
+};
+
+export const doGetUserInfo = async () => {
+  const url = API_URL + "users/profile";
+  const response = await axios.get(url, {
+    headers: getHeaders(),
+  });
+
+  return response.data;
+};
+
 export const doLogout = () => {
-  localStorage.removeItem("jwtToken");
-  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("jwt");
 };
 
-export const doGetProjects = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  const fetchedData = {
-    layouts: [
-      {
-        id: 0,
-        name: "Проект 1",
-        filters: [
-          {
-            name: "Направление",
-            values: ["Экспорт"],
-          },
-          {
-            name: "Регионы",
-            values: ["Москва", "Тверская обл."],
-          },
-          {
-            name: "Страны",
-            values: ["США", "Китай", "Япония"],
-          },
-          {
-            name: "Продукты",
-            values: ["Мясо", "Рыба", "Овощи", "Фрукты"],
-          },
-        ],
-        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
-        createdAt: "2022-11-01T14:32:53.448Z",
+export const doCreateProject = async (title) => {
+  const url = API_URL + "layouts";
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        regions: [],
+        itemTypes: [],
+        countries: [],
       },
-      {
-        id: 1,
-        name: "Проект 2",
-        filters: [
-          {
-            name: "Направление",
-            values: ["Импорт"],
-          },
-          {
-            name: "Регионы",
-            values: ["Екатеринбург", "Санкт-Петербург"],
-          },
-          {
-            name: "Страны",
-            values: ["Мексика", "Швеция", "Германия"],
-          },
-          {
-            name: "Продукты",
-            values: ["Овощи", "Рыба", "Мясо", "Молочные продукты"],
-          },
-        ],
-        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
-        createdAt: "2022-11-01T14:32:53.448Z",
-      },
-    ],
+      name: title,
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+  console.log(response);
+  if (response.status === 200) {
+    return {
+      success: true,
+      errorMessage: "",
+      id: response.data.id,
+    };
+  }
+  return {
+    success: false,
+    errorMessage: "Ошибка при создании проекта",
   };
+};
 
+export const doGetProjectsByIds = async (projectIds) => {
+  const url = API_URL + "layouts/by-ids";
+  if (!projectIds) {
+    return [];
+  }
+  const projects = await axios.post(
+    url,
+    { Ids: [...projectIds] },
+    {
+      headers: getHeaders(),
+    }
+  );
+
+  return projects.data.layouts;
+};
+
+export const doFetchCountries = async () => {
+  const url = API_URL + "filters/countries";
+  const response = await axios.get(url);
+
+  return response.data.countries;
+};
+
+export const doFetchRegions = async () => {
+  const url = API_URL + "filters/regions";
+  const response = await axios.get(url);
+
+  return response.data.regions;
+};
+
+export const doUpdateProject = async (project) => {
+  const url = API_URL + "layouts";
+  const response = await axios.put(
+    url,
+    {
+      layout: {
+        ...project,
+      },
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+  if (response.status === 200) {
+    return {
+      success: true,
+      errorMessage: "",
+    };
+  }
+  return {
+    success: false,
+    errorMessage: "Ошибка при обновлении проекта",
+  };
+};
+
+export const doGetTable = async (filters) => {
+  const url = API_URL + "customs/by-filter";
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        ...filters,
+      },
+      pagination: {
+        offset: 0,
+        count: 30,
+      },
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+
+  return response.data.customsElements;
+};
+
+export const doCreateReport = async (name, filters) => {
+  const url = API_URL + "reports";
+
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        ...filters,
+      },
+      name: name,
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+
+  console.log(response);
+};
+
+export const doGetReportsByIds = async (reportIds) => {
+  const url = API_URL + "reports/by-ids";
+  if (!reportIds) {
+    return [];
+  }
+  const reports = await axios.post(
+    url,
+    { ids: [...reportIds] },
+    {
+      headers: getHeaders(),
+    }
+  );
   const reformatDate = (date) =>
     new Date(date).toLocaleString("ru", {
       day: "numeric",
-      month: "long",
+      month: "short",
       hour: "numeric",
       minute: "numeric",
     });
 
-  return {
-    success: true,
-    projects: fetchedData.layouts.map((layout) => ({
-      ...layout,
-      lastUpdatedAt: reformatDate(layout.lastUpdatedAt),
-      createdAt: reformatDate(layout.createdAt),
-    })),
-  };
+  return reports.data.reportsMetas.map((report) => ({
+    ...report,
+    createdAt: reformatDate(report.createdAt),
+  }));
 };
 
-export const doGetReports = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+/**
+ * In progress
+ */
 
-  const fetchedData = {
-    reports: [
-      {
-        id: 0,
-        name: "Отчет 1",
-        excelUrl: "google.com",
-        pdfUrl: "google.com",
-        createdAt: "2022-11-01T14:32:53.448Z",
-        status: "loading",
-      },
-      {
-        id: 1,
-        name: "Отчет 1",
-        excelUrl: "google.com",
-        pdfUrl: "google.com",
-        createdAt: "2022-11-01T14:32:53.448Z",
-        status: "ready",
-      },
-    ],
-  };
+export const doDownloadPDF = async (link) => {
+  const url = API_URL + link;
+  const response = await axios.get(url, {
+    headers: getHeaders(),
+    responseType: "blob",
+  });
 
-  const reformatDate = (date) =>
-    new Date(date).toLocaleString("ru", {
-      day: "numeric",
-      month: "long",
-      hour: "numeric",
-      minute: "numeric",
-    });
-
-  return {
-    success: true,
-    reports: fetchedData.reports.map((report) => ({
-      ...report,
-    })),
-  };
+  const blob = new Blob([response.data], { type: "application/pdf" });
+  const linkPDF = document.createElement("a");
+  linkPDF.href = window.URL.createObjectURL(blob);
+  linkPDF.download = "report.pdf";
+  linkPDF.click();
 };
+
+/**
+ * To do
+ */

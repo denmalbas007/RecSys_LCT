@@ -4,7 +4,7 @@ import DropdownTreeSelect from "react-dropdown-tree-select";
 import "react-dropdown-tree-select/dist/styles.css";
 import "./ItemTreeSelect.scss";
 
-const ItemTreeSelect = ({ data, fetchNode }) => {
+const ItemTreeSelect = ({ data, fetchNode, onSelectChange }) => {
   const [treeData, setTreeData] = useState(data);
 
   const onNodeToggle = async (currentNode, toggled) => {
@@ -66,8 +66,8 @@ const ItemTreeSelect = ({ data, fetchNode }) => {
       currentNode.id,
       currentNode.checked
     );
-
     setTreeData(updatedData);
+    onSelectChange(selectedNodes);
   };
 
   useEffect(() => {

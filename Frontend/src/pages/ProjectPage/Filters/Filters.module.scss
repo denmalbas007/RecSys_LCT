@@ -11,6 +11,17 @@
       margin-bottom: 5px;
     }
   }
+  .buttons {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    .button {
+      width: 100%;
+      margin: 0 5px;
+    }
+  }
 }
 
 @media screen and (max-width: $mobile-width) {

@@ -36,7 +36,7 @@ const TopNavbar = () => {
         </li>
       </ul>
       {/* profile */}
-      <button
+      <div
         className={[cl.profile, profileExpanded ? cl.expanded : ""].join(" ")}
         ref={dropdownRef}
         onClick={() => setProfileExpanded(!profileExpanded)}
@@ -44,7 +44,7 @@ const TopNavbar = () => {
         <FontAwesomeIcon icon={faUser} />
         <span
           className={cl.profile_name}
-        >{`${user?.firstName} ${user?.lastName}`}</span>
+        >{`${user?.firstName} ${user?.middleName}`}</span>
         <span className={cl.profile_mobile_name}>Профиль</span>
         <FontAwesomeIcon className={cl.chevron} icon={faChevronDown} />
 
@@ -54,7 +54,7 @@ const TopNavbar = () => {
         >
           <span
             className={cl.mobile_title}
-          >{`${user?.firstName} ${user?.lastName}`}</span>
+          >{`${user?.firstName} ${user?.middleName}`}</span>
           <span className={cl.mobile_separator}></span>
           <li>
             <button className={cl.popup_button} onClick={logout}>
@@ -63,7 +63,7 @@ const TopNavbar = () => {
             </button>
           </li>
         </ul>
-      </button>
+      </div>
     </nav>
   );
 };

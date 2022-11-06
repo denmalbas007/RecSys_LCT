@@ -2,6 +2,7 @@ $brand-color-1: rgb(185, 24, 39);
 $brand-color-2: rgb(155, 24, 39);
 $brand-color-3: rgb(46, 46, 46);
 $brand-color-4: rgb(3, 140, 210);
+$brand-color-4-hover: rgb(1, 160, 240);
 
 .theme {
   --bg-main: #fff;
@@ -12,7 +13,7 @@ $brand-color-4: rgb(3, 140, 210);
   --acnt-color: #{$brand-color-2};
   --acnt-hover-color: #{$brand-color-1};
   --acnt2-color: #{$brand-color-4};
-  --acnt2-hover-color: #{$brand-color-1};
+  --acnt2-hover-color: #{$brand-color-4-hover};
   --error-color: #{$brand-color-1};
   --link-color: #{$brand-color-4};
 }
