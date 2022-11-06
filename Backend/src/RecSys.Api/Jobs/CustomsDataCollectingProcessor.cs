@@ -29,7 +29,7 @@ public class CustomsDataCollectingProcessor
             };
             var customsClient = scope.ServiceProvider.GetRequiredService<CustomsClient>();
             var dbConnectionsProvider = scope.ServiceProvider.GetRequiredService<IDbConnectionsProvider>();
-            var query = "select * from customs_raw order by period DESC";
+            var query = "select * from customs order by period DESC limit 1";
             var insertQuery =
                 @"insert into customs_raw (napr, period, nastranapr, tnved, edizm, stoim, netto, kol, region, region_s)
                      values (:Napr, :Period, :Nastranapr, :Tnved, :Edizm, round(:Stoim, 5), round(:Netto, 5), round(:Kol, 5), :Region, :RegionsS)";
