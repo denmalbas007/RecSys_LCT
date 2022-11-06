@@ -89,7 +89,9 @@ const DashboardPage = ({ page }) => {
           <div className={cl.reports_container}>
             <div className={cl.reports_pending}>
               <h2>В обработке</h2>
-              <ReportCard projectTitle={"Project 1"} pending />
+              <div className={cl.items}>
+                <ReportCard projectTitle={"Project 1"} pending />
+              </div>
             </div>
             <div className={cl.reports_ready}>
               <h2>Готовые отчеты</h2>

@@ -30,6 +30,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // setUser({ projects: [] });
+    // setLoading(false);
+    // return;
     doCheckAuth().then((success) => {
       if (success) {
         doGetUserInfo().then((response) => {

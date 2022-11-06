@@ -33,8 +33,10 @@ const ProjectPage = () => {
   const [isFiltersPage, setIsFiltersPage] = useState(true);
   const { projects, updateProjects } = useContext(AuthContext);
   const [currentProject, setCurrentProject] = useState();
+  const [projectSaving, setProjectSaving] = useState(false);
 
   const onProjectSave = async (filters) => {
+    setProjectSaving(true);
     const countriesIds = filters.countries
       ? filters.countries.map((c) => c.id)
       : [];
@@ -53,6 +55,7 @@ const ProjectPage = () => {
 
     const response = await doUpdateProject(newProject);
     console.log(response);
+    setProjectSaving(false);
   };
 
   useEffect(() => {
@@ -99,11 +102,14 @@ const ProjectPage = () => {
             <span className={cl.horizontal_separator}></span>
             <h2 className={cl.filters_title}>Фильтры</h2>
             <Suspense fallback={<SkeletonFiltersList />}>
-              <Filters
-                filters={project.filters}
-                project={currentProject}
-                onProjectSave={onProjectSave}
-              />
+              {currentProject && (
+                <Filters
+                  filters={project.filters}
+                  project={currentProject}
+                  onProjectSave={onProjectSave}
+                  projectSaving={projectSaving}
+                />
+              )}
             </Suspense>
           </div>
           <div className={cl.table}>

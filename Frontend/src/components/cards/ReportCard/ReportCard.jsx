@@ -1,8 +1,8 @@
 import cl from "./ReportCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSliders,
-  faTableList,
+  faFilePdf,
+  faFileExcel,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,22 +11,20 @@ export const ReportCard = ({ projectTitle, pending, time }) => {
     <div className={cl.report_card}>
       <div className={cl.header}>
         <h3>{`Отчет по проекту "${projectTitle}"`}</h3>
-        <div className={cl.row}>
+        <div className={cl.date}>
           <FontAwesomeIcon icon={faClock} />
-          <p>Запрошено в:14:57</p>
+          <p>Запрошено в: 14:57</p>
         </div>
       </div>
       <div className={cl.body}>
-        <div className={cl.body_info}>
-          <div className={cl.row}>
-            <FontAwesomeIcon icon={faTableList} />
-            <p>Записей: 100</p>
-          </div>
-          <div className={cl.row}>
-            <FontAwesomeIcon icon={faSliders} />
-            <p>Фильтров: 100</p>
-          </div>
-        </div>
+        <button className={cl.row}>
+          <FontAwesomeIcon icon={faFileExcel} />
+          <p>Скачать Excel</p>
+        </button>
+        <button className={cl.row}>
+          <FontAwesomeIcon icon={faFilePdf} />
+          <p>Скачать PDF</p>
+        </button>
       </div>
     </div>
   );

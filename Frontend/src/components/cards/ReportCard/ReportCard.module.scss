@@ -1,6 +1,5 @@
 .report_card {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   height: 100%;
   padding: 1rem;
@@ -9,13 +8,26 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
   .header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     h3 {
       color: var(--acnt2-color);
+      margin-right: 0.5rem;
+    }
+    svg,
+    p {
+      color: var(--text-acnt-color);
+    }
+    p {
+      margin-left: 0.3rem;
+    }
+    .date {
+      display: flex;
     }
   }
-  .row {
+  .body {
+    margin-left: auto;
     display: flex;
-    gap: 0.5rem;
-    align-items: center;
   }
 }

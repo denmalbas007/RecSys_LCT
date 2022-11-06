@@ -11,7 +11,7 @@ import AccentButton from "../../../components/buttons/AccentButton/AccentButton"
 import ItemTreeSelect from "../../../components/dropdowns/ItemTreeSelect/ItemTreeSelect";
 import cl from "./Filters.module.scss";
 
-const Filters = ({ filters, project, onProjectSave }) => {
+const Filters = ({ filters, project, onProjectSave, projectSaving }) => {
   const [countries, setCountries] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [items, setItems] = useState([]);
@@ -60,6 +60,7 @@ const Filters = ({ filters, project, onProjectSave }) => {
         return {
           ...region,
           label: region.name,
+          checked: project.filter.regions.includes(region.id),
         };
       });
       setRegions(reformattedRegions);
@@ -98,7 +99,9 @@ const Filters = ({ filters, project, onProjectSave }) => {
         <ItemTreeSelect data={regions} onSelectChange={setSelectedRegions} />
       </div>
       <div className={cl.buttons}>
-        <AccentButton onClick={saveProject}>Сохранить проект</AccentButton>
+        <AccentButton disabled={projectSaving} onClick={saveProject}>
+          Сохранить проект
+        </AccentButton>
         <AccentButton onClick={generateNewReport} secondary>
           Создать отчёт
         </AccentButton>
