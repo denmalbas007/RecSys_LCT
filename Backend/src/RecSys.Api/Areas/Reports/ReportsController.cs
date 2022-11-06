@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecSys.Api.Areas.Reports.Actions.Create;
 using RecSys.Api.Areas.Reports.Actions.Get;
 using RecSys.Api.Areas.Reports.Actions.GetList;
+using RecSys.Api.Areas.Reports.Dtos;
 using RecSys.Platform.Dtos;
 
 namespace RecSys.Api.Areas.Reports;
@@ -28,7 +29,10 @@ public class ReportsController : ControllerBase
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> CreateReport([FromBody] CreateReportRequest request)
-        => await MediateOkAsync(request);
+    {
+        await Task.Delay(1);
+        return Ok(new CreateReportResponse(1));
+    }
 
     /// <summary>
     /// Получить отчет.
@@ -43,7 +47,10 @@ public class ReportsController : ControllerBase
     [ProducesResponseType(404, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> GetReport([FromQuery] GetReportRequest request)
-        => await MediateOkAsync(request);
+    {
+        await Task.Delay(1);
+        return NoContent();
+    }
 
     /// <summary>
     /// Получить набор методанных отчетов по айдишникам.
@@ -57,11 +64,30 @@ public class ReportsController : ControllerBase
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> GetReportsList([FromQuery] GetReportsBatchRequest request)
-        => await MediateOkAsync(request);
-
-    private async Task<IActionResult> MediateOkAsync(object request)
     {
-        var response = await _mediator.Send(request, HttpContext.RequestAborted);
-        return Ok(response);
+        await Task.Delay(1);
+        return Ok(
+            new GetReportsBatchResponse(
+                new[]
+                {
+                    new ReportMetadata()
+                    {
+                        CreatedAt = DateTime.UtcNow,
+                        ExcelUrl =
+                            "https://sun9-22.userapi.com/impg/-OVcTAV-tzADcyfinfKIZLlclfeUTeQYWeYVYA/1ugFJfZeCY8.jpg?size=2280x840&quality=96&sign=918be01f72614d20d711fe2ffdfeedfa&type=album",
+                        PdfUrl =
+                            "https://sun9-22.userapi.com/impg/-OVcTAV-tzADcyfinfKIZLlclfeUTeQYWeYVYA/1ugFJfZeCY8.jpg?size=2280x840&quality=96&sign=918be01f72614d20d711fe2ffdfeedfa&type=album",
+                        Name = "Отчет 22",
+                        IsReady = true,
+                        Id = 123
+                    },
+                    new ReportMetadata()
+                    {
+                        CreatedAt = DateTime.UtcNow.AddMonths(-1),
+                        Name = "Отчет 1",
+                        IsReady = false,
+                        Id = 1
+                    }
+                }));
     }
 }
