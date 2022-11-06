@@ -57,13 +57,13 @@ public class ReportsController : ControllerBase
     /// </summary>
     /// <param name="request">Запрос.</param>
     /// <returns>Отчет.</returns>
-    [HttpGet("by-ids")]
+    [HttpPost("by-ids")]
     [ProducesResponseType(200, Type = typeof(GetReportsBatchResponse))]
     [ProducesResponseType(400, Type = typeof(HttpError))]
     [ProducesResponseType(401, Type = typeof(HttpError))]
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> GetReportsList([FromQuery] GetReportsBatchRequest request)
+    public async Task<IActionResult> GetReportsList([FromBody] GetReportsBatchRequest request)
     {
         await Task.Delay(1);
         return Ok(
