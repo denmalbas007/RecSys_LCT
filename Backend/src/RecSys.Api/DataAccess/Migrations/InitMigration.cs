@@ -30,14 +30,19 @@ public class InitMigration : ForwardOnlyMigration
             .WithColumn("role").AsString().ForeignKey("roles", "role");
 
         Create.Table("users")
-            .WithColumn("id").AsGuid().PrimaryKey()
+            .WithColumn("id").AsInt64().Identity().PrimaryKey()
             .WithColumn("username").AsString().Unique()
             .WithColumn("password").AsString()
+            .WithColumn("email").AsString()
+            .WithColumn("profile_pic_url").AsString().Nullable()
+            .WithColumn("first_name").AsString()
+            .WithColumn("second_name").AsString()
+            .WithColumn("middle_name").AsString().Nullable()
             .WithColumn("role").AsString().ForeignKey("roles", "role");
 
         Create.Table("refresh_tokens")
             .WithColumn("id").AsInt64().PrimaryKey().Identity()
-            .WithColumn("user_id").AsGuid().ForeignKey("users", "id")
+            .WithColumn("user_id").AsInt64().ForeignKey("users", "id")
             .WithColumn("token").AsString()
             .WithColumn("expires_at").AsDateTime()
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentDateTime)

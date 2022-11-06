@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace RecSys.Api.Areas.Users.Dtos;
 
 public class User
@@ -14,9 +16,12 @@ public class User
 
     public string Email { get; init; } = null!;
 
+    [JsonIgnore]
+    public string? Password { get; init; }
+
     public string? ProfilePicUrl { get; init; }
 
-    public long[] ReportIds { get; init; } = Array.Empty<long>();
+    public long[] ReportIds { get; set; } = Array.Empty<long>();
 
-    public long[] LayoutIds { get; init; } = Array.Empty<long>();
+    public long[] LayoutIds { get; set; } = Array.Empty<long>();
 }
