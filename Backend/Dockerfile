@@ -2,6 +2,16 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+
+RUN sed -i'.bak' 's/$/ contrib/' /etc/apt/sources.list
+RUN apt-get update \
+    && apt-get -y install wget \
+                       gnupg2 \
+                       apt-utils \
+                       libgdiplus \
+    && apt-get install -y ttf-mscorefonts-installer fontconfig \
+    && rm -rf /var/lib/apt-get/lists/* /tmp/*
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libc6 \
