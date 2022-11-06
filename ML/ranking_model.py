@@ -53,7 +53,7 @@ def make_score_for_one_month(whole_data: pd.DataFrame, region: str, period: str)
 
     mean_difference = sum(list(difference_ex_im.values()))/len(list(difference_ex_im.values()))
     for i in range(len(unique_tnved)):    #calculating score
-        if coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]] != 0:
+        if coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]] != 0 and mean_difference != 0:
             coof_for_tnved_import[unique_tnved[i]]/=(coof_for_tnved_export[unique_tnved[i]]-coof_for_tnved_import[unique_tnved[i]])/mean_difference
 
     coof_for_tnved_import = OrderedDict(sorted(coof_for_tnved_import.items(), key=lambda x: -x[1]))
