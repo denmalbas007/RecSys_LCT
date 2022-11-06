@@ -105,6 +105,7 @@ export const doCreateProject = async (title) => {
       headers: getHeaders(),
     }
   );
+  console.log(response);
   if (response.status === 200) {
     return {
       success: true,

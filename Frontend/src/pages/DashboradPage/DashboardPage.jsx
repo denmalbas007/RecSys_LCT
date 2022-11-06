@@ -9,6 +9,7 @@ import { doCreateProject, doGetProjectsByIds } from "../../api/Auth";
 import { ReportCard } from "../../components/cards/ReportCard/ReportCard";
 import CreateProjectDialog from "../../components/dialogs/CreateProjectDialog/CreateProjectDialog";
 import { AuthContext } from "../../api/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = ({ page }) => {
   const [projectsCopy, setProjectsCopy] = useState([]);
@@ -17,6 +18,7 @@ const DashboardPage = ({ page }) => {
   const [popupShown, setPopupShown] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
+  const navigate = useNavigate();
   const { projects, reports, updateProjects, updateReports } =
     useContext(AuthContext);
 
@@ -27,6 +29,9 @@ const DashboardPage = ({ page }) => {
       setPopupShown(false);
       setCreateLoading(false);
       updateProjects();
+      setTimeout(() => {
+        navigate(`/dashboard`);
+      }, 1000);
     } else {
       setCreateError(response.errorMessage);
       setCreateLoading(false);
@@ -49,7 +54,6 @@ const DashboardPage = ({ page }) => {
   }, [projects]);
 
   useEffect(() => {
-    console.log(reports);
     setReportsCopy(reports);
   }, [reports]);
 

@@ -42,6 +42,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="*" element={<Navigate to="/projects" />} />
         </Routes>
       </Router>
     </AuthProvider>
