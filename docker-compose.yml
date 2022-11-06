@@ -1,0 +1,60 @@
+#docker-compose file for local development
+version: "3.3"
+services:
+#  client: # TODO: npm build release 
+#    image: nginx
+#    ports:
+#      - 8000:80
+#    volumes:
+#      - ./web:/usr/share/nginx/html
+  postgresql_db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGPORT=${DB_PORT}
+    ports:
+      - 6532:${DB_PORT}
+    restart: always
+    volumes:
+      - "database-data:/var/lib/postgresql/data/"
+  app:
+    build: ./Backend
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=postgresql_db
+      - DB_PORT=${DB_PORT}
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+    ports:
+      - "1001:80"
+    links:
+      - postgresql_db:${DB_HOST}
+    depends_on:
+      - app-migrate
+    volumes:
+      - "app-data:/root/"
+  app-migrate:
+    build: ./Backend
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=postgresql_db
+      - DB_PORT=${DB_PORT}
+      - ASPNETCORE_ENVIRONMENT=Migration
+    ports:
+      - "1002:80"
+    links:
+      - postgresql_db:${DB_HOST}
+    depends_on:
+      - postgresql_db
+    volumes:
+      - "app-data:/root/"
+
+volumes:
+  app-data:
+  database-data:
+

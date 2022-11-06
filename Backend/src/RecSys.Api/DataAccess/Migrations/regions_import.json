@@ -1,0 +1,366 @@
+[
+  {
+    "KOD": 4100,
+    "NAME": "04100 - TAIMYR (DOLGANO-NENETS) AUTONOMOUS DISTRICT"
+  },
+  {
+    "KOD": 76000,
+    "NAME": "76000 - TRANS-BAIKAL TERRITORY"
+  },
+  {
+    "KOD": 81000,
+    "NAME": "81000 - REPUBLIC OF BURYATIA"
+  },
+  {
+    "KOD": 4000,
+    "NAME": "04000 - KRASNOYARSK TERRITORY"
+  },
+  {
+    "KOD": 7000,
+    "NAME": "07000 - STAVROPOL TERRITORY"
+  },
+  {
+    "KOD": 11000,
+    "NAME": "11000 - ARKHANGELSK REGION"
+  },
+  {
+    "KOD": 14000,
+    "NAME": "14000 - BELGOROD REGION"
+  },
+  {
+    "KOD": 18000,
+    "NAME": "18000 - VOLGOGRAD REGION"
+  },
+  {
+    "KOD": 20000,
+    "NAME": "20000 - VORONEZH REGION"
+  },
+  {
+    "KOD": 24000,
+    "NAME": "24000 - IVANOVO REGION"
+  },
+  {
+    "KOD": 26000,
+    "NAME": "26000 - REPUBLIC OF INGUSHETIA"
+  },
+  {
+    "KOD": 30000,
+    "NAME": "30000 - KAMCHATKA TERRITORY"
+  },
+  {
+    "KOD": 36000,
+    "NAME": "36000 - SAMARA REGION"
+  },
+  {
+    "KOD": 38000,
+    "NAME": "38000 - KURSK REGION"
+  },
+  {
+    "KOD": 42000,
+    "NAME": "42000 - LIPETSK REGION"
+  },
+  {
+    "KOD": 46000,
+    "NAME": "46000 - MOSCOW REGION"
+  },
+  {
+    "KOD": 50000,
+    "NAME": "50000 - NOVOSIBIRSK REGION"
+  },
+  {
+    "KOD": 53000,
+    "NAME": "53000 - ORENBURG REGION"
+  },
+  {
+    "KOD": 58000,
+    "NAME": "58000 - PSKOV REGION"
+  },
+  {
+    "KOD": 61000,
+    "NAME": "61000 - RYAZAN REGION"
+  },
+  {
+    "KOD": 65000,
+    "NAME": "65000 - SVERDLOVSK REGION"
+  },
+  {
+    "KOD": 70000,
+    "NAME": "70000 - TULA REGION"
+  },
+  {
+    "KOD": 75000,
+    "NAME": "75000 - CHELYABINSK REGION"
+  },
+  {
+    "KOD": 77000,
+    "NAME": "77000 - CHUKOTKA AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 1000,
+    "NAME": "01000 - ALTAI TERRITORY"
+  },
+  {
+    "KOD": 3000,
+    "NAME": "03000 - KRASNODAR TERRITORY"
+  },
+  {
+    "KOD": 5000,
+    "NAME": "05000 - PRIMORYE TERRITORY"
+  },
+  {
+    "KOD": 8000,
+    "NAME": "08000 - KHABAROVSK TERRITORY"
+  },
+  {
+    "KOD": 10000,
+    "NAME": "10000 - AMUR REGION"
+  },
+  {
+    "KOD": 12000,
+    "NAME": "12000 - ASTRAKHAN REGION"
+  },
+  {
+    "KOD": 15000,
+    "NAME": "15000 - BRYANSK REGION"
+  },
+  {
+    "KOD": 17000,
+    "NAME": "17000 - VLADIMIR REGION"
+  },
+  {
+    "KOD": 19000,
+    "NAME": "19000 - VOLOGDA REGION"
+  },
+  {
+    "KOD": 22000,
+    "NAME": "22000 - NIZHNY NOVGOROD REGION"
+  },
+  {
+    "KOD": 25000,
+    "NAME": "25000 - IRKUTSK REGION"
+  },
+  {
+    "KOD": 27000,
+    "NAME": "27000 - KALININGRAD REGION"
+  },
+  {
+    "KOD": 28000,
+    "NAME": "28000 - TVER REGION"
+  },
+  {
+    "KOD": 32000,
+    "NAME": "32000 - KEMEROVO REGION"
+  },
+  {
+    "KOD": 33000,
+    "NAME": "33000 - KIROV REGION"
+  },
+  {
+    "KOD": 37000,
+    "NAME": "37000 - KURGAN REGION"
+  },
+  {
+    "KOD": 41000,
+    "NAME": "41000 - LENINGRAD REGION"
+  },
+  {
+    "KOD": 44000,
+    "NAME": "44000 - MAGADAN REGION"
+  },
+  {
+    "KOD": 47000,
+    "NAME": "47000 - MURMANSK REGION"
+  },
+  {
+    "KOD": 49000,
+    "NAME": "49000 - NOVGOROD REGION"
+  },
+  {
+    "KOD": 52000,
+    "NAME": "52000 - OMSK REGION"
+  },
+  {
+    "KOD": 54000,
+    "NAME": "54000 - OREL REGION"
+  },
+  {
+    "KOD": 56000,
+    "NAME": "56000 - PENZA REGION"
+  },
+  {
+    "KOD": 60000,
+    "NAME": "60000 - ROSTOV REGION"
+  },
+  {
+    "KOD": 64000,
+    "NAME": "64000 - SAKHALIN REGION"
+  },
+  {
+    "KOD": 66000,
+    "NAME": "66000 - SMOLENSK REGION"
+  },
+  {
+    "KOD": 69000,
+    "NAME": "69000 - TOMSK REGION"
+  },
+  {
+    "KOD": 71000,
+    "NAME": "71000 - TYUMEN REGION"
+  },
+  {
+    "KOD": 73000,
+    "NAME": "73000 - ULYANOVSK REGION"
+  },
+  {
+    "KOD": 78000,
+    "NAME": "78000 - YAROSLAVL REGION"
+  },
+  {
+    "KOD": 79000,
+    "NAME": "79000 - REPUBLIC OF ADYGEYA"
+  },
+  {
+    "KOD": 83000,
+    "NAME": "83000 - KABARDINO-BALKARIAN REPUBLIC"
+  },
+  {
+    "KOD": 84000,
+    "NAME": "84000 - REPUBLIC OF ALTAI"
+  },
+  {
+    "KOD": 86000,
+    "NAME": "86000 - REPUBLIC OF KARELIA"
+  },
+  {
+    "KOD": 88000,
+    "NAME": "88000 - REPUBLIC OF MARI EL"
+  },
+  {
+    "KOD": 89000,
+    "NAME": "89000 - REPUBLIC OF MORDOVIA"
+  },
+  {
+    "KOD": 92000,
+    "NAME": "92000 - REPUBLIC OF TATARSTAN"
+  },
+  {
+    "KOD": 95000,
+    "NAME": "95000 - REPUBLIC OF KHAKASSIA"
+  },
+  {
+    "KOD": 96000,
+    "NAME": "96000 - CHECHEN REPUBLIC"
+  },
+  {
+    "KOD": 99000,
+    "NAME": "99000 - JEWISH AUTONOMOUS REGION"
+  },
+  {
+    "KOD": 11100,
+    "NAME": "11100 - NENETS AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 57100,
+    "NAME": "57100 - KOMI-PERM AUTONOMOUS DISTRICT"
+  },
+  {
+    "KOD": 71100,
+    "NAME": "71100 - KHANTY-MANSIYSK AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 35000,
+    "NAME": "35000 - REPUBLIC OF CRIMEA"
+  },
+  {
+    "KOD": 67000,
+    "NAME": "67000 - SEVASTOPOL - THE FEDERAL CITY"
+  },
+  {
+    "KOD": 94000,
+    "NAME": "94000 - UDMURTIAN REPUBLIC"
+  },
+  {
+    "KOD": 97000,
+    "NAME": "97000 - CHUVASH REPUBLIC"
+  },
+  {
+    "KOD": 30100,
+    "NAME": "30100 - KORYAK AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 71140,
+    "NAME": "71140 - YAMAL-NENETS AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 29000,
+    "NAME": "29000 - KALUGA REGION"
+  },
+  {
+    "KOD": 34000,
+    "NAME": "34000 - KOSTROMA REGION"
+  },
+  {
+    "KOD": 40000,
+    "NAME": "40000 - ST. PETERSBURG"
+  },
+  {
+    "KOD": 45000,
+    "NAME": "45000 - MOSCOW, THE CAPITAL OF RUSSIAN FEDERATION"
+  },
+  {
+    "KOD": 57000,
+    "NAME": "57000 - PERM TERRITORY"
+  },
+  {
+    "KOD": 63000,
+    "NAME": "63000 - SARATOV REGION"
+  },
+  {
+    "KOD": 68000,
+    "NAME": "68000 - TAMBOV REGION"
+  },
+  {
+    "KOD": 80000,
+    "NAME": "80000 - REPUBLIC OF BASHKORTOSTAN"
+  },
+  {
+    "KOD": 82000,
+    "NAME": "82000 - REPUBLIC OF DAGHESTAN"
+  },
+  {
+    "KOD": 85000,
+    "NAME": "85000 - REPUBLIC OF KALMYKIA"
+  },
+  {
+    "KOD": 87000,
+    "NAME": "87000 - KOMI REPUBLIC"
+  },
+  {
+    "KOD": 90000,
+    "NAME": "90000 - REPUBLIC OF NORTH OSSETIA – ALANIA"
+  },
+  {
+    "KOD": 93000,
+    "NAME": "93000 - REPUBLIC OF TUVA"
+  },
+  {
+    "KOD": 98000,
+    "NAME": "98000 - REPUBLIC OF SAKHA (YAKUTIA)"
+  },
+  {
+    "KOD": 4130,
+    "NAME": "04130 - EVENKI AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 25100,
+    "NAME": "25100 - UST-ORDA BURYAT AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 76100,
+    "NAME": "76100 - AGIN-BURYAT AUTONOMOUS AREA"
+  },
+  {
+    "KOD": 91000,
+    "NAME": "91000 - KARACHAYEVO-CIRCASSIAN REPUBLIC"
+  }
+]

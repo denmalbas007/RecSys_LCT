@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecSys.Api", "src\RecSys.Api\RecSys.Api.csproj", "{69B2C8DA-9102-46DC-95A2-149C95227FE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{05E21F22-A95F-4EF0-9D1A-1841BAB8087B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Dockerfile = Dockerfile
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\.env = ..\.env
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D29C452-42E1-4BFB-AB68-84D9316B4D76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F1B58391-CC71-416B-B0BF-8602226DF33D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecSys.Api.Tests", "tests\RecSys.Api.Tests\RecSys.Api.Tests.csproj", "{818ED49B-010C-4EC7-963E-65CD69D979B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecSys.Platform", "src\RecSys.Platform\RecSys.Platform.csproj", "{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecSys.Platform.Data", "src\RecSys.Platform.Data\RecSys.Platform.Data.csproj", "{EDC6D140-9914-471C-9CDD-A76B31F25415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecSys.Customs.Client", "src\RecSys.Customs.Client\RecSys.Customs.Client.csproj", "{454F7E8F-0416-440A-8EE8-F41D55D69B2F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69B2C8DA-9102-46DC-95A2-149C95227FE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B2C8DA-9102-46DC-95A2-149C95227FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B2C8DA-9102-46DC-95A2-149C95227FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B2C8DA-9102-46DC-95A2-149C95227FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{818ED49B-010C-4EC7-963E-65CD69D979B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{818ED49B-010C-4EC7-963E-65CD69D979B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{818ED49B-010C-4EC7-963E-65CD69D979B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{818ED49B-010C-4EC7-963E-65CD69D979B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDC6D140-9914-471C-9CDD-A76B31F25415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDC6D140-9914-471C-9CDD-A76B31F25415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDC6D140-9914-471C-9CDD-A76B31F25415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDC6D140-9914-471C-9CDD-A76B31F25415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454F7E8F-0416-440A-8EE8-F41D55D69B2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454F7E8F-0416-440A-8EE8-F41D55D69B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454F7E8F-0416-440A-8EE8-F41D55D69B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454F7E8F-0416-440A-8EE8-F41D55D69B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69B2C8DA-9102-46DC-95A2-149C95227FE5} = {6D29C452-42E1-4BFB-AB68-84D9316B4D76}
+		{818ED49B-010C-4EC7-963E-65CD69D979B4} = {F1B58391-CC71-416B-B0BF-8602226DF33D}
+		{B47EE9C3-9CC5-4F23-A6D2-E4B13C3E60DC} = {6D29C452-42E1-4BFB-AB68-84D9316B4D76}
+		{EDC6D140-9914-471C-9CDD-A76B31F25415} = {6D29C452-42E1-4BFB-AB68-84D9316B4D76}
+		{454F7E8F-0416-440A-8EE8-F41D55D69B2F} = {6D29C452-42E1-4BFB-AB68-84D9316B4D76}
+	EndGlobalSection
+EndGlobal

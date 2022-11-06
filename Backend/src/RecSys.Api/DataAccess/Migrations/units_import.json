@@ -1,0 +1,122 @@
+[
+  {
+    "KOD": 6,
+    "NAME": "METRE"
+  },
+  {
+    "KOD": 55,
+    "NAME": "SQUARE METRE"
+  },
+  {
+    "KOD": 166,
+    "NAME": "KILOGRAM"
+  },
+  {
+    "KOD": 163,
+    "NAME": "GRAM"
+  },
+  {
+    "KOD": 113,
+    "NAME": "CUBIC METRE"
+  },
+  {
+    "KOD": 112,
+    "NAME": "LITRE"
+  },
+  {
+    "KOD": 797,
+    "NAME": "HUNDRED ITEMS"
+  },
+  {
+    "KOD": 715,
+    "NAME": "NUMBER OF PAIRS"
+  },
+  {
+    "KOD": 798,
+    "NAME": "THOUSAND ITEMS"
+  },
+  {
+    "KOD": 796,
+    "NAME": "NUMBER OF ITEMS"
+  },
+  {
+    "KOD": 306,
+    "NAME": "GRAM OF FISSILE ISOTOPES"
+  },
+  {
+    "KOD": 185,
+    "NAME": "GROSS TONNAGE"
+  },
+  {
+    "KOD": 861,
+    "NAME": "KILOGRAM OF NITROGEN"
+  },
+  {
+    "KOD": 859,
+    "NAME": "KILOGRAM OF POTASSIUM HYDROXIDE (CAUSTIC POTASH)"
+  },
+  {
+    "KOD": 863,
+    "NAME": "KILOGRAM OF SODIUM HYDROXIDE (CAUSTIC SODA)"
+  },
+  {
+    "KOD": 852,
+    "NAME": "KILOGRAM OF POTASSIUM OXIDE"
+  },
+  {
+    "KOD": 841,
+    "NAME": "KILOGRAM OF HYDROGEN PEROXIDE"
+  },
+  {
+    "KOD": 865,
+    "NAME": "KILOGRAM OF DIPHOSPHORUS PENTAOXIDE"
+  },
+  {
+    "KOD": 845,
+    "NAME": "KILOGRAM OF SUBSTANCE 90% DRY"
+  },
+  {
+    "KOD": 867,
+    "NAME": "KILOGRAM OF URANIUM"
+  },
+  {
+    "KOD": 831,
+    "NAME": "LITRE PURE (100%) ALCOHOL"
+  },
+  {
+    "KOD": 162,
+    "NAME": "CARATS(1 METRIC CARAT = 2*10(-4) KG)"
+  },
+  {
+    "KOD": 246,
+    "NAME": "THOUSAND KILOWATT HOURS"
+  },
+  {
+    "KOD": 305,
+    "NAME": "CURIE"
+  },
+  {
+    "KOD": 111,
+    "NAME": "CUBIC CENTIMETER"
+  },
+  {
+    "KOD": 130,
+    "NAME": "THOUSAND LITRES"
+  },
+  {
+    "KOD": 114,
+    "NAME": "THOUSAND CUBIC METRES"
+  },
+  {
+    "KOD": 168,
+    "NAME": "TONNES, CARRYING CAPACITY IN METRIC TONS"
+  },
+  {
+    "KOD": 251,
+    "NAME": "HORSE-POWER"
+  },
+  {
+    "KOD": 214,
+    "NAME": "KILOWATT"
+  }
+]

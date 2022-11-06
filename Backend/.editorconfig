@@ -1,0 +1,119 @@
+##########################################
+# Common Settings
+##########################################
+
+# This file is the top-most EditorConfig file
+root = true
+
+# All Files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+##########################################
+# File Extension Settings
+##########################################
+
+# Visual Studio Solution Files
+[*.sln]
+indent_style = tab
+
+# Visual Studio XML Project Files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+
+# Various XML Configuration Files
+[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
+indent_size = 2
+
+# JSON Files
+[*.{json,json5}]
+indent_size = 2
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
+
+# Markdown Files
+[*.md]
+trim_trailing_whitespace = false
+
+# Web Files
+[*.{htm,html,js,ts,tsx,css,sass,scss,less,svg,vue}]
+indent_size = 2
+
+# Batch Files
+[*.{cmd,bat}]
+end_of_line = crlf
+
+# Bash Files
+[*.sh]
+end_of_line = lf
+
+# CSharp
+[*.cs]
+# Включаем весь встроенный codestyle:
+dotnet_analyzer_diagnostic.category-Style.severity = error
+
+# Настройка встроенных правил компилятора
+csharp_prefer_braces = when_multiline
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = true
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = true:error
+csharp_style_expression_bodied_constructors = true:error
+csharp_style_expression_bodied_operators = true:error
+csharp_style_expression_bodied_properties = true:error
+csharp_style_expression_bodied_indexers = true:error
+csharp_style_expression_bodied_accessors = true:error
+
+csharp_new_line_between_query_expression_clauses = true
+
+dotnet_diagnostic.IDE0130.severity = none #IDE0130: Namespace "" does not match folder structure, expected ""
+dotnet_diagnostic.IDE0008.severity = none #IDE0008: Use explicit type instead of 'var'
+dotnet_diagnostic.IDE0058.severity = none #IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0060.severity = none #IDE0060: Remove unused parameter '' if it is not part of a shipped public API
+dotnet_diagnostic.IDE0046.severity = none #IDE0046: 'if' statement can be simplified
+dotnet_diagnostic.IDE0160.severity = none #IDE0160: Convert to block-scoped namespace
+
+dotnet_diagnostic.CA1305.severity = none #CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1711.severity = none #CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA2254.severity = none #CA2254: The logging message template should not vary between calls to
+dotnet_diagnostic.CA1848.severity = none #CA1848: For improved performance, use the LoggerMessage delegates instead of calling ''
+dotnet_diagnostic.CA1310.severity = none #CA1310: The behavior of 'string.StartsWith(string)' could vary based on the current user's locale settings. Replace this call in 'Ozon.Lsplt.CentralFacade.Common.AspNet.Security.AppName.AppNamePolicyHelper.IsAppNamePolicy(string)' with a call to 'string.StartsWith(string, System.StringComparison)'.
+dotnet_diagnostic.CA1816.severity = none #CA1816: Change .Dispose() to call GC.SuppressFinalize(object). This will prevent derived types that introduce a finalizer from needing to re-implement 'IDisposable' to call it.
+dotnet_diagnostic.CA1716.severity = none #CA1716: Rename namespace so that it no longer conflicts with the reserved language keyword ''. Using a reserved keyword as the name of a namespace makes it harder for consumers in other languages to use the namespace.
+
+# Специфичные настройки StyleCop
+dotnet_diagnostic.SA1600.severity = none #SA1600: C# code element is missing a documentation header.
+dotnet_diagnostic.SA1633.severity = none #SA1633: The file header is missing or not located at the top of the file.
+dotnet_diagnostic.SA1200.severity = none #SA1200: Using directive should appear within a namespace declaration
+dotnet_diagnostic.SA1204.severity = none #SA1204: A static element is positioned beneath an instance element of the same type.
+dotnet_diagnostic.SA1503.severity = none #SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1101.severity = none #SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1309.severity = none #SA1309: Field should not begin with an underscore
+dotnet_diagnostic.SA1413.severity = none #SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1602.severity = none #SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1408.severity = none #SA1408: Conditional expressions should declare precedence
+dotnet_diagnostic.SA1515.severity = none #SA1515: Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1512.severity = none #SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1000.severity = none #SA1000: The keyword 'new' should be followed by a space.
+dotnet_diagnostic.SA1009.severity = none #SA1009: Closing parenthesis should be followed by a space.
+dotnet_diagnostic.SA1507.severity = error #SA1507: The C# code contains multiple blank lines in a row.
+dotnet_diagnostic.SA1611.severity = none #SA1611: A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters.
+dotnet_diagnostic.SA1615.severity = none #SA1615: A C# element is missing documentation for its return value.
+dotnet_diagnostic.SA1623.severity = none #SA1633: The documentation text within a C# property's <summary> tag does not match the accessors within the property.
+
+# Отключил, т.к. не поддерживает Records
+dotnet_diagnostic.SA1649.severity = none #Анализатор "StyleCop.Analyzers.DocumentationRules.SA1649FileNameMustMatchTypeName" создал исключение типа "System.ArgumentException" с сообщением "Unhandled declaration kind: RecordDeclaration".
+dotnet_diagnostic.SA1313.severity = none #SA1313 Parameter '' should begin with lower-case letter
+
+# CSharp Отдельные правила для тестов
+[*Tests.cs]
+dotnet_diagnostic.CA1707.severity = none #CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.VSTHRD200.severity = none #VSTHRD200: Use "Async" suffix in names of methods that return an awaitable type.
