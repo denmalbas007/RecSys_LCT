@@ -87,7 +87,6 @@ returning id";
     public async Task<IActionResult> GetReportsList([FromBody] GetReportsBatchRequest request)
     {
         await Task.Delay(1);
-        var userId = long.Parse(HttpContext.User.Identities.FirstOrDefault()?.Claims.First(x => x.Type == "Id").Value!);
         var query = @"select * from reports where id = ANY(:Ids)";
         var connection = _dbConnectionsProvider.GetConnection();
         var meta = await connection.QueryAsync<ReportMetadata>(

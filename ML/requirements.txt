@@ -3,3 +3,4 @@ sklearn
 tqdm
 python-multipart
 uvicorn
+fastapi

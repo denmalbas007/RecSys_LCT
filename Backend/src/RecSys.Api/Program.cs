@@ -53,6 +53,7 @@ services.AddScoped<CustomsClient>();
 services.AddScoped<MlClient>();
 services.AddSingleton<CustomsDataCollectingProcessor>();
 services.AddSingleton<DataProcessingProcessor>();
+services.AddSingleton<BackgroundTasksProcessor>();
 services.AddHostedService<MainHostedService>();
 services.AddMigrator(typeof(Program).Assembly);
 services.AddMediatR(typeof(Program));
