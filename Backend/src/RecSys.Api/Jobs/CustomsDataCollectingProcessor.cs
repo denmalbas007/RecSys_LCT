@@ -37,7 +37,7 @@ public class CustomsDataCollectingProcessor
             do
             {
                 var lastElement = await connection.QueryFirstOrDefaultAsync<CustomsElementRaw>(
-                    query);
+                    query, commandTimeout: 1000);
                 DateTime startDate;
                 startDate = lastElement is null ? new DateTime(2019, 01, 01) : lastElement.Period!.Value;
                 if (startDate > DateTime.UtcNow.AddMonths(-1))
@@ -81,7 +81,7 @@ public class CustomsDataCollectingProcessor
             await using var innerScope = _serviceScopeFactory.CreateAsyncScope();
             var connPr = innerScope.ServiceProvider.GetRequiredService<IDbConnectionsProvider>();
             var conn = connPr.GetConnection();
-            await conn.ExecuteAsync(insertQuery, chunk);
+            await conn.ExecuteAsync(insertQuery, chunk, commandTimeout: 1000);
         }
         catch (Exception ex)
         {

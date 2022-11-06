@@ -24,7 +24,8 @@ public class DataProcessingProcessor
             var connection = dbConnectionsProvider.GetConnection();
             var unprocessedElements = await connection.QueryAsync<CustomsElementRaw>(
                 query,
-                transaction: dbTransactionProvider.Current);
+                transaction: dbTransactionProvider.Current,
+                commandTimeout: 1000);
             var elementsToProcess = unprocessedElements.Select(
                 x => new CustomElementDb
                 {
@@ -55,7 +56,8 @@ public class DataProcessingProcessor
             await connection.ExecuteAsync(
                 markAsDoneQuery,
                 new { Ids = unprocessedElements.Select(x => x.Id).ToArray() },
-                transaction: transaction);
+                transaction: transaction,
+                commandTimeout: 1000);
             await transaction.CommitAsync(cancellationToken);
             await Task.Delay(1000, cancellationToken);
         }
