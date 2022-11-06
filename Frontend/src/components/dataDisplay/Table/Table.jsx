@@ -1,43 +1,39 @@
 import cl from "./Table.module.scss";
 
-const tableData = {
-  headers: [
-    { id: "name", label: "Name" },
-    { id: "age", label: "Age" },
-    { id: "country", label: "Country" },
-  ],
-  rows: [
-    {
-      id: 1,
-      name: "JohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohn",
-      age: 20,
-      country: "USA",
-    },
-    { id: 2, name: "Jane", age: 21, country: "Canada" },
-  ],
-};
-
 const Table = ({ data }) => {
-  if (!data) {
-    data = tableData;
-  }
   return (
     <table className={cl.table}>
       <thead>
         <tr>
-          {data.headers.map((header) => (
-            <th key={header.id}>{header.label}</th>
-          ))}
+          <th>Регион</th>
+          <th>Товар</th>
+          <th>Страна</th>
+          <th>Экспорт</th>
+          <th>Импорт</th>
         </tr>
       </thead>
       <tbody>
-        {data.rows.map((row) => (
-          <tr key={row.id}>
-            {data.headers.map((header) => (
-              <td key={header.id}>{row[header.id]}</td>
-            ))}
+        {data.length > 0 &&
+          data.map((child, index) => (
+            <tr key={index}>
+              <td>{child.region.name}</td>
+              <td>{child.itemType.name}</td>
+              <td>{child.country.name}</td>
+              <td>
+                {child.export.tradeSum}
+                {child.export.unit && <span> ({child.export.unit.name})</span>}
+              </td>
+              <td>
+                {child.import.tradeSum}
+                {child.import.unit && <span> ({child.import.unit.name})</span>}
+              </td>
+            </tr>
+          ))}
+        {data.length == 0 && (
+          <tr>
+            <td colSpan="5">Нет данных</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );

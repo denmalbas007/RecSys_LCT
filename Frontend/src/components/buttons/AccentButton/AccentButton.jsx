@@ -1,9 +1,13 @@
 import cl from "./AccentButton.module.scss";
 
-const AccentButton = ({ disabled, children, ...props }) => {
+const AccentButton = ({ secondary, disabled, children, ...props }) => {
   return (
     <button
-      className={[cl.button, disabled ? cl.disabled : ""].join(" ")}
+      className={[
+        cl.button,
+        disabled ? cl.disabled : "",
+        secondary ? cl.secondary : "",
+      ].join(" ")}
       {...props}
     >
       {children}

@@ -1,32 +1,45 @@
 import cl from "./ReportCard.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSliders,
-  faTableList,
+  faFilePdf,
+  faFileExcel,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { doDownloadPDF } from "../../../api/Auth";
 
-export const ReportCard = ({ projectTitle, pending, time }) => {
+export const ReportCard = ({
+  name,
+  pending,
+  id,
+  createDate,
+  pdfUrl,
+  excelUrl,
+}) => {
+  const downloadPdf = () => {
+    doDownloadPDF(pdfUrl);
+  };
+  const downloadExcel = () => {
+    doDownloadPDF(pdfUrl);
+  };
+
   return (
-    <div className={cl.report_card}>
+    <div className={[cl.report_card, pending ? cl.pending : ""].join(" ")}>
       <div className={cl.header}>
-        <h3>{`Отчет по проекту "${projectTitle}"`}</h3>
-        <div className={cl.row}>
+        <h3>{name}</h3>
+        <div className={cl.date}>
           <FontAwesomeIcon icon={faClock} />
-          <p>Запрошено в:14:57</p>
+          <p>Запрошено: {createDate}</p>
         </div>
       </div>
       <div className={cl.body}>
-        <div className={cl.body_info}>
-          <div className={cl.row}>
-            <FontAwesomeIcon icon={faTableList} />
-            <p>Записей: 100</p>
-          </div>
-          <div className={cl.row}>
-            <FontAwesomeIcon icon={faSliders} />
-            <p>Фильтров: 100</p>
-          </div>
-        </div>
+        <button className={cl.excel} onClick={downloadExcel}>
+          <FontAwesomeIcon icon={faFileExcel} />
+          <p>Скачать Excel</p>
+        </button>
+        <button className={cl.pdf} onClick={downloadPdf}>
+          <FontAwesomeIcon icon={faFilePdf} />
+          <p>Скачать PDF</p>
+        </button>
       </div>
     </div>
   );

@@ -1,15 +1,47 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { doFetchItemsById, doFetchItemsRoot } from "../../../api/Auth";
+import {
+  doFetchItemsById,
+  doFetchItemsRoot,
+  doFetchCountries,
+  doFetchRegions,
+} from "../../../api/Auth";
 import { reformatItems } from "../../../api/ItemsParser";
-import RadioMenu from "../../../components/buttons/RadioMenu/RadioMenu";
+import AccentButton from "../../../components/buttons/AccentButton/AccentButton";
 import ItemTreeSelect from "../../../components/dropdowns/ItemTreeSelect/ItemTreeSelect";
 import cl from "./Filters.module.scss";
 
-const Filters = () => {
-  const [value, setValue] = useState([]);
+const Filters = ({
+  filters,
+  project,
+  onProjectSave,
+  onReportCreate,
+  projectSaving,
+}) => {
+  const [countries, setCountries] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
   const [items, setItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [selectedRegions, setSelectedRegions] = useState([]);
 
+  const createNewReport = (e) => {
+    onReportCreate({
+      countries: selectedCountries,
+      items: selectedItems,
+      regions: selectedRegions,
+    });
+  };
+
+  const saveProject = () => {
+    onProjectSave({
+      countries: selectedCountries,
+      items: selectedItems,
+      regions: selectedRegions,
+    });
+  };
+
+  // combobox contents
   useEffect(() => {
     const fetchItems = async () => {
       const items = await doFetchItemsRoot();
@@ -17,7 +49,35 @@ const Filters = () => {
       setItems(reformattedItems);
     };
 
+    const fetchCountries = async () => {
+      const countries = await doFetchCountries();
+      // change name to label
+      const reformattedCountries = countries.map((country) => {
+        return {
+          ...country,
+          label: country.name,
+          checked: project.filter.countries.includes(country.id),
+        };
+      });
+      setCountries(reformattedCountries);
+    };
+
+    const fetchRegions = async () => {
+      const regions = await doFetchRegions();
+      // change name to label
+      const reformattedRegions = regions.map((region) => {
+        return {
+          ...region,
+          label: region.name,
+          checked: project.filter.regions.includes(region.id),
+        };
+      });
+      setRegions(reformattedRegions);
+    };
+
     fetchItems();
+    fetchCountries();
+    fetchRegions();
   }, []);
 
   const fetchNode = async (id) => {
@@ -26,28 +86,34 @@ const Filters = () => {
     return reformattedItems;
   };
 
-  const onChange = (newValue) => {
-    console.log("onChange ", value);
-    setValue(newValue);
-  };
-
   return (
     <div className={cl.filters}>
       <div className={cl.filter}>
-        <p className={cl.filter_title}>Направление</p>
-        <RadioMenu fontSize={16} buttons={["Импорт", "Экспорт"]} />
+        <p className={cl.filter_title}>Категория</p>
+        <ItemTreeSelect
+          fetchNode={fetchNode}
+          data={items}
+          onSelectChange={setSelectedItems}
+        />
       </div>
       <div className={cl.filter}>
         <p className={cl.filter_title}>Страна</p>
-        <ItemTreeSelect fetchNode={fetchNode} data={items} />
+        <ItemTreeSelect
+          data={countries}
+          onSelectChange={setSelectedCountries}
+        />
       </div>
       <div className={cl.filter}>
-        <p className={cl.filter_title}>Регион</p>
-        <ItemTreeSelect data={items} />
+        <p className={cl.filter_title}>Регион РФ</p>
+        <ItemTreeSelect data={regions} onSelectChange={setSelectedRegions} />
       </div>
-      <div className={cl.filter}>
-        <p className={cl.filter_title}>Категория</p>
-        <ItemTreeSelect data={items} />
+      <div className={cl.buttons}>
+        <AccentButton disabled={projectSaving} onClick={saveProject}>
+          Сохранить проект
+        </AccentButton>
+        <AccentButton onClick={createNewReport} secondary>
+          Создать отчёт
+        </AccentButton>
       </div>
     </div>
   );
