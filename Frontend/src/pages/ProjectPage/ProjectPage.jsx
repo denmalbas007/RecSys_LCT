@@ -5,6 +5,9 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { SkeletonFiltersList } from "../../components/loading/SkeletonFiltersList";
 import Table from "../../components/dataDisplay/Table/Table";
 import Pagination from "../../components/dataDisplay/Pagination/Pagination";
+import { useContext } from "react";
+import { AuthContext } from "../../api/AuthContext";
+import { doUpdateProject } from "../../api/Auth";
 
 const Filters = lazy(() => import("./Filters/Filters"));
 
@@ -28,10 +31,40 @@ const ProjectPage = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [isFiltersPage, setIsFiltersPage] = useState(true);
+  const { projects, updateProjects } = useContext(AuthContext);
+  const [currentProject, setCurrentProject] = useState();
+
+  const onProjectSave = async (filters) => {
+    const countriesIds = filters.countries
+      ? filters.countries.map((c) => c.id)
+      : [];
+    const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
+    const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
+
+    console.log(currentProject);
+    const newProject = {
+      ...currentProject,
+      filter: {
+        countries: countriesIds,
+        itemTypes: itemsIds,
+        regions: regionsIds,
+      },
+    };
+
+    const response = await doUpdateProject(newProject);
+    console.log(response);
+  };
 
   useEffect(() => {
-    console.log("fetched", id);
-  }, [id]);
+    updateProjects();
+  }, []);
+
+  useEffect(() => {
+    if (projects) {
+      const project = projects.find((project) => project.id == id);
+      setCurrentProject(project);
+    }
+  }, [projects, id]);
 
   return (
     <div className={cl.project_container}>
@@ -60,13 +93,26 @@ const ProjectPage = () => {
           ].join(" ")}
         >
           <div className={cl.filters}>
+            <h2 className={cl.project_title}>
+              {currentProject && currentProject.name}
+            </h2>
+            <span className={cl.horizontal_separator}></span>
             <h2 className={cl.filters_title}>Фильтры</h2>
             <Suspense fallback={<SkeletonFiltersList />}>
-              <Filters filters={project.filters} />
+              <Filters
+                filters={project.filters}
+                project={currentProject}
+                onProjectSave={onProjectSave}
+              />
             </Suspense>
           </div>
           <div className={cl.table}>
-            <h2 className={cl.table_title}>Таблица</h2>
+            <h2 className={cl.table_title}>
+              Таблица{" "}
+              <span className={cl.helper_text}>
+                (обновляется после сохранения)
+              </span>
+            </h2>
             <div className={cl.table_container}>
               <Table />
             </div>

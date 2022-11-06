@@ -51,12 +51,10 @@ const ProjectCard = (project) => {
           <h4 className={cl.header}>Значения:</h4>
           <div className={cl.content}>
             {project.filters.regions.length > 0 ? (
-              project.filters.regions.map((region) => (
-                <div className={cl.item} key={region}>
-                  <p key={region}>{region}</p>
-                  <span className={cl.horizontal_separator} />
-                </div>
-              ))
+              <div className={cl.item}>
+                <p>{project.filters.regions.join(", ")}</p>
+                <span className={cl.horizontal_separator} />
+              </div>
             ) : (
               <div className={cl.item}>
                 <p>Не выбрано</p>
@@ -64,12 +62,10 @@ const ProjectCard = (project) => {
               </div>
             )}
             {project.filters.itemTypes.length > 0 ? (
-              project.filters.itemTypes.map((itemType) => (
-                <div className={cl.item} key={itemType}>
-                  <p key={itemType}>{itemType}</p>
-                  <span className={cl.horizontal_separator} />
-                </div>
-              ))
+              <div className={cl.item}>
+                <p>{project.filters.itemTypes.join(", ")}</p>
+                <span className={cl.horizontal_separator} />
+              </div>
             ) : (
               <div className={cl.item}>
                 <p>Не выбрано</p>
@@ -77,12 +73,10 @@ const ProjectCard = (project) => {
               </div>
             )}
             {project.filters.countries.length > 0 ? (
-              project.filters.countries.map((country) => (
-                <div className={cl.item} key={country}>
-                  <p>{country}</p>
-                  <span className={cl.horizontal_separator} />
-                </div>
-              ))
+              <div className={cl.item}>
+                <p>{project.filters.countries.join(", ")}</p>
+                <span className={cl.horizontal_separator} />
+              </div>
             ) : (
               <div className={cl.item}>
                 <p>Не выбрано</p>

@@ -42,7 +42,6 @@ const DashboardPage = ({ page }) => {
   }, []);
 
   useEffect(() => {
-    console.log(projects);
     setProjectsCopy(projects);
   }, [projects]);
 

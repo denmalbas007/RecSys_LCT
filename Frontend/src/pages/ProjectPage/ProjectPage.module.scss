@@ -1,5 +1,6 @@
 @import "../../styles/variables.scss";
 $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+$separator-color: #0000001a;
 
 .project_container {
   display: flex;
@@ -70,6 +71,12 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         flex-direction: column;
         background-color: var(--bg-main);
         border-radius: 10px;
+        .horizontal_separator {
+          width: 100%;
+          height: 1px;
+          background-color: $separator-color;
+          margin: 10px 0;
+        }
         .filters_title {
           margin-bottom: 10px;
         }
@@ -84,6 +91,11 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         height: 100%;
         .table_title {
           margin: 10px;
+          .helper_text {
+            color: var(--text-acnt-color);
+            font-size: 0.9rem;
+            font-weight: lighter;
+          }
         }
         .table_container {
           flex: 1;

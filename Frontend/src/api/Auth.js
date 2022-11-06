@@ -27,23 +27,29 @@ export const doFetchItemsById = async (id) => {
 
 export const doSignIn = async (username, password) => {
   const url = API_URL + "auth/authenticate";
+  try {
+    const response = await axios.post(url, {
+      Login: username,
+      Password: password,
+    });
 
-  const response = await axios.post(url, {
-    Login: username,
-    Password: password,
-  });
-
-  if (response.status === 200) {
-    localStorage.setItem("jwt", response.data.jwtToken);
+    if (response.status === 200) {
+      localStorage.setItem("jwt", response.data.jwtToken);
+      return {
+        success: true,
+        errorMessage: "",
+      };
+    }
     return {
-      success: true,
-      errorMessage: "",
+      success: false,
+      errorMessage: "Неверный логин или пароль",
+    };
+  } catch {
+    return {
+      success: false,
+      errorMessage: "Возможно сервер недоступен",
     };
   }
-  return {
-    success: false,
-    errorMessage: "Неверный логин или пароль",
-  };
 };
 
 export const doCheckAuth = async () => {
@@ -127,9 +133,50 @@ export const doGetProjectsByIds = async (projectIds) => {
 
   return projects.data.layouts;
 };
+
+export const doFetchCountries = async () => {
+  const url = API_URL + "filters/countries";
+  const response = await axios.get(url);
+
+  return response.data.countries;
+};
+
+export const doFetchRegions = async () => {
+  const url = API_URL + "filters/regions";
+  const response = await axios.get(url);
+
+  return response.data.regions;
+};
+
 /**
  * In progress
  */
+
+export const doUpdateProject = async (project) => {
+  const url = API_URL + "layouts";
+  const response = await axios.put(
+    url,
+    {
+      layout: {
+        ...project,
+      },
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+  console.log(response);
+  if (response.status === 200) {
+    return {
+      success: true,
+      errorMessage: "",
+    };
+  }
+  return {
+    success: false,
+    errorMessage: "Ошибка при обновлении проекта",
+  };
+};
 
 /**
  * To do
