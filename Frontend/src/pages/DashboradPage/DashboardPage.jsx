@@ -129,6 +129,8 @@ const DashboardPage = ({ page }) => {
                         id={report.id}
                         name={report.name}
                         createDate={report.createdAt}
+                        pdfUrl={report.pdfUrl}
+                        excelUrl={report.excelUrl}
                       />
                     ))}
               </div>

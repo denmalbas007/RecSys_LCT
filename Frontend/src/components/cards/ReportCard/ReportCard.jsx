@@ -5,6 +5,7 @@ import {
   faFileExcel,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { doDownloadPDF } from "../../../api/Auth";
 
 export const ReportCard = ({
   name,
@@ -15,10 +16,10 @@ export const ReportCard = ({
   excelUrl,
 }) => {
   const downloadPdf = () => {
-    window.open(pdfUrl, "_blank");
+    doDownloadPDF(pdfUrl);
   };
   const downloadExcel = () => {
-    window.open(excelUrl, "_blank");
+    doDownloadPDF(pdfUrl);
   };
 
   return (

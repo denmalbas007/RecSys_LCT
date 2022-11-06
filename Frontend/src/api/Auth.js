@@ -213,10 +213,6 @@ export const doCreateReport = async (name, filters) => {
   console.log(response);
 };
 
-/**
- * In progress
- */
-
 export const doGetReportsByIds = async (reportIds) => {
   const url = API_URL + "reports/by-ids";
   if (!reportIds) {
@@ -241,6 +237,24 @@ export const doGetReportsByIds = async (reportIds) => {
     ...report,
     createdAt: reformatDate(report.createdAt),
   }));
+};
+
+/**
+ * In progress
+ */
+
+export const doDownloadPDF = async (link) => {
+  const url = API_URL + link;
+  const response = await axios.get(url, {
+    headers: getHeaders(),
+    responseType: "blob",
+  });
+
+  const blob = new Blob([response.data], { type: "application/pdf" });
+  const linkPDF = document.createElement("a");
+  linkPDF.href = window.URL.createObjectURL(blob);
+  linkPDF.download = "report.pdf";
+  linkPDF.click();
 };
 
 /**
