@@ -58,7 +58,7 @@ services:
   ml-api:
     build: ./ML
     ports:
-      - "8000:8000"
+      - "8000:80"
 
 volumes:
   app-data:
