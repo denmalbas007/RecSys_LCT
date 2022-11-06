@@ -34,21 +34,14 @@ const Filters = () => {
   return (
     <div className={cl.filters}>
       <div className={cl.filter}>
-        <p className={cl.filter_title}>Направление</p>
-        <RadioMenu fontSize={16} buttons={["Импорт", "Экспорт"]} />
-      </div>
-      <div className={cl.filter}>
-        <p className={cl.filter_title}>Страна</p>
+        <p className={cl.filter_title}>Категория</p>
         <ItemTreeSelect fetchNode={fetchNode} data={items} />
       </div>
       <div className={cl.filter}>
         <p className={cl.filter_title}>Регион</p>
         <ItemTreeSelect data={items} />
       </div>
-      <div className={cl.filter}>
-        <p className={cl.filter_title}>Категория</p>
-        <ItemTreeSelect data={items} />
-      </div>
+      <div className={cl.buttons}></div>
     </div>
   );
 };

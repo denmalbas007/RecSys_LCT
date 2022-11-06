@@ -36,7 +36,7 @@ const TopNavbar = () => {
         </li>
       </ul>
       {/* profile */}
-      <button
+      <div
         className={[cl.profile, profileExpanded ? cl.expanded : ""].join(" ")}
         ref={dropdownRef}
         onClick={() => setProfileExpanded(!profileExpanded)}
@@ -63,7 +63,7 @@ const TopNavbar = () => {
             </button>
           </li>
         </ul>
-      </button>
+      </div>
     </nav>
   );
 };

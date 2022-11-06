@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SkeletonPage } from "../components/loading/SkeletonPage";
-import { doCheckAuth, doLogout, doSignIn } from "./Auth";
+import { doCheckAuth, doGetUserInfo, doLogout } from "./Auth";
 
 export const AuthContext = React.createContext();
 
@@ -19,13 +19,20 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    doCheckAuth().then((response) => {
-      if (response.success) {
-        setUser(response.user);
+    // setUser({ username: "admin", role: "admin" });
+    // setLoading(false);
+    // return;
+    doCheckAuth().then((success) => {
+      if (success) {
+        doGetUserInfo().then((response) => {
+          onAuthStateChanged(response.user);
+          setLoading(false);
+        });
       } else {
         setUser(null);
+        // setUser({ username: "admin", role: "admin" });
+        setLoading(false);
       }
-      setLoading(false);
     });
   }, []);
 

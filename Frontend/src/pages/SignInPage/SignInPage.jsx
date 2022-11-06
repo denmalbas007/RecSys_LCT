@@ -20,6 +20,7 @@ const SignInPage = () => {
   const signIn = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     if (!username || !password) {
       setError("Пожалуйста, заполните все поля");
     } else {
@@ -32,6 +33,7 @@ const SignInPage = () => {
         navigate("/projects");
       }
     }
+
     setLoading(false);
   };
 

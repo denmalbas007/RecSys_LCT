@@ -2,6 +2,12 @@ import axios from "axios";
 
 const API_URL = "http://37.230.196.148:1001/v1/";
 
+const getHeaders = () => {
+  return {
+    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  };
+};
+
 export const doFetchItemsRoot = async () => {
   const url = API_URL + "filters/item-types/root";
   const response = await axios.get(url);
@@ -17,40 +23,85 @@ export const doFetchItemsById = async (id) => {
 };
 
 export const doSignIn = async (username, password) => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  const url = API_URL + "auth/authenticate";
 
-  localStorage.setItem("jwtToken", "98765");
-  localStorage.setItem("refreshToken", "472189");
+  const response = await axios.post(url, {
+    Login: username,
+    Password: password,
+  });
 
+  if (response.status === 200) {
+    localStorage.setItem("jwt", response.data.jwtToken);
+    // localStorage.setItem("refreshToken", response.data.refreshToken);
+    return {
+      success: true,
+      errorMessage: "",
+    };
+  }
   return {
-    success: true,
-    errorMessage: "",
+    success: false,
+    errorMessage: "Неверный логин или пароль",
   };
 };
 
 export const doCheckAuth = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  if (localStorage.getItem("jwtToken")) {
-    return {
-      success: true,
-      user: {
-        id: 0,
-        username: "usernametest",
-        firstName: "Joe",
-        middleName: "Real",
-        lastName: "Mama",
-        email: "test@test.com",
-        profilePicUrl: "string",
-        reportIds: [0],
-        layoutIds: [0],
-      },
-    };
+  const url = API_URL + "users/profile";
+  const token = localStorage.getItem("jwt");
+  if (token == "undefined" || !token) {
+    return false;
+  }
+
+  const response = await axios.get(
+    url,
+    {},
+    {
+      headers: getHeaders(),
+    }
+  );
+  console.log(response);
+
+  if (response.status === 200) {
+    return true;
   } else {
-    return {
-      success: false,
-    };
+    locaclStorage.removeItem("jwt");
+    return false;
   }
 };
+
+export const doGetUserInfo = async () => {
+  const url = API_URL + "user/profile";
+  const token = localStorage.getItem("jwt");
+  const response = await axios.get(url, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+//   await new Promise((resolve) => setTimeout(resolve, 1500));
+//   if (localStorage.getItem("jwtToken")) {
+//     return {
+//       success: true,
+//       user: {
+//         id: 0,
+//         username: "usernametest",
+//         firstName: "Joe",
+//         middleName: "Real",
+//         lastName: "Mama",
+//         email: "test@test.com",
+//         profilePicUrl: "string",
+//         reportIds: [0],
+//         layoutIds: [0],
+//       },
+//     };
+//   } else {
+//     return {
+//       success: false,
+//     };
+//   }
+// };
 
 export const doLogout = () => {
   localStorage.removeItem("jwtToken");
