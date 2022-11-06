@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  height: 45px;
+  color: var(--text-main-color);
+  background-color: var(--bg-main);
+  border: 2px solid var(--input-border-color);
+  border-radius: 5px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  .input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+  .icon {
+    display: flex;
+    width: 40px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: var(--bg-acnt);
+    margin: auto;
+    left: 0.75rem;
+    color: var(--text-acnt-color);
+    padding: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &.focused {
+    border-color: var(--acnt-color);
+    .icon {
+      background-color: var(--acnt-color);
+      color: var(--bg-main);
+    }
+  }
+  &.error {
+    border-color: var(--error-color);
+    .icon {
+      background-color: var(--error-color);
+      color: var(--bg-main);
+    }
+  }
+}

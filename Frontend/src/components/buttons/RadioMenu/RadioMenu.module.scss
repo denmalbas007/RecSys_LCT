@@ -1,0 +1,36 @@
+@import "../../../styles/variables.scss";
+
+.radio_menu {
+  display: flex;
+  background-color: var(--bg-main);
+  border-radius: 10px;
+  gap: 5px;
+  button {
+    flex: 1;
+    padding: 10px 5px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: none;
+    font-size: inherit;
+    cursor: pointer;
+    color: var(--text-acnt-color);
+    background-color: var(--bg-acnt);
+    font-weight: bold;
+  }
+  .active {
+    color: #fff;
+    background-color: var(--acnt-hover-color);
+  }
+}
+
+@media screen and (max-width: $mobile-width) {
+  .radio_menu {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    button {
+      flex: 1;
+    }
+  }
+}

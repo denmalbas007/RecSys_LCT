@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Test",
+    "selected": true,
+    "children": [
+      {
+        "label": "Загрузка....",
+        "disabled": true
+      },
+      {
+        "label": "Test3",
+        "children": [
+          {
+            "label": "Test4"
+          },
+          {
+            "label": "Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5Test5"
+          },
+          {
+            "label": "Test6"
+          }
+        ]
+      }
+    ]
+  }
+]
