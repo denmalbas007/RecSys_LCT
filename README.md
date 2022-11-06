@@ -18,6 +18,8 @@ const API_URL = "http://37.230.196.148:1001/v1/"; на const API_URL = "http://l
 *Frontend* - React
 
 #### Прототип: http://37.230.196.148:2002/
+Логин: user
+Пароль: user
 
 
 
