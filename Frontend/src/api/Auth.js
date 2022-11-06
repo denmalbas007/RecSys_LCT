@@ -173,12 +173,7 @@ export const doUpdateProject = async (project) => {
   };
 };
 
-/**
- * In progress
- */
-
 export const doGetTable = async (filters) => {
-  console.log(filters);
   const url = API_URL + "customs/by-filter";
   const response = await axios.post(
     url,
@@ -197,6 +192,29 @@ export const doGetTable = async (filters) => {
   );
 
   return response.data.customsElements;
+};
+
+/**
+ * In progress
+ */
+
+export const doCreateReport = async (name, filters) => {
+  const url = API_URL + "reports";
+
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        ...filters,
+      },
+      name: name,
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+
+  console.log(response);
 };
 
 /**

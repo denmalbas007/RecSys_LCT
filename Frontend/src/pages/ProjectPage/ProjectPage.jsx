@@ -7,8 +7,9 @@ import Table from "../../components/dataDisplay/Table/Table";
 import Pagination from "../../components/dataDisplay/Pagination/Pagination";
 import { useContext } from "react";
 import { AuthContext } from "../../api/AuthContext";
-import { doGetTable, doUpdateProject } from "../../api/Auth";
-
+import { doCreateReport, doGetTable, doUpdateProject } from "../../api/Auth";
+import CreateReportDialog from "../../components/dialogs/CreateReportDialog/CreateReportDialog";
+import { useNavigate } from "react-router-dom";
 const Filters = lazy(() => import("./Filters/Filters"));
 
 const project = {
@@ -35,6 +36,10 @@ const ProjectPage = () => {
   const [currentProject, setCurrentProject] = useState();
   const [projectSaving, setProjectSaving] = useState(false);
   const [tableData, setTableData] = useState([]);
+  const [reportCreateDialog, setReportCreateDialog] = useState(false);
+  const [reportFilters, setReportFilters] = useState({});
+  const [reportDialogDisabled, setReportDialogDisabled] = useState(false);
+  const navigate = useNavigate();
 
   const onProjectSave = async (filters) => {
     setProjectSaving(true);
@@ -44,7 +49,6 @@ const ProjectPage = () => {
     const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
     const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
 
-    console.log(currentProject);
     const newProject = {
       ...currentProject,
       filter: {
@@ -57,6 +61,30 @@ const ProjectPage = () => {
     await doUpdateProject(newProject);
     await getTable(filters);
     setProjectSaving(false);
+  };
+
+  const onReportDialogOpen = (filters) => {
+    const countriesIds = filters.countries
+      ? filters.countries.map((c) => c.id)
+      : [];
+    const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
+    const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
+    setReportFilters({
+      countries: countriesIds,
+      itemTypes: itemsIds,
+      regions: regionsIds,
+    });
+
+    setReportCreateDialog(true);
+  };
+
+  const onReportCreate = (title) => {
+    setReportDialogDisabled(true);
+    doCreateReport(title, reportFilters).then((res) => {
+      setReportCreateDialog(false);
+      setReportDialogDisabled(false);
+      navigate("/reports");
+    });
   };
 
   const getTable = async (filters) => {
@@ -88,7 +116,6 @@ const ProjectPage = () => {
 
   useEffect(() => {
     if (currentProject) {
-      console.log(currentProject.filter);
       doGetTable(currentProject.filter).then((response) => {
         setTableData(response);
       });
@@ -97,6 +124,14 @@ const ProjectPage = () => {
 
   return (
     <div className={cl.project_container}>
+      {reportCreateDialog && (
+        <CreateReportDialog
+          onCreate={onReportCreate}
+          error={""}
+          onCancel={() => setReportCreateDialog(false)}
+          disabled={reportDialogDisabled}
+        />
+      )}
       <div className={cl.topnav_container}>
         <TopNavbar pageTitle={project.name} />
       </div>
@@ -133,6 +168,7 @@ const ProjectPage = () => {
                   filters={project.filters}
                   project={currentProject}
                   onProjectSave={onProjectSave}
+                  onReportCreate={onReportDialogOpen}
                   projectSaving={projectSaving}
                 />
               )}

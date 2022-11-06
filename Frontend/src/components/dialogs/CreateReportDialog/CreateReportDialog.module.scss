@@ -1,0 +1,63 @@
+.dialog_container {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadein 0.1s ease-out;
+  .dialog {
+    margin: 0 10px;
+    border-radius: 10px;
+    min-width: 200px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main);
+    padding: 20px;
+    animation: scale_in 0.3s ease-out;
+    .title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      svg {
+        font-size: 24px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+        &:hover {
+          color: var(--acnt-color);
+        }
+      }
+    }
+    .error {
+      margin: 10px auto;
+      p {
+        color: var(--acnt-hover-color);
+      }
+    }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale_in {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
