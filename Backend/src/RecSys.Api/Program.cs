@@ -72,7 +72,7 @@ app.UseCors(
     {
         x.AllowAnyHeader();
         x.AllowAnyMethod();
-        x.AllowAnyOrigin();
+        x.AllowCredentials();
     });
 app.MapControllers();
 
