@@ -140,7 +140,7 @@ inner join item_types it on rd.item_type = it.id where report_id = :Id";
             var bytes = doc.GeneratePdf();
             var baseString = Convert.ToBase64String(bytes);
             var guid = Guid.NewGuid();
-            var pdfUrl = $"files/{guid};";
+            var pdfUrl = $"files/{guid}";
             var qqq = @"insert into storage (id, bytes, type) values (:Guid::uuid, :String, :Type)";
             await connection.ExecuteAsync(qqq, new { Guid = guid.ToString(), String = baseString, Type = "pdf" });
             var updateQuery = @"update reports set is_ready = true, pdf_url = :PdfUrl, excel_url = :ExcelUrl where id = :Id";
