@@ -1,12 +1,12 @@
 #docker-compose file for local development
 version: "3.3"
 services:
-#  client: # TODO: npm build release 
-#    image: nginx
-#    ports:
-#      - 8000:80
-#    volumes:
-#      - ./web:/usr/share/nginx/html
+  client: # TODO: npm build release 
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - ./web:/usr/share/nginx/html
   postgresql_db:
     image: postgres:latest
     environment:
