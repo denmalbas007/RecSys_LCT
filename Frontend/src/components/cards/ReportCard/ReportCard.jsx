@@ -17,11 +17,11 @@ export const ReportCard = ({ projectTitle, pending, time }) => {
         </div>
       </div>
       <div className={cl.body}>
-        <button className={cl.row}>
+        <button className={cl.excel}>
           <FontAwesomeIcon icon={faFileExcel} />
           <p>Скачать Excel</p>
         </button>
-        <button className={cl.row}>
+        <button className={cl.pdf}>
           <FontAwesomeIcon icon={faFilePdf} />
           <p>Скачать PDF</p>
         </button>

@@ -148,10 +148,6 @@ export const doFetchRegions = async () => {
   return response.data.regions;
 };
 
-/**
- * In progress
- */
-
 export const doUpdateProject = async (project) => {
   const url = API_URL + "layouts";
   const response = await axios.put(
@@ -165,7 +161,6 @@ export const doUpdateProject = async (project) => {
       headers: getHeaders(),
     }
   );
-  console.log(response);
   if (response.status === 200) {
     return {
       success: true,
@@ -176,6 +171,32 @@ export const doUpdateProject = async (project) => {
     success: false,
     errorMessage: "Ошибка при обновлении проекта",
   };
+};
+
+/**
+ * In progress
+ */
+
+export const doGetTable = async (filters) => {
+  console.log(filters);
+  const url = API_URL + "customs/by-filter";
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        ...filters,
+      },
+      pagination: {
+        offset: 0,
+        count: 30,
+      },
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+
+  return response.data.customsElements;
 };
 
 /**

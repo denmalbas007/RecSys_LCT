@@ -7,7 +7,7 @@ import Table from "../../components/dataDisplay/Table/Table";
 import Pagination from "../../components/dataDisplay/Pagination/Pagination";
 import { useContext } from "react";
 import { AuthContext } from "../../api/AuthContext";
-import { doUpdateProject } from "../../api/Auth";
+import { doGetTable, doUpdateProject } from "../../api/Auth";
 
 const Filters = lazy(() => import("./Filters/Filters"));
 
@@ -34,6 +34,7 @@ const ProjectPage = () => {
   const { projects, updateProjects } = useContext(AuthContext);
   const [currentProject, setCurrentProject] = useState();
   const [projectSaving, setProjectSaving] = useState(false);
+  const [tableData, setTableData] = useState([]);
 
   const onProjectSave = async (filters) => {
     setProjectSaving(true);
@@ -53,9 +54,25 @@ const ProjectPage = () => {
       },
     };
 
-    const response = await doUpdateProject(newProject);
-    console.log(response);
+    await doUpdateProject(newProject);
+    await getTable(filters);
     setProjectSaving(false);
+  };
+
+  const getTable = async (filters) => {
+    const countriesIds = filters.countries
+      ? filters.countries.map((c) => c.id)
+      : [];
+    const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
+    const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
+
+    const response = await doGetTable({
+      countries: countriesIds,
+      itemTypes: itemsIds,
+      regions: regionsIds,
+    });
+
+    setTableData(response);
   };
 
   useEffect(() => {
@@ -68,6 +85,15 @@ const ProjectPage = () => {
       setCurrentProject(project);
     }
   }, [projects, id]);
+
+  useEffect(() => {
+    if (currentProject) {
+      console.log(currentProject.filter);
+      doGetTable(currentProject.filter).then((response) => {
+        setTableData(response);
+      });
+    }
+  }, [currentProject]);
 
   return (
     <div className={cl.project_container}>
@@ -120,7 +146,7 @@ const ProjectPage = () => {
               </span>
             </h2>
             <div className={cl.table_container}>
-              <Table />
+              <Table data={tableData} />
             </div>
             <div className={cl.pagination}>
               <Pagination
