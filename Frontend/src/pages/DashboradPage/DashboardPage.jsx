@@ -24,6 +24,7 @@ const DashboardPage = ({ page }) => {
     if (response.success) {
       setPopupShown(false);
       setCreateLoading(false);
+      updateProjects();
     } else {
       setCreateError(response.errorMessage);
       setCreateLoading(false);

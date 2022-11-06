@@ -111,9 +111,7 @@ export const doCreateProject = async (title) => {
     errorMessage: "Ошибка при создании проекта",
   };
 };
-/**
- * In progress
- */
+
 export const doGetProjectsByIds = async (projectIds) => {
   const url = API_URL + "layouts/by-ids";
   if (!projectIds) {
@@ -128,76 +126,11 @@ export const doGetProjectsByIds = async (projectIds) => {
   );
 
   return projects.data.layouts;
-  const fetchedData = {
-    layouts: [
-      {
-        id: 0,
-        name: "Проект 1",
-        filters: [
-          {
-            name: "Направление",
-            values: ["Экспорт"],
-          },
-          {
-            name: "Регионы",
-            values: ["Москва", "Тверская обл."],
-          },
-          {
-            name: "Страны",
-            values: ["США", "Китай", "Япония"],
-          },
-          {
-            name: "Продукты",
-            values: ["Мясо", "Рыба", "Овощи", "Фрукты"],
-          },
-        ],
-        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
-        createdAt: "2022-11-01T14:32:53.448Z",
-      },
-      {
-        id: 1,
-        name: "Проект 2",
-        filters: [
-          {
-            name: "Направление",
-            values: ["Импорт"],
-          },
-          {
-            name: "Регионы",
-            values: ["Екатеринбург", "Санкт-Петербург"],
-          },
-          {
-            name: "Страны",
-            values: ["Мексика", "Швеция", "Германия"],
-          },
-          {
-            name: "Продукты",
-            values: ["Овощи", "Рыба", "Мясо", "Молочные продукты"],
-          },
-        ],
-        lastUpdatedAt: "2022-11-01T14:32:53.448Z",
-        createdAt: "2022-11-01T14:32:53.448Z",
-      },
-    ],
-  };
-
-  const reformatDate = (date) =>
-    new Date(date).toLocaleString("ru", {
-      day: "numeric",
-      month: "long",
-      hour: "numeric",
-      minute: "numeric",
-    });
-
-  return {
-    success: true,
-    projects: fetchedData.layouts.map((layout) => ({
-      ...layout,
-      lastUpdatedAt: reformatDate(layout.lastUpdatedAt),
-      createdAt: reformatDate(layout.createdAt),
-    })),
-  };
 };
+/**
+ * In progress
+ */
+
 /**
  * To do
  */

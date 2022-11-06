@@ -28,6 +28,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     width: calc(100% - 20px);
+    height: calc(100% - $top-nav-height - 20px);
     .mobile_nav {
       display: none;
       justify-content: center;
@@ -57,7 +58,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       gap: 10px;
       border-radius: 10px;
       background-color: var(--bg-acnt);
-      height: 100%;
+      height: calc(100% - 20px);
       .filters {
         padding: 10px;
         box-shadow: $box-shadow;
@@ -75,7 +76,6 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       }
       .table {
         box-shadow: $box-shadow;
-        width: 100%;
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -93,6 +93,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
           margin: 10px 5px;
         }
         .pagination {
+          height: min-content;
           margin: 10px 0;
         }
       }
@@ -117,6 +118,7 @@ $box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       .project {
         margin: 0;
         grid-template-columns: 1fr;
+        height: calc(100% - 55px);
         .filters {
           border-radius: 0;
           width: 100%;
