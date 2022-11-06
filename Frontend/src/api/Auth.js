@@ -51,30 +51,28 @@ export const doCheckAuth = async () => {
     return false;
   }
 
-  const response = await axios.get(
-    url,
-    {},
-    {
+  try {
+    console.log(getHeaders());
+    const response = await axios.get(url, {
       headers: getHeaders(),
-    }
-  );
-  console.log(response);
+    });
 
-  if (response.status === 200) {
-    return true;
-  } else {
-    locaclStorage.removeItem("jwt");
+    if (response.status === 200) {
+      return true;
+    } else {
+      locaclStorage.removeItem("jwt");
+      return false;
+    }
+  } catch (e) {
+    localStorage.removeItem("jwt");
     return false;
   }
 };
 
 export const doGetUserInfo = async () => {
-  const url = API_URL + "user/profile";
-  const token = localStorage.getItem("jwt");
+  const url = API_URL + "users/profile";
   const response = await axios.get(url, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
+    headers: getHeaders(),
   });
 
   return response.data;

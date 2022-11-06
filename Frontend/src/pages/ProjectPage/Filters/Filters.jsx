@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { doFetchItemsById, doFetchItemsRoot } from "../../../api/Auth";
 import { reformatItems } from "../../../api/ItemsParser";
-import RadioMenu from "../../../components/buttons/RadioMenu/RadioMenu";
+import AccentButton from "../../../components/buttons/AccentButton/AccentButton";
 import ItemTreeSelect from "../../../components/dropdowns/ItemTreeSelect/ItemTreeSelect";
 import cl from "./Filters.module.scss";
 
@@ -41,7 +41,10 @@ const Filters = () => {
         <p className={cl.filter_title}>Регион</p>
         <ItemTreeSelect data={items} />
       </div>
-      <div className={cl.buttons}></div>
+      <div className={cl.buttons}>
+        <AccentButton secondary>Создать отчёт</AccentButton>
+        <AccentButton>Сохранить проект</AccentButton>
+      </div>
     </div>
   );
 };

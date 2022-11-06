@@ -16,4 +16,10 @@
     background-color: var(--text-acnt-color);
     cursor: not-allowed;
   }
+  &.secondary {
+    background-color: var(--acnt2-color);
+    &:hover {
+      background-color: var(--acnt2-hover-color);
+    }
+  }
 }

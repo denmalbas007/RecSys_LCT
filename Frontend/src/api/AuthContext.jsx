@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onAuthStateChanged = (newUser) => {
+    console.log("onAuthStateChanged", newUser);
     setUser(newUser);
     setLoading(false);
   };
@@ -30,7 +31,6 @@ export const AuthProvider = ({ children }) => {
         });
       } else {
         setUser(null);
-        // setUser({ username: "admin", role: "admin" });
         setLoading(false);
       }
     });
