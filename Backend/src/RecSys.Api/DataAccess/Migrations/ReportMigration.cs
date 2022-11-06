@@ -12,6 +12,7 @@ public class ReportMigration : ForwardOnlyMigration
             .WithColumn("name").AsString()
             .WithColumn("created_at").AsDateTime()
             .WithColumn("is_ready").AsBoolean().WithDefaultValue(false)
+            .WithColumn("filter").AsCustom("jsonb")
             .WithColumn("pdf_url").AsString().Nullable()
             .WithColumn("excel_url").AsString().Nullable()
             .WithColumn("owner").AsInt64().ForeignKey("users", "id");

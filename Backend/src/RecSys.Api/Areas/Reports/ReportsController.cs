@@ -1,9 +1,13 @@
+using System.Text.Json;
+using Dapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecSys.Api.Areas.Reports.Actions.Create;
 using RecSys.Api.Areas.Reports.Actions.Get;
 using RecSys.Api.Areas.Reports.Actions.GetList;
 using RecSys.Api.Areas.Reports.Dtos;
+using RecSys.Platform.Data.Providers;
 using RecSys.Platform.Dtos;
 
 namespace RecSys.Api.Areas.Reports;
@@ -13,9 +17,13 @@ namespace RecSys.Api.Areas.Reports;
 public class ReportsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IDbConnectionsProvider _dbConnectionsProvider;
 
-    public ReportsController(IMediator mediator)
-        => _mediator = mediator;
+    public ReportsController(IMediator mediator, IDbConnectionsProvider dbConnectionsProvider)
+    {
+        _mediator = mediator;
+        _dbConnectionsProvider = dbConnectionsProvider;
+    }
 
     /// <summary>
     /// Инициализировать геренацию отчета.
@@ -23,6 +31,7 @@ public class ReportsController : ControllerBase
     /// <param name="request">Запрос.</param>
     /// <returns>Id отчета.</returns>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(200, Type = typeof(CreateReportResponse))]
     [ProducesResponseType(400, Type = typeof(HttpError))]
     [ProducesResponseType(401, Type = typeof(HttpError))]
@@ -30,8 +39,20 @@ public class ReportsController : ControllerBase
     [ProducesResponseType(500, Type = typeof(HttpError))]
     public async Task<IActionResult> CreateReport([FromBody] CreateReportRequest request)
     {
-        await Task.Delay(1);
-        return Ok(new CreateReportResponse(1));
+        var userId = long.Parse(HttpContext.User.Identities.FirstOrDefault()?.Claims.First(x => x.Type == "Id").Value!);
+        var query = @"insert into reports (name, owner, filter, created_at) values (:Name, :Owner, :Filter::jsonb, :DateTime)
+returning id";
+        var connection = _dbConnectionsProvider.GetConnection();
+        var id = await connection.QueryFirstAsync<long>(
+            query,
+            new
+            {
+                request.Name,
+                Owner = userId,
+                Filter = JsonSerializer.Serialize(request.Filter),
+                DateTime = DateTime.UtcNow
+            });
+        return Ok(new CreateReportResponse(id));
     }
 
     /// <summary>
@@ -66,28 +87,15 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> GetReportsList([FromBody] GetReportsBatchRequest request)
     {
         await Task.Delay(1);
-        return Ok(
-            new GetReportsBatchResponse(
-                new[]
-                {
-                    new ReportMetadata()
-                    {
-                        CreatedAt = DateTime.UtcNow,
-                        ExcelUrl =
-                            "https://sun9-22.userapi.com/impg/-OVcTAV-tzADcyfinfKIZLlclfeUTeQYWeYVYA/1ugFJfZeCY8.jpg?size=2280x840&quality=96&sign=918be01f72614d20d711fe2ffdfeedfa&type=album",
-                        PdfUrl =
-                            "https://sun9-22.userapi.com/impg/-OVcTAV-tzADcyfinfKIZLlclfeUTeQYWeYVYA/1ugFJfZeCY8.jpg?size=2280x840&quality=96&sign=918be01f72614d20d711fe2ffdfeedfa&type=album",
-                        Name = "Отчет 22",
-                        IsReady = true,
-                        Id = 123
-                    },
-                    new ReportMetadata()
-                    {
-                        CreatedAt = DateTime.UtcNow.AddMonths(-1),
-                        Name = "Отчет 1",
-                        IsReady = false,
-                        Id = 1
-                    }
-                }));
+        var userId = long.Parse(HttpContext.User.Identities.FirstOrDefault()?.Claims.First(x => x.Type == "Id").Value!);
+        var query = @"select * from reports where id = ANY(:Ids)";
+        var connection = _dbConnectionsProvider.GetConnection();
+        var meta = await connection.QueryAsync<ReportMetadata>(
+            query,
+            new
+            {
+                request.Ids,
+            });
+        return Ok(new GetReportsBatchResponse(meta.ToArray()));
     }
 }

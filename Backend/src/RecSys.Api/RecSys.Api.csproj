@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\RecSys.Customs.Client\RecSys.Customs.Client.csproj" />
+      <ProjectReference Include="..\RecSys.ML.Client\RecSys.ML.Client.csproj" />
       <ProjectReference Include="..\RecSys.Platform.Data\RecSys.Platform.Data.csproj" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
       <PackageReference Include="Minio" Version="4.0.2" />

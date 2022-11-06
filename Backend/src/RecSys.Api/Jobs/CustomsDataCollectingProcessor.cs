@@ -39,7 +39,7 @@ public class CustomsDataCollectingProcessor
                 var lastElement = await connection.QueryFirstOrDefaultAsync<CustomsElementRaw>(
                     query, commandTimeout: 1000);
                 DateTime startDate;
-                startDate = lastElement is null ? new DateTime(2019, 01, 01) : lastElement.Period!.Value;
+                startDate = lastElement is null ? new DateTime(2021, 08, 01) : lastElement.Period!.Value;
                 if (startDate > DateTime.UtcNow.AddMonths(-1))
                     break;
                 var stream = await customsClient.UnloadDataAsync(

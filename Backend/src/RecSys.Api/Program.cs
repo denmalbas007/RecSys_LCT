@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using RecSys.Api.Infrastructure;
 using RecSys.Api.Jobs;
 using RecSys.Customs.Client;
+using RecSys.ML.Client;
 using RecSys.Platform.Data.Extensions;
 using RecSys.Platform.Data.FluentMigrator;
 using RecSys.Platform.Extensions;
@@ -22,6 +23,7 @@ var configuration = builder.Configuration;
 #region DI
 
 services.AddHttpClient(nameof(CustomsClient), client => client.BaseAddress = new Uri("http://stat.customs.gov.ru/"));
+services.AddHttpClient(nameof(MlClient), client => client.BaseAddress = new Uri("http://localhost:8000/"));
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwagger("rec-sys-api", useJwtAuth: true);
@@ -48,6 +50,7 @@ services.AddAuthentication(options =>
 });
 services.AddAuthorization();
 services.AddScoped<CustomsClient>();
+services.AddScoped<MlClient>();
 services.AddSingleton<CustomsDataCollectingProcessor>();
 services.AddSingleton<DataProcessingProcessor>();
 services.AddHostedService<MainHostedService>();
