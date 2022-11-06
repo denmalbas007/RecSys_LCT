@@ -2,6 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://37.230.196.148:1001/v1/";
 
+/**
+ * Done
+ */
 const getHeaders = () => {
   return {
     Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -32,7 +35,6 @@ export const doSignIn = async (username, password) => {
 
   if (response.status === 200) {
     localStorage.setItem("jwt", response.data.jwtToken);
-    // localStorage.setItem("refreshToken", response.data.refreshToken);
     return {
       success: true,
       errorMessage: "",
@@ -78,33 +80,21 @@ export const doGetUserInfo = async () => {
   return response.data;
 };
 
-//   await new Promise((resolve) => setTimeout(resolve, 1500));
-//   if (localStorage.getItem("jwtToken")) {
-//     return {
-//       success: true,
-//       user: {
-//         id: 0,
-//         username: "usernametest",
-//         firstName: "Joe",
-//         middleName: "Real",
-//         lastName: "Mama",
-//         email: "test@test.com",
-//         profilePicUrl: "string",
-//         reportIds: [0],
-//         layoutIds: [0],
-//       },
-//     };
-//   } else {
-//     return {
-//       success: false,
-//     };
-//   }
-// };
-
 export const doLogout = () => {
-  localStorage.removeItem("jwtToken");
-  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("jwt");
 };
+
+/**
+ * In progress
+ */
+
+export const doCreateProject = async () => {
+  return "TEst";
+};
+
+/**
+ * To do
+ */
 
 export const doGetProjects = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1500));

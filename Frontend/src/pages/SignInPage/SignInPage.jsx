@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import AccentButton from "../../components/buttons/AccentButton/AccentButton";
 import { useContext, useState } from "react";
-import { doCheckAuth, doSignIn } from "../../api/Auth";
+import { doCheckAuth, doGetUserInfo, doSignIn } from "../../api/Auth";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../api/AuthContext";
 
@@ -28,7 +28,7 @@ const SignInPage = () => {
       if (request.errorMessage) {
         setError(request.errorMessage);
       } else {
-        const response = await doCheckAuth();
+        const response = await doGetUserInfo();
         onAuthStateChanged(response.user);
         navigate("/projects");
       }
