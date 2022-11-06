@@ -47,7 +47,7 @@ offset {request.Pagination.Offset}";
         {request.Filter?.GetWhereClause() ?? " "}
         group by item_type, country, region, unit_type, import_worth_total, import_netto_total, import_amount_total, export_worth_total, export_netto_total, export_amount_total) A";
         var connection = _dbConnectionsProvider.GetConnection();
-        var result = await connection.QueryAsync<CustomElementDb>(query, request.Filter);
+        var result = await connection.QueryAsync<CustomElementDb>(query, request.Filter, commandTimeout: 10000);
         var countries = await connection.QueryAsync<Country>(
             "select * from countries where id = ANY(:Ids)",
             new { Ids = result.Select(q => q.Country).ToArray() });
@@ -81,7 +81,7 @@ offset {request.Pagination.Offset}";
                 },
                 ItemType = itemTypes.First(q => q.Id == x.ItemType)
             });
-        var count = await connection.QueryFirstAsync<long>(pagQuery, request.Filter);
+        var count = await connection.QueryFirstAsync<long>(pagQuery, request.Filter, commandTimeout: 10000);
         return Ok(new GetCustomsDataResponse(final.ToArray(), new PaginationResponse(count)));
     }
 }
