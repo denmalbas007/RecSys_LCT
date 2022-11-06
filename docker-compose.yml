@@ -4,7 +4,7 @@ services:
   client: # TODO: npm build release 
     image: nginx
     ports:
-      - 8000:80
+      - 80:80
     volumes:
       - ./web:/usr/share/nginx/html
   postgresql_db:
