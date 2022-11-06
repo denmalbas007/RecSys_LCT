@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Arial Nova";
+  src: url("../assets/fonts/ArialNova.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Arial Nova";
+  src: url("../assets/fonts/ArialNova-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Arial Nova";
+  src: url("../assets/fonts/ArialNova-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+* {
+  font-family: "Arial Nova", sans-serif;
+}
+
+input {
+  font-weight: 300;
+}
+
+a {
+  font-weight: normal;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}

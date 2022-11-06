@@ -8,7 +8,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\RecSys.Customs.Client\RecSys.Customs.Client.csproj" />
+      <ProjectReference Include="..\RecSys.ML.Client\RecSys.ML.Client.csproj" />
       <ProjectReference Include="..\RecSys.Platform.Data\RecSys.Platform.Data.csproj" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+      <PackageReference Include="Minio" Version="4.0.2" />
+      <PackageReference Include="Minio.AspNetCore" Version="4.0.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,11 +35,17 @@
       <Content Update="DataAccess\Migrations\units_import.json">
         <DependentUpon>InitMigration.cs</DependentUpon>
       </Content>
+      <Content Update="DataAccess\Migrations\items_import.json">
+        <DependentUpon>InitMigration.cs</DependentUpon>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+      <PackageReference Include="CliWrap" Version="3.5.0" />
       <PackageReference Include="CsvHelper" Version="30.0.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     </ItemGroup>
 
     <ItemGroup>

@@ -51,7 +51,8 @@ public class PostgresConnectionFactory : IPostgresConnectionFactory
             MaxPoolSize = _pgConnectionOptions.MaxPoolSize,
             MinPoolSize = _pgConnectionOptions.MinPoolSize,
             ConnectionLifetime = _pgConnectionOptions.ConnectionLifetime,
-            Port = _pgConnectionOptions.Port
+            Port = _pgConnectionOptions.Port,
+            IncludeErrorDetail = true
         };
         return new NpgsqlConnection(sb.ToString());
     }

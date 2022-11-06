@@ -34,6 +34,7 @@ services:
       - postgresql_db:${DB_HOST}
     depends_on:
       - app-migrate
+    restart: always
     volumes:
       - "app-data:/root/"
   app-migrate:

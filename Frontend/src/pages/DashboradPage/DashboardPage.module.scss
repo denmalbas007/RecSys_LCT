@@ -1,0 +1,118 @@
+@import "../../styles/variables.scss";
+
+.dashboard_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .topnav_container {
+    margin-top: 10px;
+    position: fixed;
+    width: calc(100% - 20px);
+    max-width: $max-width;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-main);
+    border-radius: 10px;
+  }
+  .content {
+    width: calc(100% - 20px);
+    margin-top: calc($top-nav-height + 20px);
+    margin-bottom: 10px;
+    overflow-y: auto;
+    max-width: $max-width;
+    border-radius: 10px;
+    background-color: #fff;
+    flex: 1;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    .skeleton_container {
+      display: flex;
+    }
+    .projects_container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 10px;
+      .new_project {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        min-height: 100px;
+        width: 100%;
+        background-color: #fff;
+        border: 2px dashed var(--acnt-color);
+        border-radius: 10px;
+        gap: 0.5rem;
+        transition: background-color 0.15s ease-out;
+        cursor: pointer;
+        h2,
+        svg {
+          color: #454545;
+        }
+        svg {
+          font-size: 2rem;
+        }
+        &:hover {
+          background-color: var(--acnt-color);
+          h2,
+          svg {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .reports_container {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      .reports_pending {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        h2 {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $mobile-width) {
+  .dashboard_container {
+    .topnav_container {
+      width: 100%;
+      margin-top: 0;
+      border-radius: 0;
+    }
+    .content {
+      margin-top: calc($top-nav-height);
+      width: 100%;
+      background-color: var(--bg-acnt-color);
+      box-shadow: none;
+      .reports_container {
+        padding: 10px;
+      }
+      .projects_container {
+        padding: 10px;
+        .new_project {
+          width: calc(100% - 20px);
+          position: fixed;
+          bottom: 10px;
+          height: 60px;
+          min-height: 0;
+          background-color: var(--acnt-color);
+          h2,
+          svg {
+            color: #fff;
+          }
+        }
+        padding-bottom: 70px;
+        div {
+          box-shadow: none !important;
+          scale: none !important;
+        }
+      }
+    }
+  }
+}

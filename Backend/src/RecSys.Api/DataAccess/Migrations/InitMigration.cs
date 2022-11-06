@@ -30,14 +30,19 @@ public class InitMigration : ForwardOnlyMigration
             .WithColumn("role").AsString().ForeignKey("roles", "role");
 
         Create.Table("users")
-            .WithColumn("id").AsGuid().PrimaryKey()
+            .WithColumn("id").AsInt64().Identity().PrimaryKey()
             .WithColumn("username").AsString().Unique()
             .WithColumn("password").AsString()
+            .WithColumn("email").AsString()
+            .WithColumn("profile_pic_url").AsString().Nullable()
+            .WithColumn("first_name").AsString()
+            .WithColumn("second_name").AsString()
+            .WithColumn("middle_name").AsString().Nullable()
             .WithColumn("role").AsString().ForeignKey("roles", "role");
 
         Create.Table("refresh_tokens")
             .WithColumn("id").AsInt64().PrimaryKey().Identity()
-            .WithColumn("user_id").AsGuid().ForeignKey("users", "id")
+            .WithColumn("user_id").AsInt64().ForeignKey("users", "id")
             .WithColumn("token").AsString()
             .WithColumn("expires_at").AsDateTime()
             .WithColumn("created_at").AsDateTime().WithDefault(SystemMethods.CurrentDateTime)
@@ -54,13 +59,14 @@ public class InitMigration : ForwardOnlyMigration
     {
         Create.Table("customs_raw")
             .WithColumn("id").AsInt64().Identity().PrimaryKey()
-            .WithColumn("napr").AsBoolean()
+            .WithColumn("napr").AsString().Indexed()
+            .WithColumn("period").AsDateTime().Indexed()
             .WithColumn("nastranapr").AsString()
             .WithColumn("tnved").AsString()
-            .WithColumn("edizm").AsInt64()
-            .WithColumn("stoim").AsDecimal()
-            .WithColumn("netto").AsDecimal()
-            .WithColumn("kol").AsInt32()
+            .WithColumn("edizm").AsInt64().Nullable()
+            .WithColumn("stoim").AsCustom("numeric(30,5)").Nullable()
+            .WithColumn("netto").AsCustom("numeric(30,5)").Nullable()
+            .WithColumn("kol").AsCustom("numeric(30,5)").Nullable()
             .WithColumn("region").AsString()
             .WithColumn("region_s").AsString()
             .WithColumn("is_processed").AsBoolean().WithDefaultValue(false);
@@ -70,7 +76,7 @@ public class InitMigration : ForwardOnlyMigration
             .WithColumn("name").AsString();
 
         var regions = File.ReadAllText("DataAccess/Migrations/regions_import.json");
-        var regs = JsonSerializer.Deserialize<ImportType[]>(regions)!;
+        var regs = JsonSerializer.Deserialize<ImportType<long>[]>(regions)!;
         foreach (var reg in regs)
         {
             Insert.IntoTable("regions")
@@ -87,7 +93,7 @@ public class InitMigration : ForwardOnlyMigration
             .WithColumn("name").AsString();
 
         var countries = File.ReadAllText("DataAccess/Migrations/counties_import.json");
-        var conts = JsonSerializer.Deserialize<ImportCType[]>(countries)!;
+        var conts = JsonSerializer.Deserialize<ImportType<string>[]>(countries)!;
         foreach (var con in conts)
         {
             Insert.IntoTable("countries")
@@ -99,12 +105,29 @@ public class InitMigration : ForwardOnlyMigration
                     });
         }
 
+        Create.Table("item_types")
+            .WithColumn("id").AsString().PrimaryKey()
+            .WithColumn("name").AsString();
+
+        var types = File.ReadAllText("DataAccess/Migrations/items_import.json");
+        var type = JsonSerializer.Deserialize<ImportType<string>[]>(types)!;
+        foreach (var typ in type)
+        {
+            Insert.IntoTable("item_types")
+                .Row(
+                    new
+                    {
+                        id = typ.Code,
+                        name = typ.Name
+                    });
+        }
+
         Create.Table("units")
             .WithColumn("id").AsInt64().PrimaryKey()
             .WithColumn("name").AsString();
 
         var units = File.ReadAllText("DataAccess/Migrations/units_import.json");
-        var uns = JsonSerializer.Deserialize<ImportType[]>(units)!;
+        var uns = JsonSerializer.Deserialize<ImportType<long>[]>(units)!;
         foreach (var un in uns)
         {
             Insert.IntoTable("units")
@@ -119,33 +142,26 @@ public class InitMigration : ForwardOnlyMigration
         // Нужен констрейнт на country + region + item_type?.
         Create.Table("customs")
             .WithColumn("id").AsInt64().Identity().PrimaryKey()
-            .WithColumn("item_type").AsString().Indexed()
+            .WithColumn("item_type").AsString().ForeignKey("item_types", "id").Indexed()
             .WithColumn("period").AsDate().Indexed()
             .WithColumn("country").AsString().ForeignKey("countries", "id").Indexed()
             .WithColumn("region").AsInt64().ForeignKey("regions", "id").Indexed()
-            .WithColumn("unit_type").AsInt64()
-            .WithColumn("import_worth_total").AsDecimal()
-            .WithColumn("import_netto_total").AsDecimal()
-            .WithColumn("import_amount_total").AsInt32()
-            .WithColumn("export_worth_total").AsDecimal()
-            .WithColumn("export_netto_total").AsDecimal()
-            .WithColumn("export_amount_total").AsInt32();
+            .WithColumn("unit_type").AsInt64().Nullable()
+            .WithColumn("import_worth_total").AsCustom("numeric(30,5)")
+            .WithColumn("import_netto_total").AsCustom("numeric(30,5)")
+            .WithColumn("import_amount_total").AsCustom("numeric(30,5)")
+            .WithColumn("export_worth_total").AsCustom("numeric(30,5)")
+            .WithColumn("export_netto_total").AsCustom("numeric(30,5)")
+            .WithColumn("export_amount_total").AsCustom("numeric(30,5)");
+
+        Create.UniqueConstraint().OnTable("customs").Columns("item_type", "period", "country", "region", "unit_type");
     }
 }
 
-public class ImportType
+public class ImportType<T>
 {
     [JsonPropertyName("KOD")]
-    public long Code { get; init; }
-
-    [JsonPropertyName("NAME")]
-    public string Name { get; init; } = null!;
-}
-
-public class ImportCType
-{
-    [JsonPropertyName("KOD")]
-    public string Code { get; init; } = null!;
+    public T Code { get; init; } = default!;
 
     [JsonPropertyName("NAME")]
     public string Name { get; init; } = null!;
