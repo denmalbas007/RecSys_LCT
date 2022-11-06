@@ -65,8 +65,6 @@ Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors(
     x =>
     {
@@ -74,6 +72,8 @@ app.UseCors(
         x.AllowAnyMethod();
         x.AllowAnyOrigin();
     });
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 #endregion
