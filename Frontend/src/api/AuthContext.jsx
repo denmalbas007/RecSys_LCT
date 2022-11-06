@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { SkeletonPage } from "../components/loading/SkeletonPage";
-import { doCheckAuth, doGetUserInfo, doLogout } from "./Auth";
+import {
+  doCheckAuth,
+  doGetProjectsByIds,
+  doGetUserInfo,
+  doLogout,
+} from "./Auth";
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const logout = () => {
@@ -14,20 +20,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   const onAuthStateChanged = (newUser) => {
-    console.log("onAuthStateChanged", newUser);
     setUser(newUser);
     setLoading(false);
   };
 
+  const updateProjects = async () => {
+    const projects = await doGetProjectsByIds(user.layoutIds);
+    setProjects(projects);
+  };
+
   useEffect(() => {
-    // setUser({ username: "admin", role: "admin" });
-    // setLoading(false);
-    // return;
     doCheckAuth().then((success) => {
       if (success) {
         doGetUserInfo().then((response) => {
           onAuthStateChanged(response.user);
           setLoading(false);
+        });
+        doGetProjectsByIds().then((response) => {
+          setProjects(response.projects);
         });
       } else {
         setUser(null);
@@ -37,7 +47,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout, onAuthStateChanged }}>
+    <AuthContext.Provider
+      value={{ user, projects, updateProjects, onAuthStateChanged, logout }}
+    >
       {loading ? <SkeletonPage /> : children}
     </AuthContext.Provider>
   );

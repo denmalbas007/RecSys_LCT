@@ -37,7 +37,9 @@
     }
     .error {
       margin: 10px auto;
-      color: var(--acnt-hover-color);
+      p {
+        color: var(--acnt-hover-color);
+      }
     }
   }
 }

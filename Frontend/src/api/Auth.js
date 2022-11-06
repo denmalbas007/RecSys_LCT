@@ -54,7 +54,6 @@ export const doCheckAuth = async () => {
   }
 
   try {
-    console.log(getHeaders());
     const response = await axios.get(url, {
       headers: getHeaders(),
     });
@@ -84,21 +83,51 @@ export const doLogout = () => {
   localStorage.removeItem("jwt");
 };
 
+export const doCreateProject = async (title) => {
+  const url = API_URL + "layouts";
+  const response = await axios.post(
+    url,
+    {
+      filter: {
+        regions: [],
+        itemTypes: [],
+        countries: [],
+      },
+      name: title,
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
+  if (response.status === 200) {
+    return {
+      success: true,
+      errorMessage: "",
+      id: response.data.id,
+    };
+  }
+  return {
+    success: false,
+    errorMessage: "Ошибка при создании проекта",
+  };
+};
 /**
  * In progress
  */
+export const doGetProjectsByIds = async (projectIds) => {
+  const url = API_URL + "layouts/by-ids";
+  if (!projectIds) {
+    return [];
+  }
+  const projects = await axios.post(
+    url,
+    { Ids: [...projectIds] },
+    {
+      headers: getHeaders(),
+    }
+  );
 
-export const doCreateProject = async () => {
-  return "TEst";
-};
-
-/**
- * To do
- */
-
-export const doGetProjects = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
+  return projects.data.layouts;
   const fetchedData = {
     layouts: [
       {
@@ -169,6 +198,9 @@ export const doGetProjects = async () => {
     })),
   };
 };
+/**
+ * To do
+ */
 
 export const doGetReports = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1500));

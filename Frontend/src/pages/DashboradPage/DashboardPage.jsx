@@ -1,24 +1,38 @@
 import ProjectCard from "../../components/cards/ProjectCard/ProjectCard";
 import cl from "./DashboardPage.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faHourglass } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
-import { useState, useEffect } from "react";
-import { doGetProjects } from "../../api/Auth";
+import { useState, useEffect, useContext } from "react";
+import { doCreateProject, doGetProjectsByIds } from "../../api/Auth";
 import { ReportCard } from "../../components/cards/ReportCard/ReportCard";
 import CreateProjectDialog from "../../components/dialogs/CreateProjectDialog/CreateProjectDialog";
+import { AuthContext } from "../../api/AuthContext";
 
 const DashboardPage = ({ page }) => {
-  const [projects, setProjects] = useState();
+  const [projectsCopy, setProjectsCopy] = useState([]);
   const [loading, setLoading] = useState(true);
   const [popupShown, setPopupShown] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const { projects, updateProjects } = useContext(AuthContext);
+
+  const createProject = async (title) => {
+    setCreateLoading(true);
+    const response = await doCreateProject(title);
+    if (response.success) {
+      setPopupShown(false);
+      setCreateLoading(false);
+    } else {
+      setCreateError(response.errorMessage);
+      setCreateLoading(false);
+    }
+  };
 
   useEffect(() => {
-    doGetProjects()
-      .then((response) => {
-        console.log(response);
-        setProjects(response.projects);
+    updateProjects()
+      .then(() => {
         setLoading(false);
       })
       .catch((error) => {
@@ -26,13 +40,18 @@ const DashboardPage = ({ page }) => {
       });
   }, []);
 
+  useEffect(() => {
+    console.log(projects);
+    setProjectsCopy(projects);
+  }, [projects]);
+
   return (
     <div className={cl.dashboard_container}>
       {popupShown && (
         <CreateProjectDialog
-          onCreate={() => {
-            setPopupShown(false);
-          }}
+          disabled={createLoading}
+          error={createError}
+          onCreate={createProject}
           onCancel={() => {
             setPopupShown(false);
           }}
@@ -55,15 +74,16 @@ const DashboardPage = ({ page }) => {
               <FontAwesomeIcon icon={faPlus} />
               <h2>Создать проект</h2>
             </button>
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                name={project.name}
-                filters={project.filters}
-                lastUpdate={project.lastUpdatedAt}
-              />
-            ))}
+            {projectsCopy &&
+              projectsCopy.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  id={project.id}
+                  name={project.name}
+                  filters={project.filter}
+                  lastUpdate={project.updatedAt}
+                />
+              ))}
           </div>
         ) : (
           <div className={cl.reports_container}>
