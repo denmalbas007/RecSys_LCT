@@ -4,12 +4,12 @@ import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { SkeletonFiltersList } from "../../components/loading/SkeletonFiltersList";
 import Table from "../../components/dataDisplay/Table/Table";
-import Pagination from "../../components/dataDisplay/Pagination/Pagination";
 import { useContext } from "react";
 import { AuthContext } from "../../api/AuthContext";
 import { doCreateReport, doGetTable, doUpdateProject } from "../../api/Auth";
 import CreateReportDialog from "../../components/dialogs/CreateReportDialog/CreateReportDialog";
 import { useNavigate } from "react-router-dom";
+import SimplePagination from "../../components/dataDisplay/SimplePagination/SimplePagination";
 const Filters = lazy(() => import("./Filters/Filters"));
 
 const project = {
@@ -39,6 +39,7 @@ const ProjectPage = () => {
   const [reportCreateDialog, setReportCreateDialog] = useState(false);
   const [reportFilters, setReportFilters] = useState({});
   const [reportDialogDisabled, setReportDialogDisabled] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(true);
   const navigate = useNavigate();
 
   const onProjectSave = async (filters) => {
@@ -103,6 +104,14 @@ const ProjectPage = () => {
     setTableData(response);
   };
 
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
   useEffect(() => {
     updateProjects();
   }, []);
@@ -113,6 +122,15 @@ const ProjectPage = () => {
       setCurrentProject(project);
     }
   }, [projects, id]);
+
+  useEffect(() => {
+    setLoadingPage(true);
+    if (currentProject) {
+      getTable(currentProject.filter).then(() => {
+        setLoadingPage(false);
+      });
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     if (currentProject) {
@@ -184,13 +202,14 @@ const ProjectPage = () => {
             <div className={cl.table_container}>
               <Table data={tableData} />
             </div>
-            <div className={cl.pagination}>
-              <Pagination
+            {/* <div className={cl.pagination}>
+              <SimplePagination
                 page={currentPage}
-                setPage={setCurrentPage}
-                totalPages={4}
+                nextPage={() => setCurrentPage(currentPage + 1)}
+                prevPage={() => setCurrentPage(currentPage - 1)}
+                disabled={loadingPage}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </main>
