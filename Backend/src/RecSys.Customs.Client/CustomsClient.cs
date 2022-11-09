@@ -15,7 +15,7 @@ public class CustomsClient
         var request = new UnloadDataRequest(periods: new[] { new Period { Start = from, End = to } });
         var result = await _client.PostAsJsonAsync(url, request, cancellationToken);
         var stream = await result.Content.ReadAsStreamAsync(cancellationToken);
-        return stream.Length == 256 ? null : stream;
+        return stream.Length == 205 ? null : stream;
     }
 
     public async Task<ItemType[]> GetRootItemTypesAsync(CancellationToken cancellationToken)

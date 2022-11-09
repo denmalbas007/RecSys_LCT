@@ -18,11 +18,11 @@ public class CustomsElementRawMini
     public string? Tnved { get; init; }
 
     [Name("Stoim")]
-    public decimal? Stoim { get; init; }
+    public decimal Stoim { get; init; }
 
     [Name("netto")]
-    public decimal? Netto { get; init; }
+    public decimal Netto { get; init; }
 
     [Name("kol")]
-    public decimal? Kol { get; init; }
+    public decimal Kol { get; init; }
 }

@@ -48,22 +48,18 @@ public class BackgroundTasksProcessor
                 dataQuery += " AND region = ANY(:Regions)";
 
             var custom = await connection.QueryFirstAsync<CustomElementDb>(query);
-            var periods = new DateTime[]
-            {
-                custom.Period.AddMonths(-3),
-                custom.Period.AddMonths(-2),
-                custom.Period.AddMonths(-1),
-                custom.Period
-            };
+            var start = custom.Period.AddMonths(-3);
+            var end = custom.Period;
             var data = await connection.QueryAsync<CustomElementDb>(
                 dataQuery,
                 new
                 {
-                    From = periods[0],
-                    To = periods[3],
+                    From = start,
+                    To = end,
                     report.FilterOuter.Regions,
                     report.FilterOuter.Countries
                 });
+            var dates = data.Select(x => x.Period).Distinct();
             var dataByReg = data.GroupBy(x => x.Region);
             var regions = dataByReg.Select(x => x.Key);
             foreach (var da in dataByReg)
@@ -100,7 +96,7 @@ public class BackgroundTasksProcessor
                 await using var csv = new CsvWriter(writer, config);
                 await csv.WriteRecordsAsync(recordsExport, cancellationToken);
                 await csv.WriteRecordsAsync(recordsImport, cancellationToken);
-                var dict = await client.GetMlRangeAsync(memoryStream.ToArray(), periods, cancellationToken);
+                var dict = await client.GetMlRangeAsync(memoryStream.ToArray(), dates.ToArray(), cancellationToken);
                 // .WithColumn("report_id").AsInt64().ForeignKey("reports", "id")
                 //     .WithColumn("region").AsInt64().ForeignKey("regions", "id")
                 //     .WithColumn("item_type").AsString().ForeignKey("item_types", "id")

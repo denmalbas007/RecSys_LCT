@@ -23,7 +23,7 @@ var configuration = builder.Configuration;
 #region DI
 
 services.AddHttpClient(nameof(CustomsClient), client => client.BaseAddress = new Uri("http://stat.customs.gov.ru/"));
-services.AddHttpClient(nameof(MlClient), client => client.BaseAddress = PlatformEnvironment.IsRunningInContainer ? new Uri("http://ml-api:8000/") : new Uri("http://localhost:8000/"));
+services.AddHttpClient(nameof(MlClient), client => client.BaseAddress = PlatformEnvironment.IsRunningInContainer ? new Uri("http://ml-api:8000/") : new Uri("http://37.230.196.148:8000/"));
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwagger("rec-sys-api", useJwtAuth: true);

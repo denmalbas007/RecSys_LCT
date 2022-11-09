@@ -41,13 +41,21 @@ public class CustomsDataCollectingProcessor
                 DateTime startDate;
                 startDate = lastElement is null ? new DateTime(2021, 08, 01) : lastElement.Period!.Value;
                 if (startDate > DateTime.UtcNow.AddMonths(-1))
+                {
+                    await Task.Delay(100000, cancellationToken);
                     break;
+                }
+
                 var stream = await customsClient.UnloadDataAsync(
-                    startDate,
                     startDate.AddMonths(1),
+                    startDate.AddMonths(2),
                     cancellationToken);
                 if (stream is null)
+                {
+                    await Task.Delay(100000, cancellationToken);
                     break;
+                }
+
                 using var archive = new ZipArchive(stream);
                 var file = archive.Entries.FirstOrDefault();
                 await using var csvStream = file?.Open();

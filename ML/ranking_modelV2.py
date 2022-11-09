@@ -88,7 +88,7 @@ def recommendation(whole_data: pd.DataFrame, period: list) -> OrderedDict:
     # example of period : ['10/2021', '11/2021', '12/2021', '01/2021']
     all_tnved = get_all_tnved_from_period(whole_data, f'{period[0]}-{period[-1]}')
     coof_data = pd.DataFrame(data={'tnved': all_tnved})
-    for month in range(4):
+    for month in range(len(period)):
         scores = make_score_for_one_month(whole_data, period[month])
         new_month_dict = {
             'tnved': scores.keys(),
