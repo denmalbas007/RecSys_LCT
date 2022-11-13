@@ -27,10 +27,8 @@ const DashboardPage = ({ page }) => {
     const response = await doCreateProject(title);
     if (response.success) {
       setCreatePopupShown(false);
-      updateProjects();
-      setTimeout(() => {
-        navigate(`/dashboard`);
-      }, 1000);
+      await updateProjects();
+      navigate(`/project/${response.id}`);
     } else {
       setCreateError(response.errorMessage);
     }

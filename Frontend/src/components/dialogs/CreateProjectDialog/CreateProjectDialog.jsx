@@ -4,6 +4,7 @@ import AccentButton from "../../buttons/AccentButton/AccentButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const CreateProjectDialog = ({ onCreate, error, onCancel, disabled }) => {
   const [projectTitle, setProjectTitle] = useState("");
@@ -13,6 +14,10 @@ const CreateProjectDialog = ({ onCreate, error, onCancel, disabled }) => {
       onCreate(projectTitle);
     }
   };
+
+  useEffect(() => {
+    document.getElementById("project-title").focus();
+  }, []);
 
   return (
     <div className={cl.dialog_container} onClick={onCancel}>
@@ -27,6 +32,7 @@ const CreateProjectDialog = ({ onCreate, error, onCancel, disabled }) => {
         </div>
         <div className={cl.inputs}>
           <StandartInput
+            id="project-title"
             disabled={disabled}
             placeholder="Название проекта"
             onChange={(e) => setProjectTitle(e.target.value)}
