@@ -258,6 +258,20 @@ export const doDownloadPDF = async (link) => {
   linkPDF.click();
 };
 
+export const doDownloadExcel = async (link) => {
+  const url = API_URL + link;
+  const response = await axios.get(url, {
+    headers: getHeaders(),
+    responseType: "blob",
+  });
+
+  const blob = new Blob([response.data], { type: "application/vnd.ms-excel" });
+  const linkPDF = document.createElement("a");
+  linkPDF.href = window.URL.createObjectURL(blob);
+  linkPDF.download = "report.xlsx";
+  linkPDF.click();
+};
+
 /**
  * To do
  */
