@@ -243,7 +243,7 @@ export const doGetReportsByIds = async (reportIds) => {
  * In progress
  */
 
-export const doDownloadPDF = async (link) => {
+export const doDownloadPDF = async (link, name = "report") => {
   const url = API_URL + link;
   const response = await axios.get(url, {
     headers: getHeaders(),
@@ -253,11 +253,11 @@ export const doDownloadPDF = async (link) => {
   const blob = new Blob([response.data], { type: "application/pdf" });
   const linkPDF = document.createElement("a");
   linkPDF.href = window.URL.createObjectURL(blob);
-  linkPDF.download = "report.pdf";
+  linkPDF.download = name + ".pdf";
   linkPDF.click();
 };
 
-export const doDownloadExcel = async (link) => {
+export const doDownloadExcel = async (link, name = "report") => {
   const url = API_URL + link;
   const response = await axios.get(url, {
     headers: getHeaders(),
@@ -267,7 +267,7 @@ export const doDownloadExcel = async (link) => {
   const blob = new Blob([response.data], { type: "application/vnd.ms-excel" });
   const linkPDF = document.createElement("a");
   linkPDF.href = window.URL.createObjectURL(blob);
-  linkPDF.download = "report.xlsx";
+  linkPDF.download = name + ".xlsx";
   linkPDF.click();
 };
 

@@ -69,6 +69,15 @@
         font-weight: bold;
       }
     }
+    .excel:disabled,
+    .pdf:disabled {
+      background-color: #e6e6e6;
+      color: #b3b3b3;
+      cursor: not-allowed;
+      p {
+        color: var(--text-main-color);
+      }
+    }
   }
   &.pending {
     border: 2px dashed #e74c3c;
