@@ -9,28 +9,11 @@ import { AuthContext } from "../../api/AuthContext";
 import { doCreateReport, doGetTable, doUpdateProject } from "../../api/Auth";
 import CreateReportDialog from "../../components/dialogs/CreateReportDialog/CreateReportDialog";
 import { useNavigate } from "react-router-dom";
-import SimplePagination from "../../components/dataDisplay/SimplePagination/SimplePagination";
+// import SimplePagination from "../../components/dataDisplay/SimplePagination/SimplePagination";
 const Filters = lazy(() => import("./Filters/Filters"));
-
-const project = {
-  id: 1,
-  name: "Project 1",
-  created_at: "29 октября 14:22",
-  updated_at: "29 октября 14:20",
-  filters: [
-    {
-      name: "District",
-      value: "All",
-    },
-    {
-      name: "Filter 1",
-    },
-  ],
-};
 
 const ProjectPage = () => {
   const { id } = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
   const [isFiltersPage, setIsFiltersPage] = useState(true);
   const { projects, updateProjects } = useContext(AuthContext);
   const [currentProject, setCurrentProject] = useState();
@@ -39,16 +22,23 @@ const ProjectPage = () => {
   const [reportCreateDialog, setReportCreateDialog] = useState(false);
   const [reportFilters, setReportFilters] = useState({});
   const [reportDialogDisabled, setReportDialogDisabled] = useState(false);
-  const [loadingPage, setLoadingPage] = useState(true);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [loadingPage, setLoadingPage] = useState(true);
   const navigate = useNavigate();
 
-  const onProjectSave = async (filters) => {
+  const onProjectSave = (filters) => {
+    console.log(filters);
     setProjectSaving(true);
+
+    // get ID of every filter
     const countriesIds = filters.countries
       ? filters.countries.map((c) => c.id)
       : [];
     const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
     const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
+    // getTable(filters).then(() => {
+    setProjectSaving(false);
+    // });
 
     const newProject = {
       ...currentProject,
@@ -58,13 +48,11 @@ const ProjectPage = () => {
         regions: regionsIds,
       },
     };
-
-    await doUpdateProject(newProject);
-    await getTable(filters);
-    setProjectSaving(false);
+    doUpdateProject(newProject);
   };
 
   const onReportDialogOpen = (filters) => {
+    // get ID of every filter
     const countriesIds = filters.countries
       ? filters.countries.map((c) => c.id)
       : [];
@@ -81,7 +69,7 @@ const ProjectPage = () => {
 
   const onReportCreate = (title) => {
     setReportDialogDisabled(true);
-    doCreateReport(title, reportFilters).then((res) => {
+    doCreateReport(title, reportFilters).then(() => {
       setReportCreateDialog(false);
       setReportDialogDisabled(false);
       navigate("/reports");
@@ -104,33 +92,9 @@ const ProjectPage = () => {
     setTableData(response);
   };
 
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const previousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-
   useEffect(() => {
     updateProjects();
   }, []);
-
-  useEffect(() => {
-    if (projects) {
-      const project = projects.find((project) => project.id == id);
-      setCurrentProject(project);
-    }
-  }, [projects, id]);
-
-  useEffect(() => {
-    setLoadingPage(true);
-    if (currentProject) {
-      getTable(currentProject.filter).then(() => {
-        setLoadingPage(false);
-      });
-    }
-  }, [currentPage]);
 
   useEffect(() => {
     if (currentProject) {
@@ -139,6 +103,29 @@ const ProjectPage = () => {
       });
     }
   }, [currentProject]);
+
+  useEffect(() => {
+    if (projects) {
+      const project = projects.find((project) => project.id == id);
+      setCurrentProject(project);
+    }
+  }, [projects, id]);
+
+  // const nextPage = () => {
+  //   setCurrentPage(currentPage + 1);
+  // };
+
+  // const previousPage = () => {
+  //   setCurrentPage(currentPage - 1);
+  // };
+  // useEffect(() => {
+  //   setLoadingPage(true);
+  //   if (currentProject) {
+  //     getTable(currentProject.filter).then(() => {
+  //       setLoadingPage(false);
+  //     });
+  //   }
+  // }, [currentPage]);
 
   return (
     <div className={cl.project_container}>
@@ -151,7 +138,7 @@ const ProjectPage = () => {
         />
       )}
       <div className={cl.topnav_container}>
-        <TopNavbar pageTitle={project.name} />
+        <TopNavbar />
       </div>
       <main className={cl.main_content}>
         <nav className={cl.mobile_nav}>
@@ -183,7 +170,6 @@ const ProjectPage = () => {
             <Suspense fallback={<SkeletonFiltersList />}>
               {currentProject && (
                 <Filters
-                  filters={project.filters}
                   project={currentProject}
                   onProjectSave={onProjectSave}
                   onReportCreate={onReportDialogOpen}
