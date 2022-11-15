@@ -19,7 +19,7 @@ const DashboardPage = ({ page }) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const navigate = useNavigate();
-  const { projects, reports, updateProjects, updateReports } =
+  const { projects, reports, updateProjects, updateReports, addLayoutId } =
     useContext(AuthContext);
 
   const createProject = async (title) => {
@@ -27,6 +27,7 @@ const DashboardPage = ({ page }) => {
     const response = await doCreateProject(title);
     if (response.success) {
       setCreatePopupShown(false);
+      addLayoutId(response.id);
       await updateProjects();
       navigate(`/project/${response.id}`);
     } else {

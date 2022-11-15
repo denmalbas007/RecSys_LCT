@@ -27,13 +27,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateProjects = async () => {
-    const projects = await doGetProjectsByIds(user.layoutIds);
-    setProjects(projects);
+    const newProjects = await doGetProjectsByIds(user.layoutIds);
+    setProjects(newProjects);
   };
 
   const updateReports = async () => {
     const reports = await doGetReportsByIds(user.reportIds);
     setReports(reports);
+  };
+
+  // чтобы не обновлять всего пользователя, мы локально будем хранить ID проектов
+  // они все равно обновляются на сервере
+  const addLayoutId = (id) => {
+    const newLayoutIds = [...user.layoutIds, id];
+    const newUser = { ...user, layoutIds: newLayoutIds };
+    setUser(newUser);
   };
 
   useEffect(() => {
@@ -66,6 +74,7 @@ export const AuthProvider = ({ children }) => {
         updateReports,
         onAuthStateChanged,
         logout,
+        addLayoutId,
       }}
     >
       {loading ? <SkeletonPage /> : children}

@@ -37,7 +37,6 @@ const Filters = ({ project, onProjectSave, onReportCreate, projectSaving }) => {
 
   // combobox contents
   useEffect(() => {
-    console.log(project);
     const fetchItems = async () => {
       // ----------selected items are not yet supported
       const items = await doFetchItemsRoot();

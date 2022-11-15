@@ -183,7 +183,7 @@ export const doGetTable = async (filters) => {
       },
       pagination: {
         offset: 0,
-        count: 30,
+        count: 60,
       },
     },
     {
@@ -209,6 +209,18 @@ export const doCreateReport = async (name, filters) => {
       headers: getHeaders(),
     }
   );
+
+  if (response.status === 400) {
+    return {
+      success: false,
+      errorMessage:
+        "По данным фильтрам отчет не может быть сформирован. Выберите другие",
+    };
+  }
+  return {
+    success: true,
+    errorMessage: "",
+  };
 
   console.log(response);
 };

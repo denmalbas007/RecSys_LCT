@@ -22,12 +22,12 @@ const ProjectPage = () => {
   const [reportCreateDialog, setReportCreateDialog] = useState(false);
   const [reportFilters, setReportFilters] = useState({});
   const [reportDialogDisabled, setReportDialogDisabled] = useState(false);
+  const [reportDialogError, setReportDialogError] = useState("");
   // const [currentPage, setCurrentPage] = useState(1);
   // const [loadingPage, setLoadingPage] = useState(true);
   const navigate = useNavigate();
 
   const onProjectSave = (filters) => {
-    console.log(filters);
     setProjectSaving(true);
 
     // get ID of every filter
@@ -36,9 +36,9 @@ const ProjectPage = () => {
       : [];
     const itemsIds = filters.items ? filters.items.map((c) => c.id) : [];
     const regionsIds = filters.regions ? filters.regions.map((c) => c.id) : [];
-    // getTable(filters).then(() => {
-    setProjectSaving(false);
-    // });
+    getTable(filters).then(() => {
+      setProjectSaving(false);
+    });
 
     const newProject = {
       ...currentProject,
@@ -69,10 +69,16 @@ const ProjectPage = () => {
 
   const onReportCreate = (title) => {
     setReportDialogDisabled(true);
-    doCreateReport(title, reportFilters).then(() => {
-      setReportCreateDialog(false);
-      setReportDialogDisabled(false);
-      navigate("/reports");
+    doCreateReport(title, reportFilters).then((response) => {
+      if (response.success) {
+        setReportCreateDialog(false);
+        setReportDialogDisabled(false);
+        setReportDialogError("");
+        navigate("/reports");
+      } else {
+        setReportDialogDisabled(false);
+        setReportDialogError(response.errorMessage);
+      }
     });
   };
 
@@ -132,8 +138,11 @@ const ProjectPage = () => {
       {reportCreateDialog && (
         <CreateReportDialog
           onCreate={onReportCreate}
-          error={""}
-          onCancel={() => setReportCreateDialog(false)}
+          error={reportDialogError}
+          onCancel={() => {
+            setReportCreateDialog(false);
+            setReportDialogError("");
+          }}
           disabled={reportDialogDisabled}
         />
       )}
