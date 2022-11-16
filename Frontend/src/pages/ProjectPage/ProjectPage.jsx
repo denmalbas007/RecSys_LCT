@@ -15,7 +15,7 @@ const Filters = lazy(() => import("./Filters/Filters"));
 const ProjectPage = () => {
   const { id } = useParams();
   const [isFiltersPage, setIsFiltersPage] = useState(true);
-  const { projects, updateProjects } = useContext(AuthContext);
+  const { projects, updateProjects, addReportId } = useContext(AuthContext);
   const [currentProject, setCurrentProject] = useState();
   const [projectSaving, setProjectSaving] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -74,6 +74,7 @@ const ProjectPage = () => {
         setReportCreateDialog(false);
         setReportDialogDisabled(false);
         setReportDialogError("");
+        addReportId(response.id);
         navigate("/reports");
       } else {
         setReportDialogDisabled(false);

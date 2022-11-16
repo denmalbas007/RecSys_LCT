@@ -220,6 +220,7 @@ export const doCreateReport = async (name, filters) => {
   return {
     success: true,
     errorMessage: "",
+    id: response.data.id,
   };
 
   console.log(response);
