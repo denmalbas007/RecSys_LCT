@@ -18,11 +18,10 @@
     display: flex;
     flex-direction: column;
     background-color: var(--bg-main);
-    padding: 20px;
+    padding: 15px;
     animation: scale_in 0.3s ease-out;
     .title {
       font-size: 20px;
-      margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -35,10 +34,35 @@
         }
       }
     }
+    .buttons {
+      margin-top: 10px;
+    }
     .error {
-      margin: 10px auto;
+      display: none;
+      text-align: center;
       p {
         color: var(--acnt-hover-color);
+      }
+    }
+    .inputs {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+  }
+  &.errored {
+    .dialog {
+      animation: shake 0.3s linear;
+      .title {
+        display: none;
+      }
+      .inputs {
+        display: none;
+      }
+      .error {
+        display: block;
+        p {
+          font-size: 18px;
+        }
       }
     }
   }
@@ -59,5 +83,41 @@
   }
   to {
     transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-10px, 0);
+  }
+  20% {
+    transform: translate(10px, 0);
+  }
+  30% {
+    transform: translate(-10px, 0);
+  }
+  40% {
+    transform: translate(10px, 0);
+  }
+  50% {
+    transform: translate(-10px, 0);
+  }
+  60% {
+    transform: translate(10px, 0);
+  }
+  70% {
+    transform: translate(-10px, 0);
+  }
+  80% {
+    transform: translate(10px, 0);
+  }
+  90% {
+    transform: translate(-10px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
