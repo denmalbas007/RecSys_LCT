@@ -10,7 +10,9 @@ const CreateReportDialog = ({ onCreate, error, onCancel, disabled }) => {
 
   const createProject = (e) => {
     e.preventDefault();
-    if (!disabled) {
+    if (error) {
+      onCancel();
+    } else if (!disabled) {
       onCreate(reportTitle);
     }
   };
@@ -20,7 +22,10 @@ const CreateReportDialog = ({ onCreate, error, onCancel, disabled }) => {
   }, []);
 
   return (
-    <div className={cl.dialog_container} onClick={onCancel}>
+    <div
+      className={[cl.dialog_container, error ? cl.errored : ""].join(" ")}
+      onClick={onCancel}
+    >
       <form
         className={cl.dialog}
         onClick={(e) => e.stopPropagation()}
@@ -43,7 +48,7 @@ const CreateReportDialog = ({ onCreate, error, onCancel, disabled }) => {
         </div>
         <div className={cl.buttons}>
           <AccentButton disabled={disabled} type="submit">
-            Создать
+            {error ? "Закрыть" : "Создать"}
           </AccentButton>
         </div>
       </form>
