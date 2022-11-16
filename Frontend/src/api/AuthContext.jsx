@@ -44,6 +44,12 @@ export const AuthProvider = ({ children }) => {
     setUser(newUser);
   };
 
+  const addReportId = (id) => {
+    const newReportIds = [...user.reportIds, id];
+    const newUser = { ...user, reportIds: newReportIds };
+    setUser(newUser);
+  };
+
   useEffect(() => {
     // setUser({ projects: [] });
     // setLoading(false);
@@ -75,6 +81,7 @@ export const AuthProvider = ({ children }) => {
         onAuthStateChanged,
         logout,
         addLayoutId,
+        addReportId,
       }}
     >
       {loading ? <SkeletonPage /> : children}
