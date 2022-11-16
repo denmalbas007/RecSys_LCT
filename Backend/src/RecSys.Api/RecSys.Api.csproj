@@ -22,7 +22,7 @@
       <None Update="DataAccess/Migrations/*.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="ReportTemplate/Resources/*.**">
+      <None Update="ReportTemplate/Resources/*.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
 
