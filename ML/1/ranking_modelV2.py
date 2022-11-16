@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import numpy as np
 from datetime import date, timedelta
@@ -6,33 +5,6 @@ from collections import OrderedDict
 import json
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
-
-import uuid
-
-from fastapi import FastAPI, File, UploadFile
-
-app = FastAPI()
-
-
-@app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile, periods: list):
-    contents = await file.read()
-    print(periods)
-    id = uuid.uuid4()
-    aa = contents.decode('UTF-8')
-    f = open(f"{id}.csv", "w")
-    f.write(aa)
-    f.close()
-    whole_data = pd.read_csv(f"{id}.csv", decimal = '.', low_memory=False, delimiter="\t", )
-    print(whole_data)
-    ee = recommendation(whole_data, periods)
-    print(ee)
-    top_10 = 0
-    dict = {}
-    for tnved in ee.keys():
-            dict.update({tnved: ee[tnved]})
-    os.remove(f"{id}.csv")
-    return json.dumps(dict)
 
 
 def get_dates_from_period(period: str) -> list:
@@ -102,8 +74,9 @@ def get_next_month_from_list(period: list) -> list:
     min_date = int(period[0].split('/')[0])
     incorrect_monthes = []
     for i in range(len(period)+1):
-        incorrect_monthes.append(min_date + i)
+      incorrect_monthes.append(min_date + i)
     return incorrect_monthes
+
 
 
 def recommendation(whole_data: pd.DataFrame, period: list) -> OrderedDict:
@@ -142,5 +115,3 @@ def recommendation(whole_data: pd.DataFrame, period: list) -> OrderedDict:
 
     ranking_dict = OrderedDict(sorted(ranking_dict.items(), key=lambda x: -x[1]))
     return ranking_dict
-
-

@@ -11,20 +11,20 @@ public class MlClient
 
     public async Task<IDictionary<string, decimal>> GetMlRangeAsync(byte[] bytes, DateTime[] periods, CancellationToken cancellationToken)
     {
+        var newperiods = periods.ToList();
+        newperiods.Sort();
         const string url = "/uploadfile";
 #pragma warning disable IDE0028
         var postBody = new MultipartFormDataContent();
 #pragma warning restore IDE0028
         postBody
             .Add(new ByteArrayContent(bytes), "file", "file.cvs");
-        postBody
-            .Add(new StringContent(periods[0].ToString("MM/yyyy")), "periods");
-        postBody
-            .Add(new StringContent(periods[1].ToString("MM/yyyy")), "periods");
-        postBody
-            .Add(new StringContent(periods[2].ToString("MM/yyyy")), "periods");
-        postBody
-            .Add(new StringContent(periods[3].ToString("MM/yyyy")), "periods");
+        foreach (var per in newperiods)
+        {
+            postBody
+                .Add(new StringContent(per.ToString("MM/yyyy")), "periods");
+        }
+
         var result = await _client.PostAsync(url, postBody, cancellationToken);
         result.EnsureSuccessStatusCode();
         var stringRes = await result.Content.ReadAsStringAsync(cancellationToken);
@@ -33,6 +33,7 @@ public class MlClient
         stringRes = stringRes[1..];
         stringRes = stringRes[..^1];
         var rw = JsonConvert.DeserializeObject<Dictionary<string, decimal>>(stringRes);
-        return rw!;
+        var qqwe = rw!.DistinctBy(x => x.Value).Take(50).ToDictionary(x => x.Key, y => y.Value);
+        return qqwe;
     }
 }

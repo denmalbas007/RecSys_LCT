@@ -20,7 +20,7 @@ public class ReportMigration : ForwardOnlyMigration
         Create.Table("reports_data")
             .WithColumn("report_id").AsInt64().ForeignKey("reports", "id")
             .WithColumn("region").AsInt64().ForeignKey("regions", "id")
-            .WithColumn("item_type").AsString().ForeignKey("item_types", "id")
+            .WithColumn("item_type").AsInt64().ForeignKey("item_types", "id")
             .WithColumn("coefficient").AsFloat();
 
         Create.Table("layouts")

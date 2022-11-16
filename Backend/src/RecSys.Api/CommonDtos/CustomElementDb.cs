@@ -4,27 +4,23 @@ public class CustomElementDb
 {
     public long Id { get; init; }
 
+    public bool Direction { get; init; }
+
     public DateTime Period { get; init; }
 
     public string Country { get; init; } = null!;
 
-    public long Region { get; init; }
-
-    public string ItemType { get; init; } = null!;
+    public long ItemType { get; init; }
 
     public long? UnitType { get; init; }
 
-    public decimal ImportWorthTotal { get; init; }
+    public decimal WorthTotal { get; init; }
 
-    public decimal ImportNettoTotal { get; init; }
+    public decimal GrossTotal { get; init; }
 
-    public decimal ImportAmountTotal { get; init; }
+    public decimal AmountTotal { get; init; }
 
-    public decimal ExportWorthTotal { get; init; }
-
-    public decimal ExportNettoTotal { get; init; }
-
-    public decimal ExportAmountTotal { get; init; }
+    public long Region { get; init; }
 }
 
 // values (:ItemType, :Period, :Country, :Region, :UnitType, :ImportWorthTotal, :ImportNettoTotal, :ImportAmountTotal, :ExportWorthTotal, :ExportNettoTotal, :ExportAmountTotal)

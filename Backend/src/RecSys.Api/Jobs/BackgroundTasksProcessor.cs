@@ -32,8 +32,6 @@ public class BackgroundTasksProcessor
             var dbConnectionsProvider = scope.ServiceProvider.GetRequiredService<IDbConnectionsProvider>();
             var client = scope.ServiceProvider.GetRequiredService<MlClient>();
             var taskQuery = "select * from reports where is_ready = false limit 1";
-            var query = "select * from customs order by period DESC limit 1";
-            var dataQuery = "select * from customs where period >= :From AND period <= :To";
             var connection = dbConnectionsProvider.GetConnection();
             var report = await connection.QueryFirstOrDefaultAsync<ReportMetadata>(taskQuery);
             if (report is null)
@@ -42,65 +40,65 @@ public class BackgroundTasksProcessor
                 continue;
             }
 
-            if (report.FilterOuter.Countries.Length > 0)
-                dataQuery += " AND country = ANY(:Countries)";
-            if (report.FilterOuter.Regions.Length > 0)
-                dataQuery += " AND region = ANY(:Regions)";
+            var regions11 = report.FilterOuter.Regions.Length > 0
+                ? await connection.QueryAsync<Region>(
+                    "select * from regions where id = ANY(:Ids)",
+                    new { Ids = report.FilterOuter.Regions })
+                : await connection.QueryAsync<Region>("select * from regions");
 
-            var custom = await connection.QueryFirstAsync<CustomElementDb>(query);
-            var start = custom.Period.AddMonths(-3);
-            var end = custom.Period;
-            var data = await connection.QueryAsync<CustomElementDb>(
-                dataQuery,
-                new
-                {
-                    From = start,
-                    To = end,
-                    report.FilterOuter.Regions,
-                    report.FilterOuter.Countries
-                });
-            var dates = data.Select(x => x.Period).Distinct();
-            var dataByReg = data.GroupBy(x => x.Region);
-            var regions = dataByReg.Select(x => x.Key);
-            foreach (var da in dataByReg)
+            foreach (var region in regions11)
             {
-                var key = da.Key;
-                var elements = da.ToArray();
-                var recordsImport = elements
-                    .Where(e => e.ImportAmountTotal != 0 || e.ImportNettoTotal != 0 || e.ImportWorthTotal != 0).Select(
-                        x => new CustomsElementRawMini
+                var sub = " ";
+                var sub2 = " ";
+                if (report.FilterOuter.Countries.Length > 0)
+                    sub = " AND country = ANY(:Countries)";
+                if (report.FilterOuter.ItemTypes.Length > 0)
+                    sub2 = " AND item_type = ANY(:ItemTypes)";
+                var periodsForRegion =
+                    await connection.QueryAsync<DateTime>(
+                        $@"select period from customs where region = :Region{sub}{sub2} group by period order by period desc limit 5",
+                        new
                         {
-                            Napr = "ИМ",
-                            Kol = x.ImportAmountTotal,
-                            Stoim = x.ImportWorthTotal,
-                            Period = x.Period,
-                            Tnved = x.ItemType,
-                            Nastranapr = x.Country,
-                            Netto = x.ImportNettoTotal
+                            report.FilterOuter.Countries,
+                            report.FilterOuter.ItemTypes,
+                            Region = region.Id
                         });
-                var recordsExport = elements
-                    .Where(e => e.ExportAmountTotal != 0 || e.ExportNettoTotal != 0 || e.ExportWorthTotal != 0)
-                    .Select(
-                        x => new CustomsElementRawMini
-                        {
-                            Napr = "ЭК",
-                            Kol = x.ExportAmountTotal,
-                            Stoim = x.ExportWorthTotal,
-                            Period = x.Period,
-                            Tnved = x.ItemType,
-                            Nastranapr = x.Country,
-                            Netto = x.ExportNettoTotal
-                        });
+                if (periodsForRegion.Count() < 2)
+                    continue;
+
+                var dataForRegion = await connection.QueryAsync<CustomElementDb>(
+                    $"select * from customs where region = :Region{sub}{sub2} AND period = ANY(:Periods)",
+                    new
+                    {
+                        Periods = periodsForRegion.ToArray(),
+                        report.FilterOuter.Countries,
+                        report.FilterOuter.ItemTypes,
+                        Region = region.Id
+                    });
+
+                var records = dataForRegion.Select(
+                    x => new CustomsElementRawMini
+                    {
+                        Napr = x.Direction ? "ЭК" : "ИМ",
+                        Kol = x.AmountTotal,
+                        Stoim = x.WorthTotal,
+                        Period = x.Period,
+                        Tnved = x.ItemType.ToString(),
+                        Nastranapr = x.Country,
+                        Netto = x.GrossTotal
+                    }).ToList();
+                records = records.Take(records.Count - 1).ToList();
                 using var memoryStream = new MemoryStream();
                 await using var writer = new StreamWriter(memoryStream);
                 await using var csv = new CsvWriter(writer, config);
-                await csv.WriteRecordsAsync(recordsExport, cancellationToken);
-                await csv.WriteRecordsAsync(recordsImport, cancellationToken);
-                var dict = await client.GetMlRangeAsync(memoryStream.ToArray(), dates.ToArray(), cancellationToken);
-                // .WithColumn("report_id").AsInt64().ForeignKey("reports", "id")
-                //     .WithColumn("region").AsInt64().ForeignKey("regions", "id")
-                //     .WithColumn("item_type").AsString().ForeignKey("item_types", "id")
-                //     .WithColumn("coefficient").AsFloat();
+                await csv.WriteRecordsAsync(records, cancellationToken);
+                await csv.FlushAsync();
+
+                // await csv.WriteRecordsAsync(records, cancellationToken);
+                var dict = await client.GetMlRangeAsync(
+                    memoryStream.ToArray(),
+                    periodsForRegion.ToArray(),
+                    cancellationToken);
                 var insertQuery = @"insert into reports_data (report_id, region, item_type, coefficient)
 VALUES (:ReportId, :Region, :ItemType, :Coefficient)";
                 await connection.ExecuteAsync(
@@ -109,8 +107,8 @@ VALUES (:ReportId, :Region, :ItemType, :Coefficient)";
                         x => new
                         {
                             ReportId = report.Id,
-                            Region = key,
-                            ItemType = x.Key,
+                            Region = region.Id,
+                            ItemType = (long)float.Parse(x.Key),
                             Coefficient = x.Value
                         }));
             }
@@ -119,10 +117,12 @@ VALUES (:ReportId, :Region, :ItemType, :Coefficient)";
             var getDataByReg =
                 @"select  rd.region, rd.item_type, it.name item_type_name, rd.coefficient coef from reports_data rd
 inner join item_types it on rd.item_type = it.id where report_id = :Id";
-            var elemtns = await connection.QueryAsync<CustomsElementForReport>(getDataByReg, new
-            {
-                report.Id
-            });
+            var elemtns = await connection.QueryAsync<CustomsElementForReport>(
+                getDataByReg,
+                new
+                {
+                    report.Id
+                });
             var getRegions = await connection.QueryAsync<Region>(@"select * from regions");
             var groupoing = elemtns.GroupBy(x => x.Region);
             var dicteq = new Dictionary<string, IEnumerable<CustomsElementForReport>>();
@@ -139,13 +139,16 @@ inner join item_types it on rd.item_type = it.id where report_id = :Id";
             var pdfUrl = $"files/{guid}";
             var qqq = @"insert into storage (id, bytes, type) values (:Guid::uuid, :String, :Type)";
             await connection.ExecuteAsync(qqq, new { Guid = guid.ToString(), String = baseString, Type = "pdf" });
-            var updateQuery = @"update reports set is_ready = true, pdf_url = :PdfUrl, excel_url = :ExcelUrl where id = :Id";
-            await connection.ExecuteAsync(updateQuery, new
-            {
-                report.Id,
-                PdfUrl = pdfUrl,
-                ExcelUrl = pdfUrl
-            });
+            var updateQuery =
+                @"update reports set is_ready = true, pdf_url = :PdfUrl, excel_url = :ExcelUrl where id = :Id";
+            await connection.ExecuteAsync(
+                updateQuery,
+                new
+                {
+                    report.Id,
+                    PdfUrl = pdfUrl,
+                    ExcelUrl = pdfUrl
+                });
             await Task.Delay(1000, cancellationToken);
         }
     }

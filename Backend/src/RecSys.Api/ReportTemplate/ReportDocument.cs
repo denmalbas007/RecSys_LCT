@@ -49,7 +49,7 @@ public class ReportDocument : IDocument
                                                 x.Header(
                                                     y =>
                                                     {
-                                                        y.Cell().Border(1f).Text("ТН ВЕД").FontSize(8f);
+                                                        y.Cell().Border(1f).Text("ТН ВЭД").FontSize(8f);
                                                         y.Cell().Border(1f).Text("Обозначение").FontSize(8f);
                                                         y.Cell().Border(1f).Text("Коэффицент импортозамещения").FontSize(8f);
                                                     });
