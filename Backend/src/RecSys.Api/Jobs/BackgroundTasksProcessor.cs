@@ -195,7 +195,7 @@ inner join item_types it on rd.item_type = it.id where report_id = :Id";
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 throw;
             }
         }

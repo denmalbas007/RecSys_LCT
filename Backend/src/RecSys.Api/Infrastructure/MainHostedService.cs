@@ -21,13 +21,14 @@ public class MainHostedService : BackgroundService
     {
         try
         {
-            return Task.WhenAny(
+            return Task.WhenAll(
                 _dataCollectingProcessor.StartAsync(stoppingToken),
                 _backgroundTasksProcessor.StartAsync(stoppingToken));
         }
-        catch
+        catch (Exception ex)
         {
-            return Task.CompletedTask;
+            Console.WriteLine(ex.Message);
+            throw;
         }
     }
 }
