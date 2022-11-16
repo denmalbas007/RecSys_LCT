@@ -5,7 +5,8 @@ import {
   faFileExcel,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import { doDownloadPDF } from "../../../api/Auth";
+import { doDownloadExcel, doDownloadPDF } from "../../../api/Auth";
+import { useState } from "react";
 
 export const ReportCard = ({
   name,
@@ -15,11 +16,21 @@ export const ReportCard = ({
   pdfUrl,
   excelUrl,
 }) => {
+  const [pdfDisabled, setPdfDisabled] = useState(false);
+  const [excelDisabled, setExcelDisabled] = useState(false);
+
   const downloadPdf = () => {
-    doDownloadPDF(pdfUrl);
+    setPdfDisabled(true);
+    doDownloadPDF(pdfUrl, name).then(() => {
+      setPdfDisabled(false);
+    });
   };
+
   const downloadExcel = () => {
-    doDownloadPDF(pdfUrl);
+    setExcelDisabled(true);
+    doDownloadExcel(excelUrl, name).then(() => {
+      setExcelDisabled(false);
+    });
   };
 
   return (
@@ -32,13 +43,17 @@ export const ReportCard = ({
         </div>
       </div>
       <div className={cl.body}>
-        <button className={cl.excel} onClick={downloadExcel}>
+        <button
+          disabled={excelDisabled}
+          className={cl.excel}
+          onClick={downloadExcel}
+        >
           <FontAwesomeIcon icon={faFileExcel} />
-          <p>Скачать Excel</p>
+          <p>{excelDisabled ? "Скачивание" : "Скачать Excel"}</p>
         </button>
-        <button className={cl.pdf} onClick={downloadPdf}>
+        <button disabled={pdfDisabled} className={cl.pdf} onClick={downloadPdf}>
           <FontAwesomeIcon icon={faFilePdf} />
-          <p>Скачать PDF</p>
+          <p>{pdfDisabled ? "Скачивание" : "Скачать PDF"}</p>
         </button>
       </div>
     </div>

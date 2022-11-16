@@ -105,7 +105,6 @@ export const doCreateProject = async (title) => {
       headers: getHeaders(),
     }
   );
-  console.log(response);
   if (response.status === 200) {
     return {
       success: true,
@@ -184,7 +183,7 @@ export const doGetTable = async (filters) => {
       },
       pagination: {
         offset: 0,
-        count: 30,
+        count: 60,
       },
     },
     {
@@ -210,6 +209,18 @@ export const doCreateReport = async (name, filters) => {
       headers: getHeaders(),
     }
   );
+
+  if (response.status === 400) {
+    return {
+      success: false,
+      errorMessage:
+        "По данным фильтрам отчет не может быть сформирован. Выберите другие",
+    };
+  }
+  return {
+    success: true,
+    errorMessage: "",
+  };
 
   console.log(response);
 };
@@ -244,7 +255,7 @@ export const doGetReportsByIds = async (reportIds) => {
  * In progress
  */
 
-export const doDownloadPDF = async (link) => {
+export const doDownloadPDF = async (link, name = "report") => {
   const url = API_URL + link;
   const response = await axios.get(url, {
     headers: getHeaders(),
@@ -254,7 +265,21 @@ export const doDownloadPDF = async (link) => {
   const blob = new Blob([response.data], { type: "application/pdf" });
   const linkPDF = document.createElement("a");
   linkPDF.href = window.URL.createObjectURL(blob);
-  linkPDF.download = "report.pdf";
+  linkPDF.download = name + ".pdf";
+  linkPDF.click();
+};
+
+export const doDownloadExcel = async (link, name = "report") => {
+  const url = API_URL + link;
+  const response = await axios.get(url, {
+    headers: getHeaders(),
+    responseType: "blob",
+  });
+
+  const blob = new Blob([response.data], { type: "application/vnd.ms-excel" });
+  const linkPDF = document.createElement("a");
+  linkPDF.href = window.URL.createObjectURL(blob);
+  linkPDF.download = name + ".xlsx";
   linkPDF.click();
 };
 

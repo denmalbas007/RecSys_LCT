@@ -5,7 +5,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import TopNavbar from "../../components/navbars/TopNavbar/TopNavbar";
 import { SkeletonCardList } from "../../components/loading/SkeletonCardList";
 import { useState, useEffect, useContext } from "react";
-import { doCreateProject, doGetProjectsByIds } from "../../api/Auth";
+import { doCreateProject } from "../../api/Auth";
 import { ReportCard } from "../../components/cards/ReportCard/ReportCard";
 import CreateProjectDialog from "../../components/dialogs/CreateProjectDialog/CreateProjectDialog";
 import { AuthContext } from "../../api/AuthContext";
@@ -15,27 +15,25 @@ const DashboardPage = ({ page }) => {
   const [projectsCopy, setProjectsCopy] = useState([]);
   const [reportsCopy, setReportsCopy] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [popupShown, setPopupShown] = useState(false);
+  const [createPopupShown, setCreatePopupShown] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const navigate = useNavigate();
-  const { projects, reports, updateProjects, updateReports } =
+  const { projects, reports, updateProjects, updateReports, addLayoutId } =
     useContext(AuthContext);
 
   const createProject = async (title) => {
     setCreateLoading(true);
     const response = await doCreateProject(title);
     if (response.success) {
-      setPopupShown(false);
-      setCreateLoading(false);
-      updateProjects();
-      setTimeout(() => {
-        navigate(`/dashboard`);
-      }, 1000);
+      setCreatePopupShown(false);
+      addLayoutId(response.id);
+      await updateProjects();
+      navigate(`/project/${response.id}`);
     } else {
       setCreateError(response.errorMessage);
-      setCreateLoading(false);
     }
+    setCreateLoading(false);
   };
 
   useEffect(() => {
@@ -59,13 +57,13 @@ const DashboardPage = ({ page }) => {
 
   return (
     <div className={cl.dashboard_container}>
-      {popupShown && (
+      {createPopupShown && (
         <CreateProjectDialog
           disabled={createLoading}
           error={createError}
           onCreate={createProject}
           onCancel={() => {
-            setPopupShown(false);
+            setCreatePopupShown(false);
           }}
         />
       )}
@@ -81,7 +79,7 @@ const DashboardPage = ({ page }) => {
           <div className={cl.projects_container}>
             <button
               className={cl.new_project}
-              onClick={() => setPopupShown(true)}
+              onClick={() => setCreatePopupShown(true)}
             >
               <FontAwesomeIcon icon={faPlus} />
               <h2>Создать проект</h2>

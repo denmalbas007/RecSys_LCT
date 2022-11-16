@@ -3,16 +3,21 @@ import cl from "./CreateReportDialog.module.scss";
 import AccentButton from "../../buttons/AccentButton/AccentButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CreateReportDialog = ({ onCreate, error, onCancel, disabled }) => {
   const [reportTitle, setReportTitle] = useState("");
+
   const createProject = (e) => {
     e.preventDefault();
     if (!disabled) {
       onCreate(reportTitle);
     }
   };
+
+  useEffect(() => {
+    document.getElementById("report-title").focus();
+  }, []);
 
   return (
     <div className={cl.dialog_container} onClick={onCancel}>
@@ -27,6 +32,7 @@ const CreateReportDialog = ({ onCreate, error, onCancel, disabled }) => {
         </div>
         <div className={cl.inputs}>
           <StandartInput
+            id="report-title"
             disabled={disabled}
             placeholder="Название отчёта"
             onChange={(e) => setReportTitle(e.target.value)}
