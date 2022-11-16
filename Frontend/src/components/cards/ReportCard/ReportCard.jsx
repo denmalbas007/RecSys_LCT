@@ -20,6 +20,9 @@ export const ReportCard = ({
   const [excelDisabled, setExcelDisabled] = useState(false);
 
   const downloadPdf = () => {
+    if (pending) {
+      return;
+    }
     setPdfDisabled(true);
     doDownloadPDF(pdfUrl, name).then(() => {
       setPdfDisabled(false);
@@ -27,6 +30,9 @@ export const ReportCard = ({
   };
 
   const downloadExcel = () => {
+    if (pending) {
+      return;
+    }
     setExcelDisabled(true);
     doDownloadExcel(excelUrl, name).then(() => {
       setExcelDisabled(false);
