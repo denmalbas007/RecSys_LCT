@@ -1,3 +1,4 @@
+import base64
 import os
 import pandas as pd
 import numpy as np
@@ -6,6 +7,7 @@ from collections import OrderedDict
 import json
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
 
 import uuid
 
@@ -13,6 +15,19 @@ from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
+@app.post("/render-graph/")
+async def render_graph(coofs: list, tkved: list):
+    id = uuid.uuid4()
+    graphic = Graphic(coofs=coofs, tnveds=tkved)
+    print(coofs)
+    print(tkved)
+    graphic.paint(id)
+    f = open(f"{id}.png", "rb")
+    q = f.read()
+    f.close()
+    os.remove(f"{id}.png")
+    return base64.b64encode(q)
+    # f.close()
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile, periods: list):
@@ -23,14 +38,14 @@ async def create_upload_file(file: UploadFile, periods: list):
     f = open(f"{id}.csv", "w")
     f.write(aa)
     f.close()
-    whole_data = pd.read_csv(f"{id}.csv", decimal = '.', low_memory=False, delimiter="\t", )
+    whole_data = pd.read_csv(f"{id}.csv", decimal='.', low_memory=False, delimiter="\t", )
     print(whole_data)
     ee = recommendation(whole_data, periods)
     print(ee)
     top_10 = 0
     dict = {}
     for tnved in ee.keys():
-            dict.update({tnved: ee[tnved]})
+        dict.update({tnved: ee[tnved]})
     os.remove(f"{id}.csv")
     return json.dumps(dict)
 
@@ -101,7 +116,7 @@ def get_next_month_from_list(period: list) -> list:
     # output:             [10, 11, 12, 13, 14]
     min_date = int(period[0].split('/')[0])
     incorrect_monthes = []
-    for i in range(len(period)+1):
+    for i in range(len(period) + 1):
         incorrect_monthes.append(min_date + i)
     return incorrect_monthes
 
@@ -144,3 +159,16 @@ def recommendation(whole_data: pd.DataFrame, period: list) -> OrderedDict:
     return ranking_dict
 
 
+class Graphic:
+
+    def __init__(self, coofs: list, tnveds: list):
+        self.coofs = coofs
+        self.tnveds = tnveds
+        # print(self.coofs)
+
+    def paint(self, guid):
+        plt.figure(figsize=(9, 3))
+        plt.ylabel('Коэффициент')
+        plt.bar(self.tnveds, self.coofs)
+        plt.suptitle('Лучшие товары')
+        plt.savefig(f'{guid}.png')

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="ClosedXML" Version="0.97.0" />
+      <PackageReference Include="QRCoder" Version="1.4.3" />
       <PackageReference Include="QuestPDF" Version="2022.11.0" />
       <ProjectReference Include="..\RecSys.Customs.Client\RecSys.Customs.Client.csproj" />
       <ProjectReference Include="..\RecSys.ML.Client\RecSys.ML.Client.csproj" />
@@ -19,6 +20,9 @@
 
     <ItemGroup>
       <None Update="DataAccess/Migrations/*.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="ReportTemplate/Resources/*.**">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
 
@@ -52,6 +56,7 @@
 
     <ItemGroup>
       <Folder Include="DataAccess\Customs\Dtos" />
+      <Folder Include="ReportTemplate\Resources" />
     </ItemGroup>
 
 </Project>

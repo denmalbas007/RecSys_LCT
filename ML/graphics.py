@@ -23,7 +23,7 @@ class Graphic:
         plt.suptitle('Лучшие товары')
         plt.savefig('graphic.png')
         plt.show()
-        # plt.savefig('graphic.png')
+        plt.savefig('graphic.png')
 
     def save_graphic(self):
         plt.savefig('graphic.png')

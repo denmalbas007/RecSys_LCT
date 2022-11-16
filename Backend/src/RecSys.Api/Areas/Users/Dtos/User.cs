@@ -12,7 +12,7 @@ public class User
 
     public string? MiddleName { get; init; }
 
-    public string LastName { get; init; } = null!;
+    public string SecondName { get; init; } = null!;
 
     public string Email { get; init; } = null!;
 

@@ -17,15 +17,12 @@ public class MainHostedService : BackgroundService
         _backgroundTasksProcessor = backgroundTasksProcessor;
     }
 
-    // _dataProcessingProcessor = dataProcessingProcessor;
-    // _backgroundTasksProcessor = backgroundTasksProcessor;
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
-            return Task.WhenAll(
+            return Task.WhenAny(
                 _dataCollectingProcessor.StartAsync(stoppingToken),
-            // _dataProcessingProcessor.StartAsync(stoppingToken),
                 _backgroundTasksProcessor.StartAsync(stoppingToken));
         }
         catch
