@@ -41,7 +41,7 @@ public class CustomsDataCollectingProcessor
                     commandTimeout: 1000);
                 DateTime startDate;
                 startDate = lastElement is null ? new DateTime(2019, 01, 01) : lastElement.Period!.Value;
-                if (startDate.Month >= DateTime.UtcNow.AddMonths(-1).Month)
+                if (startDate.Date >= DateTime.UtcNow.AddMonths(-1).Date)
                 {
                     await Task.Delay(100000, cancellationToken);
                     break;
