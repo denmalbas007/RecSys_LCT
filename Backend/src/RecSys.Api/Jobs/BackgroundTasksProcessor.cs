@@ -87,7 +87,6 @@ public class BackgroundTasksProcessor
                         Nastranapr = x.Country,
                         Netto = x.GrossTotal
                     }).ToList();
-                records = records.Take(records.Count - 1).ToList();
                 using var memoryStream = new MemoryStream();
                 await using var writer = new StreamWriter(memoryStream);
                 await using var csv = new CsvWriter(writer, config);

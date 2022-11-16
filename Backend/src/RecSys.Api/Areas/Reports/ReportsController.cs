@@ -9,6 +9,7 @@ using RecSys.Api.Areas.Reports.Actions.GetList;
 using RecSys.Api.Areas.Reports.Dtos;
 using RecSys.Platform.Data.Providers;
 using RecSys.Platform.Dtos;
+using RecSys.Platform.Exceptions;
 
 namespace RecSys.Api.Areas.Reports;
 
@@ -40,9 +41,43 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> CreateReport([FromBody] CreateReportRequest request)
     {
         var userId = long.Parse(HttpContext.User.Identities.FirstOrDefault()?.Claims.First(x => x.Type == "Id").Value!);
+        var connection = _dbConnectionsProvider.GetConnection();
+        foreach (var region in request.Filter.Regions)
+        {
+            var sub = " ";
+            var sub2 = " ";
+            sub = " AND country = ANY(:Countries)";
+            var cntr = new List<string>();
+            var defaultFilter = new string[]
+            {
+                "US", "AU", "AL", "UK", "CA", "NO", "KR", "SG", "TW", "UA", "CH", "ME", "JP", "AT", "BE",
+                "BG", "HU", "DE", "GR", "DK", "ES", "IT", "LV", "LT", "NL", "PL", "PT", "RO", "SK", "SL",
+                "FI", "FR", "HR", "CZ", "SE", "EE"
+            };
+            if (request.Filter.Countries.Any(filterCountry => !defaultFilter.Contains(filterCountry)))
+            {
+                throw new ExceptionWithCode(400, "Unallowed country");
+            }
+
+            cntr = request.Filter.Countries.Length > 0 ? request.Filter.Countries.ToList() : defaultFilter.ToList();
+
+            if (request.Filter.ItemTypes.Length > 0)
+                sub2 = " AND item_type = ANY(:ItemTypes)";
+            var periodsForRegion =
+                await connection.QueryAsync<DateTime>(
+                    $@"select period from customs where region = :Region{sub}{sub2} group by period order by period desc limit 5",
+                    new
+                    {
+                        Countries = cntr,
+                        request.Filter.ItemTypes,
+                        Region = region
+                    });
+            if (periodsForRegion.Count() < 2)
+                throw new ExceptionWithCode(400, " ");
+        }
+
         var query = @"insert into reports (name, owner, filter, created_at) values (:Name, :Owner, :Filter::jsonb, :DateTime)
 returning id";
-        var connection = _dbConnectionsProvider.GetConnection();
         var id = await connection.QueryFirstAsync<long>(
             query,
             new
