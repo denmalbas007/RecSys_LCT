@@ -197,24 +197,28 @@ export const doGetTable = async (filters) => {
 export const doCreateReport = async (name, filters) => {
   const url = API_URL + "reports";
 
-  const response = await axios.post(
-    url,
-    {
-      filter: {
-        ...filters,
+  const response = await axios
+    .post(
+      url,
+      {
+        filter: {
+          ...filters,
+        },
+        name: name,
       },
-      name: name,
-    },
-    {
-      headers: getHeaders(),
-    }
-  );
+      {
+        headers: getHeaders(),
+      }
+    )
+    .catch((e) => {
+      console.log(e);
+    });
 
-  if (response.status === 400) {
+  if (!response) {
     return {
       success: false,
       errorMessage:
-        "По данным фильтрам отчет не может быть сформирован. Выберите другие",
+        "По заданным критериям недостаточно информации для формирования отчета. Рекомендуем добавить критерии поиска.",
     };
   }
   return {
@@ -222,8 +226,6 @@ export const doCreateReport = async (name, filters) => {
     errorMessage: "",
     id: response.data.id,
   };
-
-  console.log(response);
 };
 
 export const doGetReportsByIds = async (reportIds) => {
@@ -252,10 +254,6 @@ export const doGetReportsByIds = async (reportIds) => {
   }));
 };
 
-/**
- * In progress
- */
-
 export const doDownloadPDF = async (link, name = "report") => {
   const url = API_URL + link;
   const response = await axios.get(url, {
@@ -283,6 +281,10 @@ export const doDownloadExcel = async (link, name = "report") => {
   linkPDF.download = name + ".xlsx";
   linkPDF.click();
 };
+
+/**
+ * In progress
+ */
 
 /**
  * To do
