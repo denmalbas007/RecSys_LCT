@@ -80,6 +80,11 @@
           margin-bottom: 5px;
         }
       }
+      .items {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
     }
     .reports_ready {
       margin-top: 20px;

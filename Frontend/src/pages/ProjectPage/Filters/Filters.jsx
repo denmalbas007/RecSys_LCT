@@ -11,18 +11,12 @@ import AccentButton from "../../../components/buttons/AccentButton/AccentButton"
 import ItemTreeSelect from "../../../components/dropdowns/ItemTreeSelect/ItemTreeSelect";
 import cl from "./Filters.module.scss";
 
-const Filters = ({
-  filters,
-  project,
-  onProjectSave,
-  onReportCreate,
-  projectSaving,
-}) => {
+const Filters = ({ project, onProjectSave, onReportCreate, projectSaving }) => {
   const [countries, setCountries] = useState([]);
-  const [selectedCountries, setSelectedCountries] = useState([]);
   const [items, setItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
   const [regions, setRegions] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [selectedRegions, setSelectedRegions] = useState([]);
 
   const createNewReport = (e) => {
@@ -44,6 +38,7 @@ const Filters = ({
   // combobox contents
   useEffect(() => {
     const fetchItems = async () => {
+      // ----------selected items are not yet supported
       const items = await doFetchItemsRoot();
       const reformattedItems = reformatItems(items);
       setItems(reformattedItems);
@@ -51,8 +46,12 @@ const Filters = ({
 
     const fetchCountries = async () => {
       const countries = await doFetchCountries();
-      // change name to label
       const reformattedCountries = countries.map((country) => {
+        // update selected countries
+        if (project.filter.countries.includes(country.id)) {
+          setSelectedCountries((prev) => [...prev, country]);
+        }
+        // change name to label
         return {
           ...country,
           label: country.name,
@@ -64,8 +63,12 @@ const Filters = ({
 
     const fetchRegions = async () => {
       const regions = await doFetchRegions();
-      // change name to label
       const reformattedRegions = regions.map((region) => {
+        // update selected regions
+        if (project.filter.regions.includes(region.id)) {
+          setSelectedRegions((prev) => [...prev, region]);
+        }
+        // change name to label
         return {
           ...region,
           label: region.name,
