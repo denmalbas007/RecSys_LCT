@@ -58,13 +58,13 @@ public class LayoutsController : ControllerBase
     /// </summary>
     /// <param name="request">Список idшников 'шаблонов'.</param>
     /// <returns>Список 'шаблонов'.</returns>
-    [HttpGet("by-ids")]
+    [HttpPost("by-ids")]
     [ProducesResponseType(200, Type = typeof(GetLayoutsResponse))]
     [ProducesResponseType(400, Type = typeof(HttpError))]
     [ProducesResponseType(401, Type = typeof(HttpError))]
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> GetLayouts([FromQuery] GetLayoutsRequest request)
+    public async Task<IActionResult> GetLayouts([FromBody] GetLayoutsRequest request)
     {
         var connection = _dbConnectionsProvider.GetConnection();
         var query = @"select * from layouts where id = ANY(:Ids)";

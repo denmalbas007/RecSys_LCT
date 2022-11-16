@@ -1,3 +1,6 @@
-pandas
 sklearn
+pandas
 tqdm
+python-multipart
+uvicorn
+fastapi

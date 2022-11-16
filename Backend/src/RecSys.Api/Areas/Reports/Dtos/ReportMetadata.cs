@@ -1,3 +1,7 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using RecSys.Api.CommonDtos;
+
 namespace RecSys.Api.Areas.Reports.Dtos;
 
 public class ReportMetadata
@@ -13,4 +17,13 @@ public class ReportMetadata
     public string? ExcelUrl { get; init; }
 
     public bool IsReady { get; init; }
+
+    [JsonPropertyName("filter")]
+    public Filter FilterOuter { get; init; } = null!;
+
+    [JsonIgnore]
+    public string Filter
+    {
+        init => FilterOuter = JsonSerializer.Deserialize<Filter>(value)!;
+    }
 }

@@ -1,9 +1,24 @@
 FROM python:3.9
 
-WORKDIR /ML
-COPY requirements.txt /ML
-RUN pip install --upgrade pip &&  python -m pip install -r requirements.txt
+WORKDIR /code
 
-EXPOSE 5000
+COPY ./requirements.txt /code/requirements.txt
 
-COPY . /ML
+#RUN apt-get update 
+#
+#RUN apt-get -y install \
+#	python-numpy \
+#	python-scipy \
+#	libatlas-dev \
+#	libatlas3-base
+#
+##Install scikit-learn
+#RUN apt-get -y install python-sklearn
+
+RUN pip install --upgrade pip
+RUN pip install --upgrade -r /code/requirements.txt
+RUN pip install -U scikit-learn scipy matplotlib
+
+COPY ./ /code/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

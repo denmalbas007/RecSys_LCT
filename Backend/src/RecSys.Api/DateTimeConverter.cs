@@ -15,4 +15,10 @@ public class DateTimeConverter : DefaultTypeConverter
         var month = int.Parse(split[0]);
         return new DateTime(year, month, 1);
     }
+
+    public override string? ConvertToString(object? value, IWriterRow row, MemberMapData memberMapData)
+    {
+        var dateTime = (DateTime)value!;
+        return dateTime.ToString("MM/yyyy");
+    }
 }

@@ -1,3 +1,3 @@
 namespace RecSys.Api.Areas.Reports.Actions.Create;
 
-public record CreateReportResponse();
+public record CreateReportResponse(long Id);

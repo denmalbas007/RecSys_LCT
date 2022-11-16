@@ -16,3 +16,14 @@ public class CustomsElement
 
     public TransferAmount? Import { get; init; }
 }
+
+public class CustomsElementForReport
+{
+    public string ItemType { get; init; } = null!;
+
+    public string ItemTypeName { get; init; } = null!;
+
+    public decimal Coef { get; init; }
+
+    public long Region { get; init; }
+}

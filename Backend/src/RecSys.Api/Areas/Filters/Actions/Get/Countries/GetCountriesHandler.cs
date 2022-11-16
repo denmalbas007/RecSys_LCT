@@ -18,7 +18,9 @@ public class GetCountriesHandler : IRequestHandler<GetCountriesRequest, GetCount
 
     public async Task<GetCountriesResponse> Handle(GetCountriesRequest request, CancellationToken cancellationToken)
     {
-        var query = "select * from countries";
+        var query = @"select * from countries where id in ('US', 'AU', 'AL', 'UK', 'CA', 'NO', 'KR', 'SG', 'TW', 'UA', 'CH', 'ME', 'JP', 'AT', 'BE',
+        'BG', 'HU', 'DE', 'GR', 'DK', 'ES', 'IT', 'LV', 'LT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SL',
+        'FI', 'FR', 'HR', 'CZ', 'SE', 'EE')";
         var connection = _dbConnectionsProvider.GetConnection();
         var result = await connection.QueryAsync<Country>(query, transaction: _dbTransactionsProvider.Current);
         return new GetCountriesResponse(result.ToArray());

@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(404, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> Authenticate([FromQuery] AuthenticateUserRequest request)
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserRequest request)
     {
         var connection = _dbConnectionsProvider.GetConnection();
         var query = @"select * from users where username = :Username";
@@ -83,7 +83,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(403, Type = typeof(HttpError))]
     [ProducesResponseType(404, Type = typeof(HttpError))]
     [ProducesResponseType(500, Type = typeof(HttpError))]
-    public async Task<IActionResult> Register([FromQuery] RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         // .WithColumn("id").AsInt64().Identity().PrimaryKey()
         //     .WithColumn("username").AsString().Unique()

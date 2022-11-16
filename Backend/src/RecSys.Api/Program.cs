@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using RecSys.Api.Infrastructure;
 using RecSys.Api.Jobs;
 using RecSys.Customs.Client;
+using RecSys.ML.Client;
 using RecSys.Platform.Data.Extensions;
 using RecSys.Platform.Data.FluentMigrator;
 using RecSys.Platform.Extensions;
@@ -22,6 +23,7 @@ var configuration = builder.Configuration;
 #region DI
 
 services.AddHttpClient(nameof(CustomsClient), client => client.BaseAddress = new Uri("http://stat.customs.gov.ru/"));
+services.AddHttpClient(nameof(MlClient), client => client.BaseAddress = PlatformEnvironment.IsRunningInContainer ? new Uri("http://ml-api/") : new Uri("http://37.230.196.148:8000/"));
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwagger("rec-sys-api", useJwtAuth: true);
@@ -48,8 +50,9 @@ services.AddAuthentication(options =>
 });
 services.AddAuthorization();
 services.AddScoped<CustomsClient>();
+services.AddScoped<MlClient>();
 services.AddSingleton<CustomsDataCollectingProcessor>();
-services.AddSingleton<DataProcessingProcessor>();
+services.AddSingleton<BackgroundTasksProcessor>();
 services.AddHostedService<MainHostedService>();
 services.AddMigrator(typeof(Program).Assembly);
 services.AddMediatR(typeof(Program));
@@ -65,8 +68,6 @@ Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors(
     x =>
     {
@@ -74,6 +75,8 @@ app.UseCors(
         x.AllowAnyMethod();
         x.AllowAnyOrigin();
     });
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 #endregion
