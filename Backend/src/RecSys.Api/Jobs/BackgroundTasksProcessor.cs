@@ -1,4 +1,5 @@
 using System.Globalization;
+using ClosedXML.Excel;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Dapper;
@@ -131,13 +132,45 @@ inner join item_types it on rd.item_type = it.id where report_id = :Id";
                 dicteq.Add(regq.Name, gp.ToArray());
             }
 
+            var rowCount = 0;
+            using var memor = new MemoryStream();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("stat");
+                rowCount = 1;
+                foreach (var line in dicteq)
+                {
+                    worksheet.Cell(rowCount, 1).Value = line.Key;
+                    rowCount++;
+                    worksheet.Cell(rowCount, 1).Value = "ТК ВЭД";
+                    worksheet.Cell(rowCount, 2).Value = "Обозначение";
+                    worksheet.Cell(rowCount, 3).Value = "Коэффицент";
+                    rowCount++;
+                    foreach (var ww in line.Value)
+                    {
+                        worksheet.Cell(rowCount, 1).Value = ww.ItemType;
+                        worksheet.Cell(rowCount, 2).Value = ww.ItemTypeName;
+                        worksheet.Cell(rowCount, 3).Value = ww.Coef;
+                        rowCount++;
+                    }
+
+                    rowCount++;
+                }
+
+                workbook.SaveAs(memor);
+            }
+
             var doc = new ReportDocument(dicteq);
             var bytes = doc.GeneratePdf();
             var baseString = Convert.ToBase64String(bytes);
+            var baseString2 = Convert.ToBase64String(memor.ToArray());
             var guid = Guid.NewGuid();
+            var guid2 = Guid.NewGuid();
             var pdfUrl = $"files/{guid}";
+            var exUrl = $"files/{guid2}";
             var qqq = @"insert into storage (id, bytes, type) values (:Guid::uuid, :String, :Type)";
             await connection.ExecuteAsync(qqq, new { Guid = guid.ToString(), String = baseString, Type = "pdf" });
+            await connection.ExecuteAsync(qqq, new { Guid = guid2.ToString(), String = baseString2, Type = "xlsx" });
             var updateQuery =
                 @"update reports set is_ready = true, pdf_url = :PdfUrl, excel_url = :ExcelUrl where id = :Id";
             await connection.ExecuteAsync(
@@ -146,7 +179,7 @@ inner join item_types it on rd.item_type = it.id where report_id = :Id";
                 {
                     report.Id,
                     PdfUrl = pdfUrl,
-                    ExcelUrl = pdfUrl
+                    ExcelUrl = exUrl
                 });
             await Task.Delay(1000, cancellationToken);
         }
