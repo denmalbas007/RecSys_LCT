@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentMigrator;
-using FluentMigrator.Postgres;
 using JetBrains.Annotations;
 
 namespace RecSys.Api.DataAccess.Migrations;
@@ -142,9 +141,6 @@ public class InitMigration : ForwardOnlyMigration
             .WithColumn("gross_total").AsCustom("numeric(30,5)")
             .WithColumn("amount_total").AsCustom("numeric(30,5)")
             .WithColumn("region").AsInt64().ForeignKey("regions", "id").Indexed();
-
-        Create.Index().OnTable("customs").Include("direction").Include("period").Include("country").Include("item_type")
-            .Include("unit_type");
     }
 }
 
