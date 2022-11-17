@@ -176,6 +176,7 @@ public class ReportDocument : IDocument
                                                     });
                                                 var count = 0;
                                                 var valL = val.ToList();
+                                                valL.Sort((a, b) => b.Coef.CompareTo(a.Coef));
                                                 foreach (var el in valL)
                                                 {
                                                     var color = "#f2978d";
